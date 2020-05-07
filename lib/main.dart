@@ -6,6 +6,7 @@ import './screens/register_screen.dart';
 import './screens/login_screen.dart';
 import './screens/video_tutorial_screen.dart';
 import './screens/tabsScreen.dart';
+import './screens/intro_screen.dart';
 import './providers/auth.dart';
 
 void main() {
@@ -47,7 +48,20 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          home: RegisterScreen(),
+          home: FutureBuilder(
+            future: IntroScreen.isFirstUse(),
+            builder: (ctx, data) {
+              if (data.connectionState == ConnectionState.waiting) {
+                return Scaffold();
+              } else {
+                if (data.data) {
+                  return IntroScreen();
+                } else {
+                  return LoginScreen();
+                }
+              }
+            },
+          ),
         ),
       ),
     );

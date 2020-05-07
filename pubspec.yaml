@@ -27,6 +27,7 @@ dependencies:
   international_phone_input: ^1.0.4
   carousel_slider: ^2.1.0
   introduction_screen: ^1.0.8
+  shared_preferences: ^0.5.7+1
   provider: 
   http:
 
