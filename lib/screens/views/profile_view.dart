@@ -78,21 +78,21 @@ class _ProfileViewState extends State<ProfileView> {
                   indent: 90,
                   endIndent: 20,
                 ),
-                ProfileTile(
-                  icon: Image.asset(
-                    'assets/img/payment.png',
-                    scale: 0.6,
-                  ),
-                  label: Text(
-                    'Payment',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  onTap: () {},
-                ),
-                Divider(
-                  indent: 90,
-                  endIndent: 20,
-                ),
+                // ProfileTile(
+                //   icon: Image.asset(
+                //     'assets/img/payment.png',
+                //     scale: 0.6,
+                //   ),
+                //   label: Text(
+                //     'Payment',
+                //     style: TextStyle(fontSize: 18),
+                //   ),
+                //   onTap: () {},
+                // ),
+                // Divider(
+                //   indent: 90,
+                //   endIndent: 20,
+                // ),
                 ProfileTile(
                   icon: Image.asset(
                     'assets/img/settings.png',

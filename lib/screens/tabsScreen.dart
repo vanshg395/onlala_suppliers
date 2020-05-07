@@ -5,6 +5,7 @@ import './views/home_view.dart';
 import './views/product_view.dart';
 import './views/message_view.dart';
 import './views/profile_view.dart';
+import './product_upload_screen.dart';
 
 class TabsScreen extends StatefulWidget {
   @override
@@ -30,7 +31,11 @@ class _TabsScreenState extends State<TabsScreen> {
           Icons.add,
           size: 34,
         ),
-        onPressed: () {},
+        onPressed: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (ctx) => ProductUploadScreen(),
+          ),
+        ),
         elevation: 0,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
