@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../settings_screen.dart';
 import '../help_screen.dart';
-import '../../widgets/home_card.dart';
+import '../profile_screen.dart';
 import '../../widgets/profile_tile.dart';
 
 class ProfileView extends StatefulWidget {
@@ -68,7 +68,11 @@ class _ProfileViewState extends State<ProfileView> {
                     'Profile',
                     style: TextStyle(fontSize: 18),
                   ),
-                  onTap: () {},
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (ctx) => ProfileScreen(),
+                    ),
+                  ),
                 ),
                 Divider(
                   indent: 90,

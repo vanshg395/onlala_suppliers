@@ -67,7 +67,7 @@ class _NavBarState extends State<NavBar> {
                   child: NavBartItem(
                     icon: Image.asset('assets/icons/message.png'),
                     label: Text(
-                      'Home',
+                      'Message',
                       style: TextStyle(fontSize: 12),
                     ),
                     index: 2,

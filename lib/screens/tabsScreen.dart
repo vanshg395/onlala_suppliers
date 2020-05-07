@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../widgets/nav_bar.dart';
 import './views/home_view.dart';
 import './views/product_view.dart';
+import './views/message_view.dart';
 import './views/profile_view.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class _TabsScreenState extends State<TabsScreen> {
   List<Widget> _pages = [
     HomeView(),
     ProductView(),
-    ProductView(),
+    MessageView(),
     ProfileView(),
   ];
 

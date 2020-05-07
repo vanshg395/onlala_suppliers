@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import './views/faq_view.dart';
 import './views/video_view.dart';
+import './views/message_view.dart';
 
 class HelpScreen extends StatefulWidget {
   @override
@@ -48,7 +49,7 @@ class _HelpScreenState extends State<HelpScreen> {
         body: TabBarView(children: [
           FAQView(),
           VideoView(),
-          FAQView(),
+          MessageView(),
         ]),
       ),
     );
