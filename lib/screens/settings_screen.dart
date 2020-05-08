@@ -40,21 +40,21 @@ class SettingsScreen extends StatelessWidget {
             Divider(
               indent: 50,
             ),
-            SettingsTile(
-              icon: Image.asset('assets/img/bell.png'),
-              label: Text('Notifications'),
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (ctx) => NotificationsScreen(),
-                ),
-              ),
-              trailing: Icon(
-                Icons.chevron_right,
-              ),
-            ),
-            Divider(
-              indent: 50,
-            ),
+            // SettingsTile(
+            //   icon: Image.asset('assets/img/bell.png'),
+            //   label: Text('Notifications'),
+            //   onTap: () => Navigator.of(context).push(
+            //     MaterialPageRoute(
+            //       builder: (ctx) => NotificationsScreen(),
+            //     ),
+            //   ),
+            //   trailing: Icon(
+            //     Icons.chevron_right,
+            //   ),
+            // ),
+            // Divider(
+            //   indent: 50,
+            // ),
             SettingsTile(
               icon: Image.asset('assets/img/hut.png'),
               label: Text('Address'),

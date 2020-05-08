@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/common_field.dart';
 import '../widgets/common_button.dart';
+import '../widgets/phone_field.dart';
+import './login_screen.dart';
 import '../providers/auth.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -13,6 +14,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   GlobalKey<FormState> _formKey = GlobalKey();
+  bool _isLoading = false;
   Map<String, dynamic> _registerData = {
     'email': '',
     'password': '',
@@ -48,14 +50,77 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
     print('hey');
+    setState(() {
+      _isLoading = true;
+    });
     try {
       await Provider.of<Auth>(context, listen: false).register(_registerData);
-      await Provider.of<Auth>(context, listen: false).login(_loginData);
+      await Provider.of<Auth>(context, listen: false).login(_loginData, false);
       await Provider.of<Auth>(context, listen: false)
           .createManufacturer(_manufCreateData);
+      setState(() {
+        _isLoading = false;
+      });
+      await showDialog(
+        context: context,
+        child: AlertDialog(
+          title: Text('Success'),
+          content: Text(
+              'You have been registered successfully. Please verify your email to login.'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
+      );
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (ctx) => LoginScreen(),
+        ),
+      );
     } catch (e) {
       print(e);
+      String errorTitle = '';
+      String errorMessage = '';
+      if (e.toString() == 'User exists') {
+        errorTitle = 'Error';
+        errorMessage = 'This email is already in use. Please try again.';
+      } else if (e.toString() == 'Error') {
+        errorTitle = 'Error';
+        errorMessage = 'Something went wrong. Please try again.';
+      } else if (e.toString() == 'Error1') {
+        errorTitle = 'Error';
+        errorMessage = 'Something went wrong. Please try again.';
+      } else if (e.toString() == 'Repeated Phone') {
+        Provider.of<Auth>(context, listen: false).deleteUser();
+        errorTitle = 'Error';
+        errorMessage = 'This phone number is already in use. Please try again.';
+      } else if (e.toString() == 'Server Overload') {
+        errorTitle = 'Error';
+        errorMessage = 'Server is under heavy load. Please try again later.';
+      } else {
+        errorTitle = 'Error';
+        errorMessage = 'Something went wrong. Please try again.';
+      }
+      await showDialog(
+        context: context,
+        child: AlertDialog(
+          title: Text(errorTitle),
+          content: Text(errorMessage),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
+      );
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -159,6 +224,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onSaved: (value) {
                       _registerData['email'] = value;
                       _loginData['username'] = value;
+                      _manufCreateData['company_email'] = value;
                     },
                   ),
                   SizedBox(
@@ -224,58 +290,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizedBox(
                     height: 5,
                   ),
-                  InternationalPhoneNumberInput(
-                    initialValue: PhoneNumber(isoCode: 'US'),
-                    // autoFocus: true,
-                    inputDecoration: InputDecoration(
-                      fillColor: Theme.of(context).canvasColor,
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(
-                          width: 0,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(
-                          width: 0,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(
-                          width: 0,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(
-                          width: 0,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(
-                          width: 0,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                      ),
-                      // errorStyle: TextStyle(color: Colors.red[200]),
-                      hintText: 'Phone Number',
-                      hintStyle: TextStyle(
-                        color: Theme.of(context).cardColor,
-                      ),
-                    ),
-                    selectorType: PhoneInputSelectorType.DIALOG,
-                    formatInput: false,
-                    onInputChanged: (phone) {
-                      // _manufCreateData['mobile'] = phone.phoneNumber;
-                      // _manufCreateData['isoCountryCode'] = phone.isoCode;
+                  PhoneField(
+                    placeholder: '',
+                    borderColor: Theme.of(context).canvasColor,
+                    bgColor: Theme.of(context).canvasColor,
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == '') {
+                        return 'This field is required.';
+                      }
+                    },
+                    onSaved: (value) {
+                      print(value);
+                      _manufCreateData['mobile'] = value[1];
+                      _manufCreateData['isoCountryCode'] = value[0];
                     },
                   ),
                   SizedBox(
@@ -326,37 +354,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                     onSaved: (value) {
                       _manufCreateData['company'] = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Company Email',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CommonField(
-                    placeholder: '',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    fontSize: 16,
-                    borderRadius: 5,
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                      if (!RegExp(
-                              r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
-                          .hasMatch(value)) {
-                        return 'Please enter a valid email.';
-                      }
-                    },
-                    onSaved: (value) {
-                      _manufCreateData['company_email'] = value;
                     },
                   ),
                   SizedBox(
@@ -513,15 +510,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizedBox(
                     height: mediaQuery.height * 0.07,
                   ),
-                  CommonButton(
-                    bgColor: Theme.of(context).primaryColor,
-                    borderColor: Theme.of(context).primaryColor,
-                    title: 'SIGN UP',
-                    fontSize: 16,
-                    width: double.infinity,
-                    borderRadius: 5,
-                    onPressed: _submit,
-                  ),
+                  _isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation(
+                              Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        )
+                      : CommonButton(
+                          bgColor: Theme.of(context).primaryColor,
+                          borderColor: Theme.of(context).primaryColor,
+                          title: 'SIGN UP',
+                          fontSize: 16,
+                          width: double.infinity,
+                          borderRadius: 5,
+                          onPressed: _submit,
+                        ),
                   SizedBox(
                     height: 30,
                   ),
@@ -539,6 +544,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               .primaryTextTheme
                               .body2
                               .copyWith(color: Theme.of(context).accentColor),
+                        ),
+                        onTap: () => Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (ctx) => LoginScreen(),
+                          ),
                         ),
                       ),
                     ],

@@ -4,8 +4,9 @@ import '../widgets/subcategory_detail_card.dart';
 
 class SubcategoryDetailScreen extends StatelessWidget {
   final String categoryName;
+  final List<dynamic> subCat;
 
-  SubcategoryDetailScreen(this.categoryName);
+  SubcategoryDetailScreen(this.categoryName, this.subCat);
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +30,15 @@ class SubcategoryDetailScreen extends StatelessWidget {
           crossAxisSpacing: 15,
           mainAxisSpacing: 15,
           padding: EdgeInsets.all(15),
-          children: <Widget>[
-            SubcategoryDetailCard(),
-            SubcategoryDetailCard(),
-            SubcategoryDetailCard(),
-            SubcategoryDetailCard(),
-            SubcategoryDetailCard(),
-          ],
+          children: subCat
+              .map(
+                (sc) => SubcategoryDetailCard(
+                  name: sc['sub_category']['sub_categories'],
+                  image: sc['image'],
+                  onTap: () {},
+                ),
+              )
+              .toList(),
         ),
       ),
     );

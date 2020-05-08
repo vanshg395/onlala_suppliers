@@ -1,10 +1,12 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../main.dart';
 import '../settings_screen.dart';
 import '../help_screen.dart';
 import '../profile_screen.dart';
 import '../../widgets/profile_tile.dart';
+import '../../providers/auth.dart';
 
 class ProfileView extends StatefulWidget {
   @override
@@ -13,7 +15,20 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  Future<void> getData() async {
+    await Provider.of<Auth>(context, listen: false).getManufData();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print(Provider.of<Auth>(context, listen: false).userDetails[0]['image_url']
+        [0]['profile_image']);
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -36,14 +51,19 @@ class _ProfileViewState extends State<ProfileView> {
                   height: 90,
                 ),
                 Text(
-                  'Profile Name',
+                  Provider.of<Auth>(context, listen: false).userDetails[0]
+                          ['user']['first_name'] +
+                      ' ' +
+                      Provider.of<Auth>(context, listen: false).userDetails[0]
+                          ['user']['last_name'],
                   style: Theme.of(context)
                       .primaryTextTheme
                       .subtitle
                       .copyWith(fontSize: 26),
                 ),
                 Text(
-                  'INDIA',
+                  Provider.of<Auth>(context, listen: false).userDetails[0]
+                      ['postal_details'][0]['postal_country'],
                   style: Theme.of(context)
                       .primaryTextTheme
                       .body2
@@ -132,16 +152,18 @@ class _ProfileViewState extends State<ProfileView> {
                   endIndent: 20,
                 ),
                 ProfileTile(
-                  icon: Image.asset(
-                    'assets/img/logout.png',
-                    scale: 0.6,
-                  ),
-                  label: Text(
-                    'Logout',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  onTap: () {},
-                ),
+                    icon: Image.asset(
+                      'assets/img/logout.png',
+                      scale: 0.6,
+                    ),
+                    label: Text(
+                      'Logout',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    onTap: () {
+                      RestartWidget.restartApp(context);
+                      Provider.of<Auth>(context, listen: false).logout();
+                    }),
                 SizedBox(
                   height: 50,
                 ),
@@ -157,6 +179,19 @@ class _ProfileViewState extends State<ProfileView> {
                   shape: BoxShape.circle,
                   color: Color(0xFFE1F0F7),
                   border: Border.all(color: Colors.white, width: 5),
+                  image:
+                      Provider.of<Auth>(context, listen: false).userDetails[0]
+                                  ['image_url'][0]['profile_image'] ==
+                              null
+                          ? null
+                          : DecorationImage(
+                              image: NetworkImage(
+                                Provider.of<Auth>(context, listen: false)
+                                        .userDetails[0]['image_url'][0]
+                                    ['profile_image'],
+                              ),
+                              fit: BoxFit.cover,
+                            ),
                 ),
               ),
             ),

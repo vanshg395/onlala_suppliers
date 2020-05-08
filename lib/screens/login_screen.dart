@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/common_field.dart';
 import '../widgets/common_button.dart';
+import './register_screen.dart';
+import '../providers/auth.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -10,6 +13,75 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberLoginInfo = false;
+  bool _isLoading = false;
+  GlobalKey<FormState> _formKey = GlobalKey();
+  Map<String, dynamic> _loginData = {
+    'username': '',
+    'password': '',
+  };
+
+  Future<void> _submit() async {
+    _formKey.currentState.save();
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await Provider.of<Auth>(context, listen: false)
+          .login(_loginData, _rememberLoginInfo);
+    } catch (e) {
+      print(e);
+      if (e.toString() == 'Invalid Cred') {
+        await showDialog(
+          context: context,
+          child: AlertDialog(
+            title: Text('Error'),
+            content: Text('Account with following credentials doesn\'t exist'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        );
+      } else if (e.toString() == 'Not a manufacturer') {
+        await showDialog(
+          context: context,
+          child: AlertDialog(
+            title: Text('Error'),
+            content: Text('This registered user is not a manufacturer.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        );
+      } else {
+        await showDialog(
+          context: context,
+          child: AlertDialog(
+            title: Text('Error'),
+            content: Text('Something went wrong. Please try again later.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
@@ -20,114 +92,149 @@ class _LoginScreenState extends State<LoginScreen> {
           horizontal: 20,
           vertical: 30,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 50),
-              alignment: Alignment.center,
-              child: Text(
-                'Sign In',
-                style: Theme.of(context).primaryTextTheme.title,
-              ),
-            ),
-            Text(
-              'Email Address',
-              style: Theme.of(context).primaryTextTheme.headline,
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            CommonField(
-              placeholder: 'Your Email Address',
-              borderColor: Theme.of(context).canvasColor,
-              bgColor: Theme.of(context).canvasColor,
-              fontSize: 16,
-              borderRadius: 5,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              'Password',
-              style: Theme.of(context).primaryTextTheme.headline,
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            CommonField(
-              placeholder: 'Password',
-              borderColor: Theme.of(context).canvasColor,
-              bgColor: Theme.of(context).canvasColor,
-              fontSize: 16,
-              borderRadius: 5,
-              isPassword: true,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Checkbox(
-                  value: _rememberLoginInfo,
-                  onChanged: (value) {
-                    setState(() {
-                      _rememberLoginInfo = value;
-                    });
-                  },
-                ),
-                Text(
-                  'Remember Login Info',
-                  style: Theme.of(context).primaryTextTheme.body2,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: mediaQuery.height * 0.07,
-            ),
-            CommonButton(
-              bgColor: Theme.of(context).primaryColor,
-              borderColor: Theme.of(context).primaryColor,
-              title: 'LOGIN',
-              fontSize: 16,
-              width: double.infinity,
-              borderRadius: 5,
-              onPressed: () {},
-            ),
-            SizedBox(
-              height: mediaQuery.height * 0.07,
-            ),
-            Center(
-              child: FlatButton(
-                child: Text(
-                  'Reset Password',
-                  style: Theme.of(context).primaryTextTheme.body2,
-                ),
-                onPressed: () {},
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'I don\'t have an account. ',
-                  style: Theme.of(context).primaryTextTheme.body2,
-                ),
-                InkWell(
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 50),
+                  alignment: Alignment.center,
                   child: Text(
-                    'Sign Up Now',
-                    style: Theme.of(context)
-                        .primaryTextTheme
-                        .body2
-                        .copyWith(color: Theme.of(context).accentColor),
+                    'Sign In',
+                    style: Theme.of(context).primaryTextTheme.title,
                   ),
                 ),
+                Text(
+                  'Email Address',
+                  style: Theme.of(context).primaryTextTheme.headline,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                CommonField(
+                  placeholder: 'Your Email Address',
+                  borderColor: Theme.of(context).canvasColor,
+                  bgColor: Theme.of(context).canvasColor,
+                  fontSize: 16,
+                  borderRadius: 5,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == '') {
+                      return 'This field is required.';
+                    }
+                  },
+                  onSaved: (value) {
+                    _loginData['username'] = value;
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Password',
+                  style: Theme.of(context).primaryTextTheme.headline,
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                CommonField(
+                  placeholder: 'Password',
+                  borderColor: Theme.of(context).canvasColor,
+                  bgColor: Theme.of(context).canvasColor,
+                  fontSize: 16,
+                  borderRadius: 5,
+                  isPassword: true,
+                  validator: (value) {
+                    if (value == '') {
+                      return 'This field is required.';
+                    }
+                  },
+                  onSaved: (value) {
+                    _loginData['password'] = value;
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: <Widget>[
+                    Checkbox(
+                      value: _rememberLoginInfo,
+                      onChanged: (value) {
+                        setState(() {
+                          _rememberLoginInfo = value;
+                        });
+                      },
+                    ),
+                    Text(
+                      'Remember Login Info',
+                      style: Theme.of(context).primaryTextTheme.body2,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: mediaQuery.height * 0.07,
+                ),
+                _isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(
+                            Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      )
+                    : CommonButton(
+                        bgColor: Theme.of(context).primaryColor,
+                        borderColor: Theme.of(context).primaryColor,
+                        title: 'LOGIN',
+                        fontSize: 16,
+                        width: double.infinity,
+                        borderRadius: 5,
+                        onPressed: _submit,
+                      ),
+                SizedBox(
+                  height: mediaQuery.height * 0.07,
+                ),
+                Center(
+                  child: FlatButton(
+                    child: Text(
+                      'Reset Password',
+                      style: Theme.of(context).primaryTextTheme.body2,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'I don\'t have an account. ',
+                      style: Theme.of(context).primaryTextTheme.body2,
+                    ),
+                    InkWell(
+                      child: Text(
+                        'Sign Up Now',
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .body2
+                            .copyWith(color: Theme.of(context).accentColor),
+                      ),
+                      onTap: () => Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (ctx) => RegisterScreen(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );

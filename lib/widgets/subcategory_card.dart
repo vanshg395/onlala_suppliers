@@ -5,8 +5,7 @@ class SubcategoryCard extends StatelessWidget {
   final Widget label;
   final Function onTap;
 
-  SubcategoryCard(
-      {@required this.icon, @required this.label, @required this.onTap});
+  SubcategoryCard({this.icon, @required this.label, @required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,7 @@ class SubcategoryCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            icon,
+            // icon,
             SizedBox(
               width: 10,
             ),
