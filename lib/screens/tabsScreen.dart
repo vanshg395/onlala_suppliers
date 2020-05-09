@@ -1,11 +1,15 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import '../utils/constants.dart';
 import '../widgets/nav_bar.dart';
 import './views/home_view.dart';
 import './views/product_view.dart';
 import './views/message_view.dart';
 import './views/profile_view.dart';
-import './product_upload_screen.dart';
+import './department_select_screen.dart';
 
 class TabsScreen extends StatefulWidget {
   @override
@@ -14,6 +18,8 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
+  bool _isLoading = false;
+  List<dynamic> _data = [];
   List<Widget> _pages = [
     HomeView(),
     ProductView(),
@@ -22,10 +28,47 @@ class _TabsScreenState extends State<TabsScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  Future<void> getData() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      final url = baseUrl + 'subcategories/manuf/app/';
+      final response = await http.get(url);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        final resBody = json.decode(response.body);
+        setState(() {
+          _data = resBody;
+        });
+        print(_data);
+      }
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _pages[_selectedPageIndex],
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(
+                  Theme.of(context).primaryColor,
+                ),
+              ),
+            )
+          : _pages[_selectedPageIndex],
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.add,
@@ -33,7 +76,8 @@ class _TabsScreenState extends State<TabsScreen> {
         ),
         onPressed: () => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (ctx) => ProductUploadScreen(),
+            // builder: (ctx) => ProductUploadScreen(),
+            builder: (ctx) => DepartmentSelectScreen(_data),
           ),
         ),
         elevation: 0,

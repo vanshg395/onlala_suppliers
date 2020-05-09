@@ -1,5 +1,11 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
+import '../../utils/constants.dart';
+import '../../providers/auth.dart';
 import './product_tab1_view.dart';
 import './product_tab2_view.dart';
 import './product_tab3_view.dart';
@@ -10,6 +16,49 @@ class ProductView extends StatefulWidget {
 }
 
 class _ProductViewState extends State<ProductView> {
+  List<dynamic> _myProducts = [];
+  List<dynamic> _pendingProducts = [];
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  Future<void> getData() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      final url = baseUrl + 'product/allproduct/website/';
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': Provider.of<Auth>(context, listen: false).token,
+        },
+      );
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        final List<dynamic> allProducts = json.decode(response.body)['payload'];
+        setState(() {
+          _isLoading = false;
+          _myProducts =
+              allProducts.where((product) => product['admin_review']).toList();
+          _pendingProducts =
+              allProducts.where((product) => !product['admin_review']).toList();
+        });
+        print(_myProducts);
+        print(_pendingProducts);
+      }
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -46,11 +95,19 @@ class _ProductViewState extends State<ProductView> {
             ],
           ),
         ),
-        body: TabBarView(children: [
-          ProductTab1View(),
-          ProductTab2View(),
-          ProductTab3View(),
-        ]),
+        body: _isLoading
+            ? Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(
+                    Theme.of(context).primaryColor,
+                  ),
+                ),
+              )
+            : TabBarView(children: [
+                ProductTab1View(_myProducts),
+                ProductTab2View(_pendingProducts),
+                ProductTab3View(),
+              ]),
       ),
     );
   }

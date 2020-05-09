@@ -22,6 +22,8 @@ class PhoneField extends StatefulWidget {
   final int maxLines;
   final double topPadding;
   final TextEditingController controller;
+  final FocusNode focusNode;
+  final Function onSubmitted;
 
   PhoneField({
     @required this.placeholder,
@@ -43,6 +45,8 @@ class PhoneField extends StatefulWidget {
     this.maxLines = 1,
     this.topPadding = 0,
     this.controller,
+    this.focusNode,
+    this.onSubmitted,
   });
 
   @override
@@ -161,6 +165,8 @@ class _PhoneFieldState extends State<PhoneField> {
             textAlign: widget.textAlign,
             onTap: widget.onPressed,
             controller: widget.controller,
+            focusNode: widget.focusNode,
+            onFieldSubmitted: widget.onSubmitted,
             decoration: InputDecoration(
               fillColor: widget.bgColor,
               filled: true,

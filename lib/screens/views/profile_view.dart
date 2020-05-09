@@ -27,8 +27,6 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    print(Provider.of<Auth>(context, listen: false).userDetails[0]['image_url']
-        [0]['profile_image']);
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -88,11 +86,15 @@ class _ProfileViewState extends State<ProfileView> {
                     'Profile',
                     style: TextStyle(fontSize: 18),
                   ),
-                  onTap: () => Navigator.of(context).push(
+                  onTap: () => Navigator.of(context)
+                      .push(
                     MaterialPageRoute(
                       builder: (ctx) => ProfileScreen(),
                     ),
-                  ),
+                  )
+                      .then((value) {
+                    setState(() {});
+                  }),
                 ),
                 Divider(
                   indent: 90,

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
+  final String name;
+  final String id;
   final Function onTap;
 
-  ProductCard({@required this.onTap});
+  ProductCard({
+    @required this.name,
+    @required this.id,
+    @required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +44,16 @@ class ProductCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 20.0),
               child: Text(
-                'ID:22323234',
+                'ID:$id',
                 style: TextStyle(color: Colors.grey, fontSize: 12),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20.0),
-              child: Text(
-                'PRODUCT NAME',
+              child: FittedBox(
+                child: Text(
+                  name,
+                ),
               ),
             ),
             Padding(

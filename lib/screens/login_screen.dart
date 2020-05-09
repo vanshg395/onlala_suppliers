@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../widgets/common_field.dart';
 import '../widgets/common_button.dart';
 import './register_screen.dart';
+import './tabsScreen.dart';
+import './reset_password_screen.dart';
 import '../providers/auth.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,6 +17,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberLoginInfo = false;
   bool _isLoading = false;
+  bool _isVisible = false;
+  List<FocusNode> _focus = [for (int i = 0; i < 2; i++) FocusNode()];
   GlobalKey<FormState> _formKey = GlobalKey();
   Map<String, dynamic> _loginData = {
     'username': '',
@@ -21,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   };
 
   Future<void> _submit() async {
+    FocusScope.of(context).unfocus();
     _formKey.currentState.save();
     if (!_formKey.currentState.validate()) {
       return;
@@ -31,6 +37,14 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await Provider.of<Auth>(context, listen: false)
           .login(_loginData, _rememberLoginInfo);
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (ctx) => TabsScreen(),
+        ),
+      );
     } catch (e) {
       print(e);
       if (e.toString() == 'Invalid Cred') {
@@ -120,6 +134,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontSize: 16,
                   borderRadius: 5,
                   keyboardType: TextInputType.emailAddress,
+                  focusNode: _focus[0],
+                  onFieldSubmitted: (_) {
+                    FocusScope.of(context).requestFocus(_focus[1]);
+                  },
                   validator: (value) {
                     if (value == '') {
                       return 'This field is required.';
@@ -145,7 +163,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   bgColor: Theme.of(context).canvasColor,
                   fontSize: 16,
                   borderRadius: 5,
-                  isPassword: true,
+                  isPassword: !_isVisible,
+                  suffixIcon: InkWell(
+                    child: SvgPicture.asset(
+                      _isVisible
+                          ? 'assets/icons/visible.svg'
+                          : 'assets/icons/obscure.svg',
+                      height: 20,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onTap: () {
+                      setState(() {
+                        _isVisible = !_isVisible;
+                      });
+                    },
+                  ),
+                  focusNode: _focus[1],
                   validator: (value) {
                     if (value == '') {
                       return 'This field is required.';
@@ -203,7 +236,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       'Reset Password',
                       style: Theme.of(context).primaryTextTheme.body2,
                     ),
-                    onPressed: () {},
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) => ResetPasswordScreen(),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(

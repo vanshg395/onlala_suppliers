@@ -20,6 +20,8 @@ class CommonField extends StatelessWidget {
   final int maxLines;
   final double topPadding;
   final TextEditingController controller;
+  final FocusNode focusNode;
+  final Function onFieldSubmitted;
 
   CommonField({
     @required this.placeholder,
@@ -41,6 +43,8 @@ class CommonField extends StatelessWidget {
     this.maxLines = 1,
     this.topPadding = 0,
     this.controller,
+    this.focusNode,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -108,6 +112,8 @@ class CommonField extends StatelessWidget {
             top: topPadding,
           ),
         ),
+        focusNode: focusNode,
+        onFieldSubmitted: onFieldSubmitted,
         style: TextStyle(
           color: Theme.of(context).cardColor,
           fontFamily: fontFamily,

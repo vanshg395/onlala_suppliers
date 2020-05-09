@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 
 class PendingProductCard extends StatelessWidget {
+  final String name;
+  final String id;
+
+  PendingProductCard({
+    @required this.name,
+    @required this.id,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,14 +43,14 @@ class PendingProductCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
-                  'ID:22323234',
+                  'ID: $id',
                   style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
                 child: Text(
-                  'PRODUCT NAME',
+                  name,
                 ),
               ),
               Padding(

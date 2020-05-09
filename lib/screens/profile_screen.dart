@@ -130,8 +130,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
       try {
         final filePath = await FilePicker.getFilePath(
-          type: FileType.custom,
-          allowedExtensions: ['jpg', 'png', 'jpeg'],
+          type: FileType.image,
+          // allowedExtensions: ['jpg', 'png', 'jpeg'],
         );
         if (filePath == null) {
           setState(() {
@@ -180,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
       } catch (e) {}
       setState(() {
-        _isLoading2 = true;
+        _isLoading2 = false;
       });
     } catch (e) {
       print(e);
@@ -322,7 +322,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 left:
                                     MediaQuery.of(context).size.width / 2 - 100,
                                 child: _isLoading2
-                                    ? Center(
+                                    ? Container(
+                                        width: 200,
+                                        alignment: Alignment.center,
                                         child: CircularProgressIndicator(
                                           valueColor: AlwaysStoppedAnimation(
                                             Theme.of(context).primaryColor,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/common_field.dart';
@@ -15,6 +16,9 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   GlobalKey<FormState> _formKey = GlobalKey();
   bool _isLoading = false;
+  bool _isVisible1 = false;
+  bool _isVisible2 = false;
+  List<FocusNode> _focus = [for (int i = 0; i < 14; i++) FocusNode()];
   Map<String, dynamic> _registerData = {
     'email': '',
     'password': '',
@@ -42,6 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   };
 
   Future<void> _submit() async {
+    FocusScope.of(context).unfocus();
     _formKey.currentState.save();
     print(_registerData);
     print(_loginData);
@@ -160,6 +165,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     bgColor: Theme.of(context).canvasColor,
                     fontSize: 16,
                     borderRadius: 5,
+                    focusNode: _focus[0],
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_focus[1]);
+                    },
                     validator: (value) {
                       if (value == '') {
                         return 'This field is required.';
@@ -185,6 +194,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     bgColor: Theme.of(context).canvasColor,
                     fontSize: 16,
                     borderRadius: 5,
+                    focusNode: _focus[1],
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_focus[2]);
+                    },
                     validator: (value) {
                       if (value == '') {
                         return 'This field is required.';
@@ -211,6 +224,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     fontSize: 16,
                     borderRadius: 5,
                     keyboardType: TextInputType.emailAddress,
+                    focusNode: _focus[2],
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_focus[3]);
+                    },
                     validator: (value) {
                       if (value == '') {
                         return 'This field is required.';
@@ -243,7 +260,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     bgColor: Theme.of(context).canvasColor,
                     fontSize: 16,
                     borderRadius: 5,
-                    isPassword: true,
+                    isPassword: !_isVisible1,
+                    suffixIcon: InkWell(
+                      child: SvgPicture.asset(
+                        _isVisible1
+                            ? 'assets/icons/visible.svg'
+                            : 'assets/icons/obscure.svg',
+                        height: 20,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      onTap: () {
+                        setState(() {
+                          _isVisible1 = !_isVisible1;
+                        });
+                      },
+                    ),
+                    focusNode: _focus[3],
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_focus[4]);
+                    },
                     validator: (value) {
                       if (value == '') {
                         return 'This field is required.';
@@ -270,7 +305,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     bgColor: Theme.of(context).canvasColor,
                     fontSize: 16,
                     borderRadius: 5,
-                    isPassword: true,
+                    isPassword: !_isVisible2,
+                    suffixIcon: InkWell(
+                      child: SvgPicture.asset(
+                        _isVisible2
+                            ? 'assets/icons/visible.svg'
+                            : 'assets/icons/obscure.svg',
+                        height: 20,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      onTap: () {
+                        setState(() {
+                          _isVisible2 = !_isVisible2;
+                        });
+                      },
+                    ),
+                    focusNode: _focus[4],
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_focus[5]);
+                    },
                     validator: (value) {
                       if (value == '') {
                         return 'This field is required.';
@@ -295,6 +348,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     borderColor: Theme.of(context).canvasColor,
                     bgColor: Theme.of(context).canvasColor,
                     keyboardType: TextInputType.number,
+                    focusNode: _focus[5],
+                    onSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_focus[6]);
+                    },
                     validator: (value) {
                       if (value == '') {
                         return 'This field is required.';
@@ -322,6 +379,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     bgColor: Theme.of(context).canvasColor,
                     fontSize: 16,
                     borderRadius: 5,
+                    focusNode: _focus[6],
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_focus[7]);
+                    },
                     validator: (value) {
                       if (value == '') {
                         return 'This field is required.';
@@ -347,6 +408,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     bgColor: Theme.of(context).canvasColor,
                     fontSize: 16,
                     borderRadius: 5,
+                    focusNode: _focus[7],
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_focus[8]);
+                    },
                     validator: (value) {
                       if (value == '') {
                         return 'This field is required.';
@@ -372,6 +437,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     bgColor: Theme.of(context).canvasColor,
                     fontSize: 16,
                     borderRadius: 5,
+                    focusNode: _focus[8],
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_focus[9]);
+                    },
                     validator: (value) {
                       if (value == '') {
                         return 'This field is required.';
@@ -397,6 +466,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     bgColor: Theme.of(context).canvasColor,
                     fontSize: 16,
                     borderRadius: 5,
+                    focusNode: _focus[9],
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_focus[10]);
+                    },
                     validator: (value) {
                       if (value == '') {
                         return 'This field is required.';
@@ -422,6 +495,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     bgColor: Theme.of(context).canvasColor,
                     fontSize: 16,
                     borderRadius: 5,
+                    focusNode: _focus[10],
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_focus[11]);
+                    },
                     validator: (value) {
                       if (value == '') {
                         return 'This field is required.';
@@ -447,6 +524,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     bgColor: Theme.of(context).canvasColor,
                     fontSize: 16,
                     borderRadius: 5,
+                    focusNode: _focus[11],
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_focus[12]);
+                    },
                     validator: (value) {
                       if (value == '') {
                         return 'This field is required.';
@@ -472,6 +553,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     bgColor: Theme.of(context).canvasColor,
                     fontSize: 16,
                     borderRadius: 5,
+                    focusNode: _focus[12],
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).requestFocus(_focus[13]);
+                    },
                     validator: (value) {
                       if (value == '') {
                         return 'This field is required.';
@@ -498,6 +583,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     fontSize: 16,
                     borderRadius: 5,
                     keyboardType: TextInputType.number,
+                    focusNode: _focus[13],
+                    onFieldSubmitted: (_) {
+                      FocusScope.of(context).unfocus();
+                    },
                     validator: (value) {
                       if (value == '') {
                         return 'This field is required.';
