@@ -43,11 +43,13 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
   Map<String, dynamic> _media = {
     'additional_images': [],
     'additional_videos': [],
+    'catalogues': [],
   };
 
   Map<String, dynamic> _mediaIds = {
     'additional_images': [],
     'additional_videos': [],
+    'catalogues': [],
   };
 
   GlobalKey<FormState> _formKey1 = GlobalKey();
@@ -206,8 +208,14 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
     _techTransfer = widget.data[0]['product']['tech_transfer_investment'];
 
     if (widget.data[0]['catalog'].length != 0) {
-      _media['catalogue'] = widget.data[0]['catalog'][0]['product_catalog'];
-      _mediaIds['catalogue'] = widget.data[0]['catalog'][0]['id'];
+      _media['catalogues'] = widget.data[0]['catalog']
+          .map((cat) => cat['product_catalog'])
+          .toList();
+      _mediaIds['catalogues'] =
+          widget.data[0]['catalog'].map((cat) => cat['id']).toList();
+      // _media['catalogues'].add(widget.data[0]['catalog'][0]['product_catalog']);
+      // _mediaIds['catalogues'].add(widget.data[0]['catalog'][0]['id']);
+
     }
   }
 
@@ -294,7 +302,8 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
     if (!_formKey4.currentState.validate()) {
       return;
     }
-    if (_media['catalogue'] == null) {
+    print(_media['catalogues'].length);
+    if (_media['catalogues'].length == 0) {
       showDialog(
         context: context,
         child: AlertDialog(
@@ -310,14 +319,20 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
       );
       return;
     }
+    setState(() {
+      _isLoading = true;
+    });
     if (_media['primary_image'].contains('http')) {
       _media['primary_image'] = null;
     }
     if (_media['primary_video'].contains('http')) {
       _media['primary_video'] = null;
     }
-    if (_media['catalogue'].contains('http')) {
-      _media['catalogue'] = null;
+    for (var i = 0; i < _media['catalogues'].length; i++) {
+      print(_media['catalogues']);
+      if (_media['catalogues'][i].contains('http')) {
+        _media['catalogues'].removeAt(i);
+      }
     }
     for (var i = 0; i < _media['additional_images'].length; i++) {
       if (_media['additional_images'][i].contains('http')) {
@@ -329,13 +344,9 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
         _media['additional_videos'].removeAt(i);
       }
     }
-    print(_media);
-    setState(() {
-      _isLoading = true;
-    });
+
     try {
       print(_data);
-      // print(_media);
       final url = baseUrl + 'product/update/';
       final response = await http.post(
         url,
@@ -437,8 +448,7 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
         }
 
         final uploadCatalogueUrl = baseUrl + 'product/catalogue/add/';
-
-        if (_media['catalogue'] != null) {
+        for (int i = 0; i < _media['catalogues'].length; i++) {
           final multipartRequest4 =
               new http.MultipartRequest('POST', Uri.parse(uploadCatalogueUrl));
           multipartRequest4.headers.addAll(
@@ -449,9 +459,10 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
           );
           final multipartFile4 = await http.MultipartFile.fromPath(
             'product_catalog',
-            _media['catalogue'],
+            _media['catalogues'][i],
           );
-          multipartRequest4.fields['catalg_name'] = 'Primary Catalogue';
+          if (i == 1)
+            multipartRequest4.fields['catalg_name'] = 'Primary Catalogue';
           multipartRequest4.fields['product'] = widget.data[0]['product']['id'];
           multipartRequest4.files.add(multipartFile4);
           final response5 = await multipartRequest4.send();
@@ -607,8 +618,8 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                   if (value == '') {
                     return 'This field is required.';
                   }
-                  if (value.length > 30) {
-                    return 'Max Length is 30 characters.';
+                  if (value.length > 50) {
+                    return 'Max Length is 50 characters.';
                   }
                 },
                 onSaved: (value) {
@@ -4210,114 +4221,132 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                           return;
                         }
                         setState(() {
-                          _media['catalogue'] = filePath;
+                          _media['catalogues'].add(filePath);
                         });
                       },
                     ),
-                    if (_media['catalogue'] != null)
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).canvasColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: EdgeInsets.all(5),
-                            child: Column(
-                              children: <Widget>[
-                                InkWell(
-                                  child: Icon(
-                                    Icons.remove_red_eye,
-                                    color: Theme.of(context).primaryColor,
-                                    size: 40,
+                    if (_media['catalogues'].length != 0) ...[
+                      SizedBox(
+                        height: 20,
+                      ),
+                      GridView.count(
+                        shrinkWrap: true,
+                        crossAxisSpacing: 5,
+                        crossAxisCount: 3,
+                        children: [
+                          ..._media['catalogues']
+                              .map(
+                                (cat) => Container(
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).canvasColor,
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  onTap: () async {
-                                    try {
-                                      if (_media['catalogue']
-                                          .contains('http')) {
-                                        if (await canLaunch(
-                                            _media['catalogue'])) {
-                                          await launch(_media['catalogue']);
-                                        }
-                                      } else {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                PDFScreen(_media['catalogue']),
-                                          ),
-                                        );
-                                      }
-                                    } catch (e) {
-                                      print(e);
-                                    }
-                                  },
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                InkWell(
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                    size: 40,
-                                  ),
-                                  onTap: _media['catalogue'].contains('http')
-                                      ? () async {
+                                  padding: EdgeInsets.all(5),
+                                  child: Column(
+                                    children: <Widget>[
+                                      InkWell(
+                                        child: Icon(
+                                          Icons.remove_red_eye,
+                                          color: Theme.of(context).primaryColor,
+                                          size: 40,
+                                        ),
+                                        onTap: () async {
                                           try {
-                                            final url = baseUrl +
-                                                'product/catalogue/delete/';
-                                            showDialog(
-                                              barrierDismissible: false,
-                                              context: context,
-                                              child: AlertDialog(
-                                                title: Text('Deleting Catalog'),
-                                                content: Container(
-                                                  height: 100,
-                                                  child: Center(
-                                                      child:
-                                                          CircularProgressIndicator()),
+                                            if (cat.contains('http')) {
+                                              if (await canLaunch(cat)) {
+                                                await launch(cat);
+                                              }
+                                            } else {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PDFScreen(cat),
                                                 ),
-                                              ),
-                                            );
-                                            final response = await http.post(
-                                              url,
-                                              headers: {
-                                                'Authorization':
-                                                    Provider.of<Auth>(context,
-                                                            listen: false)
-                                                        .token,
-                                                'Content-Type':
-                                                    'application/json',
-                                              },
-                                              body: json.encode({
-                                                'catalogue_id':
-                                                    _mediaIds['catalogue']
-                                              }),
-                                            );
-                                            Navigator.of(context).pop();
-                                            print(response.statusCode);
-                                            if (response.statusCode == 204) {
-                                              setState(() {
-                                                _media['catalogue'] = null;
-                                              });
+                                              );
                                             }
                                           } catch (e) {
                                             print(e);
                                           }
-                                        }
-                                      : () {
-                                          setState(() {
-                                            _media['catalogue'] = null;
-                                          });
                                         },
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      InkWell(
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                          size: 40,
+                                        ),
+                                        onTap: cat.contains('http')
+                                            ? () async {
+                                                try {
+                                                  final url = baseUrl +
+                                                      'product/catalogue/delete/';
+                                                  showDialog(
+                                                    barrierDismissible: false,
+                                                    context: context,
+                                                    child: AlertDialog(
+                                                      title: Text(
+                                                          'Deleting Catalog'),
+                                                      content: Container(
+                                                        height: 100,
+                                                        child: Center(
+                                                            child:
+                                                                CircularProgressIndicator()),
+                                                      ),
+                                                    ),
+                                                  );
+                                                  final response =
+                                                      await http.post(
+                                                    url,
+                                                    headers: {
+                                                      'Authorization':
+                                                          Provider.of<Auth>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .token,
+                                                      'Content-Type':
+                                                          'application/json',
+                                                    },
+                                                    body: json.encode(
+                                                      {
+                                                        'catalogue_id': _mediaIds[
+                                                                'catalogues'][
+                                                            _media['catalogues']
+                                                                .indexOf(cat)]
+                                                      },
+                                                    ),
+                                                  );
+                                                  Navigator.of(context).pop();
+                                                  print(response.statusCode);
+                                                  if (response.statusCode ==
+                                                      204) {
+                                                    setState(() {
+                                                      _media['catalogues']
+                                                          .remove(cat);
+                                                    });
+                                                  }
+                                                } catch (e) {
+                                                  print(e);
+                                                }
+                                              }
+                                            : () {
+                                                setState(() {
+                                                  _media['catalogues']
+                                                      .remove(cat);
+                                                });
+                                              },
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
+                              )
+                              .toList()
+                        ],
+                      ),
+                    ]
                   ],
                 ),
               ),

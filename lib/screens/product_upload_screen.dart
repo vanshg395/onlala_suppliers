@@ -41,6 +41,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
   Map<String, dynamic> _media = {
     'additional_images': [],
     'additional_videos': [],
+    'catalogues': [],
   };
 
   GlobalKey<FormState> _formKey1 = GlobalKey();
@@ -144,7 +145,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
     if (!_formKey4.currentState.validate()) {
       return;
     }
-    if (_media['catalogue'] == null) {
+    if (_media['catalogues'] == []) {
       showDialog(
         context: context,
         child: AlertDialog(
@@ -290,26 +291,29 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
           }
 
           final uploadCatalogueUrl = baseUrl + 'product/catalogue/add/';
-
-          final multipartRequest4 =
-              new http.MultipartRequest('POST', Uri.parse(uploadCatalogueUrl));
-          multipartRequest4.headers.addAll(
-            {
-              'Authorization': Provider.of<Auth>(context, listen: false).token,
-              'Content-Type': 'application/json',
-            },
-          );
-          final multipartFile4 = await http.MultipartFile.fromPath(
-            'product_catalog',
-            _media['catalogue'],
-          );
-          multipartRequest4.fields['catalg_name'] = 'Primary Catalogue';
-          multipartRequest4.fields['product'] =
-              resBody['payload']['product']['id'];
-          multipartRequest4.files.add(multipartFile4);
-          final response5 = await multipartRequest4.send();
-          print(response5.statusCode);
-          print(await response5.stream.bytesToString());
+          for (int i = 0; i < _media['catalogues'].length; i++) {
+            final multipartRequest4 = new http.MultipartRequest(
+                'POST', Uri.parse(uploadCatalogueUrl));
+            multipartRequest4.headers.addAll(
+              {
+                'Authorization':
+                    Provider.of<Auth>(context, listen: false).token,
+                'Content-Type': 'application/json',
+              },
+            );
+            final multipartFile4 = await http.MultipartFile.fromPath(
+              'product_catalog',
+              _media['catalogues'][i],
+            );
+            if (i == 1)
+              multipartRequest4.fields['catalg_name'] = 'Primary Catalogue';
+            multipartRequest4.fields['product'] =
+                resBody['payload']['product']['id'];
+            multipartRequest4.files.add(multipartFile4);
+            final response5 = await multipartRequest4.send();
+            print(response5.statusCode);
+            print(await response5.stream.bytesToString());
+          }
         } else {
           await showDialog(
             context: context,
@@ -474,8 +478,8 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                   if (value == '') {
                     return 'This field is required.';
                   }
-                  if (value.length > 30) {
-                    return 'Max Length is 30 characters.';
+                  if (value.length > 50) {
+                    return 'Max Length is 50 characters.';
                   }
                 },
                 onSaved: (value) {
@@ -3869,58 +3873,68 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                           return;
                         }
                         setState(() {
-                          _media['catalogue'] = filePath;
+                          _media['catalogues'].add(filePath);
                         });
                       },
                     ),
-                    if (_media['catalogue'] != null)
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).canvasColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: EdgeInsets.all(5),
-                            child: Column(
-                              children: <Widget>[
-                                InkWell(
-                                  child: Icon(
-                                    Icons.remove_red_eye,
-                                    color: Theme.of(context).primaryColor,
-                                    size: 40,
+                    if (_media['catalogues'].length != 0) ...[
+                      SizedBox(
+                        height: 20,
+                      ),
+                      GridView.count(
+                        shrinkWrap: true,
+                        crossAxisSpacing: 5,
+                        crossAxisCount: 3,
+                        children: [
+                          ..._media['catalogues']
+                              .map(
+                                (cat) => Container(
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).canvasColor,
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  onTap: () async {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            PDFScreen(_media['catalogue']),
+                                  padding: EdgeInsets.all(5),
+                                  child: Column(
+                                    children: <Widget>[
+                                      InkWell(
+                                        child: Icon(
+                                          Icons.remove_red_eye,
+                                          color: Theme.of(context).primaryColor,
+                                          size: 40,
+                                        ),
+                                        onTap: () async {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PDFScreen(cat),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                    );
-                                  },
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                InkWell(
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                    size: 40,
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      InkWell(
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                          size: 40,
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            _media['catalogues'].remove(cat);
+                                          });
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                  onTap: () {
-                                    setState(() {
-                                      _media['catalogue'] = null;
-                                    });
-                                  },
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
+                              )
+                              .toList()
+                        ],
+                      ),
+                    ]
                   ],
                 ),
               ),

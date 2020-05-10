@@ -34,20 +34,15 @@ class PendingProductCard extends StatelessWidget {
           children: <Widget>[
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                SizedBox(
-                  height: 30,
-                ),
-                Center(
-                  child: Container(
-                    height: 100,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20,
-                    ),
-                    child: Image.network(
-                      image,
-                      fit: BoxFit.cover,
+                Expanded(
+                  child: Center(
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Image.network(
+                        image,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),
@@ -57,21 +52,16 @@ class PendingProductCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
-                    'ID: $id',
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: Text(
                     name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).primaryTextTheme.headline,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: Text(
-                    '\$$price',
+                    '€$price',
                     style: TextStyle(
                       color: Theme.of(context).accentColor,
                       fontWeight: FontWeight.w700,
@@ -79,7 +69,7 @@ class PendingProductCard extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
               ],
             ),

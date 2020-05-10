@@ -388,7 +388,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   label: 'First Name',
                                   initialData:
                                       Provider.of<Auth>(context, listen: false)
-                                          .userDetails[0]['user']['first_name'],
+                                                  .userDetails[0]['user']
+                                              ['first_name'] ??
+                                          '',
                                   validator: (value) {
                                     if (value == '') {
                                       return 'This field. is required.';
@@ -405,7 +407,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   label: 'Last Name',
                                   initialData:
                                       Provider.of<Auth>(context, listen: false)
-                                          .userDetails[0]['user']['last_name'],
+                                                  .userDetails[0]['user']
+                                              ['last_name'] ??
+                                          '',
                                   validator: (value) {
                                     if (value == '') {
                                       return 'This field. is required.';
@@ -422,7 +426,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   label: 'Email',
                                   initialData:
                                       Provider.of<Auth>(context, listen: false)
-                                          .userDetails[0]['user']['email'],
+                                                  .userDetails[0]['user']
+                                              ['email'] ??
+                                          '',
                                   validator: (value) {
                                     if (value == '') {
                                       return 'This field. is required.';
@@ -444,7 +450,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   label: 'Company',
                                   initialData:
                                       Provider.of<Auth>(context, listen: false)
-                                          .userDetails[0]['company'],
+                                              .userDetails[0]['company'] ??
+                                          '',
                                 ),
                                 SizedBox(
                                   height: 15,
@@ -453,7 +460,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   label: 'Phone Number',
                                   initialData:
                                       Provider.of<Auth>(context, listen: false)
-                                          .userDetails[0]['mobile'],
+                                              .userDetails[0]['mobile'] ??
+                                          '',
                                   validator: (value) {
                                     if (value == '') {
                                       return 'This field. is required.';
@@ -513,10 +521,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 // ),
                                 ProfileField(
                                   label: 'Country',
-                                  initialData:
-                                      Provider.of<Auth>(context, listen: false)
+                                  initialData: Provider.of<Auth>(context,
+                                                  listen: false)
                                               .userDetails[0]['postal_details']
-                                          [0]['postal_country'],
+                                              .length !=
+                                          0
+                                      ? Provider.of<Auth>(context,
+                                                  listen: false)
+                                              .userDetails[0]['postal_details']
+                                          [0]['postal_country']
+                                      : '',
                                   validator: (value) {
                                     if (value == '') {
                                       return 'This field. is required.';
@@ -531,10 +545,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 ProfileField(
                                   label: 'State',
-                                  initialData:
-                                      Provider.of<Auth>(context, listen: false)
+                                  initialData: Provider.of<Auth>(context,
+                                                  listen: false)
                                               .userDetails[0]['postal_details']
-                                          [0]['postal_state'],
+                                              .length !=
+                                          0
+                                      ? Provider.of<Auth>(context,
+                                                  listen: false)
+                                              .userDetails[0]['postal_details']
+                                          [0]['postal_state']
+                                      : '',
                                   validator: (value) {
                                     if (value == '') {
                                       return 'This field. is required.';
@@ -549,10 +569,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 ProfileField(
                                   label: 'City',
-                                  initialData:
-                                      Provider.of<Auth>(context, listen: false)
+                                  initialData: Provider.of<Auth>(context,
+                                                  listen: false)
                                               .userDetails[0]['postal_details']
-                                          [0]['postal_city'],
+                                              .length !=
+                                          0
+                                      ? Provider.of<Auth>(context,
+                                                  listen: false)
+                                              .userDetails[0]['postal_details']
+                                          [0]['postal_city']
+                                      : '',
                                   validator: (value) {
                                     if (value == '') {
                                       return 'This field. is required.';
@@ -567,10 +593,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 ProfileField(
                                   label: 'Postal Address',
-                                  initialData:
-                                      Provider.of<Auth>(context, listen: false)
+                                  initialData: Provider.of<Auth>(context,
+                                                  listen: false)
                                               .userDetails[0]['postal_details']
-                                          [0]['postal_address1'],
+                                              .length !=
+                                          0
+                                      ? Provider.of<Auth>(context,
+                                                  listen: false)
+                                              .userDetails[0]['postal_details']
+                                          [0]['postal_address1']
+                                      : '',
                                   validator: (value) {
                                     if (value == '') {
                                       return 'This field. is required.';
@@ -585,10 +617,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 ProfileField(
                                   label: 'Postal Code',
-                                  initialData:
-                                      Provider.of<Auth>(context, listen: false)
+                                  initialData: Provider.of<Auth>(context,
+                                                  listen: false)
                                               .userDetails[0]['postal_details']
-                                          [0]['postal_code'],
+                                              .length !=
+                                          0
+                                      ? Provider.of<Auth>(context,
+                                                  listen: false)
+                                              .userDetails[0]['postal_details']
+                                          [0]['postal_code']
+                                      : '',
                                   validator: (value) {
                                     if (value == '') {
                                       return 'This field. is required.';
@@ -685,9 +723,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ProfileField(
                                     label: 'Country',
                                     initialData: Provider.of<Auth>(context,
-                                                listen: false)
-                                            .userDetails[0]['warehouse_details']
-                                        [0]['warehouse_country'],
+                                                    listen: false)
+                                                .userDetails[0]
+                                                    ['warehouse_details']
+                                                .length !=
+                                            0
+                                        ? Provider.of<Auth>(context,
+                                                        listen: false)
+                                                    .userDetails[0]
+                                                ['warehouse_details'][0]
+                                            ['warehouse_country']
+                                        : '',
                                     validator: (value) {
                                       if (value == '') {
                                         return 'This field. is required.';
@@ -703,9 +749,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ProfileField(
                                     label: 'State',
                                     initialData: Provider.of<Auth>(context,
-                                                listen: false)
-                                            .userDetails[0]['warehouse_details']
-                                        [0]['warehouse_state'],
+                                                    listen: false)
+                                                .userDetails[0]
+                                                    ['warehouse_details']
+                                                .length !=
+                                            0
+                                        ? Provider.of<Auth>(context,
+                                                        listen: false)
+                                                    .userDetails[0]
+                                                ['warehouse_details'][0]
+                                            ['warehouse_state']
+                                        : '',
                                     validator: (value) {
                                       if (value == '') {
                                         return 'This field. is required.';
@@ -721,9 +775,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ProfileField(
                                     label: 'City',
                                     initialData: Provider.of<Auth>(context,
-                                                listen: false)
-                                            .userDetails[0]['warehouse_details']
-                                        [0]['warehouse_city'],
+                                                    listen: false)
+                                                .userDetails[0]
+                                                    ['warehouse_details']
+                                                .length !=
+                                            0
+                                        ? Provider.of<Auth>(context,
+                                                        listen: false)
+                                                    .userDetails[0]
+                                                ['warehouse_details'][0]
+                                            ['warehouse_city']
+                                        : '',
                                     validator: (value) {
                                       if (value == '') {
                                         return 'This field. is required.';
@@ -739,9 +801,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ProfileField(
                                     label: 'Postal Address',
                                     initialData: Provider.of<Auth>(context,
-                                                listen: false)
-                                            .userDetails[0]['warehouse_details']
-                                        [0]['warehouse_address1'],
+                                                    listen: false)
+                                                .userDetails[0]
+                                                    ['warehouse_details']
+                                                .length !=
+                                            0
+                                        ? Provider.of<Auth>(context,
+                                                        listen: false)
+                                                    .userDetails[0]
+                                                ['warehouse_details'][0]
+                                            ['warehouse_address1']
+                                        : '',
                                     validator: (value) {
                                       if (value == '') {
                                         return 'This field. is required.';
@@ -757,9 +827,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ProfileField(
                                     label: 'Postal Code',
                                     initialData: Provider.of<Auth>(context,
-                                                listen: false)
-                                            .userDetails[0]['warehouse_details']
-                                        [0]['warehouse_code'],
+                                                    listen: false)
+                                                .userDetails[0]
+                                                    ['warehouse_details']
+                                                .length !=
+                                            0
+                                        ? Provider.of<Auth>(context,
+                                                        listen: false)
+                                                    .userDetails[0]
+                                                ['warehouse_details'][0]
+                                            ['warehouse_code']
+                                        : '',
                                     validator: (value) {
                                       if (value == '') {
                                         return 'This field. is required.';
