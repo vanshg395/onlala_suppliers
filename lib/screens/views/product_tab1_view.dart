@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../tabsScreen.dart';
 import '../../widgets/product_card.dart';
 import '../product_details_screen.dart';
 
@@ -26,11 +27,30 @@ class ProductTab1View extends StatelessWidget {
                   .map((product) => ProductCard(
                         name: product['product_name'],
                         id: product['id'].toString(),
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (ctx) => ProductDetailsScreen(),
-                          ),
-                        ),
+                        price: product['price'],
+                        image: product['image'],
+                        onTap: () => Navigator.of(context)
+                            .push(
+                              MaterialPageRoute(
+                                builder: (ctx) => ProductDetailsScreen(
+                                  name: product['product_name'],
+                                  id: product['id'],
+                                  price: product['price'],
+                                ),
+                              ),
+                            )
+                            .then(
+                              (value) => {
+                                if (value == 'deleted')
+                                  {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (ctx) => TabsScreen(),
+                                      ),
+                                    )
+                                  },
+                              },
+                            ),
                       ))
                   .toList(),
             ),

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/subcategory_detail_card.dart';
+import './product_upload_screen.dart';
 
 class SubcategoryDetailScreen extends StatelessWidget {
+  final String deptName;
   final String categoryName;
   final List<dynamic> subCat;
 
-  SubcategoryDetailScreen(this.categoryName, this.subCat);
+  SubcategoryDetailScreen(this.deptName, this.categoryName, this.subCat);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,19 @@ class SubcategoryDetailScreen extends StatelessWidget {
                 (sc) => SubcategoryDetailCard(
                   name: sc['sub_category']['sub_categories'],
                   image: sc['image'],
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) => ProductUploadScreen(
+                          deptName,
+                          categoryName,
+                          sc['sub_category']['sub_categories'],
+                          sc['sub_category']['id'],
+                        ),
+                      ),
+                    );
+                  },
                 ),
               )
               .toList(),

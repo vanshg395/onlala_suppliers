@@ -14,7 +14,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  GlobalKey<FormState> _formKey1 = GlobalKey();
   GlobalKey<FormState> _formKey = GlobalKey();
+  int _currentPart = 1;
   bool _isLoading = false;
   bool _isVisible1 = false;
   bool _isVisible2 = false;
@@ -128,9 +130,514 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
   }
 
+  void _submitPart1() {
+    FocusScope.of(context).unfocus();
+    _formKey1.currentState.save();
+    if (!_formKey1.currentState.validate()) {
+      return;
+    }
+    setState(() {
+      _currentPart++;
+    });
+  }
+
+  Widget buildPart1() {
+    return Form(
+      key: _formKey1,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'First Name',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CommonField(
+            placeholder: 'First Name',
+            borderColor: Theme.of(context).canvasColor,
+            bgColor: Theme.of(context).canvasColor,
+            fontSize: 16,
+            borderRadius: 5,
+            focusNode: _focus[0],
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(_focus[1]);
+            },
+            validator: (value) {
+              if (value == '') {
+                return 'This field is required.';
+              }
+            },
+            onSaved: (value) {
+              _registerData['first_name'] = value;
+            },
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Last Name',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CommonField(
+            placeholder: 'Last Name',
+            borderColor: Theme.of(context).canvasColor,
+            bgColor: Theme.of(context).canvasColor,
+            fontSize: 16,
+            borderRadius: 5,
+            focusNode: _focus[1],
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(_focus[2]);
+            },
+            validator: (value) {
+              if (value == '') {
+                return 'This field is required.';
+              }
+            },
+            onSaved: (value) {
+              _registerData['last_name'] = value;
+            },
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Email Address',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CommonField(
+            placeholder: 'Your Email Address',
+            borderColor: Theme.of(context).canvasColor,
+            bgColor: Theme.of(context).canvasColor,
+            fontSize: 16,
+            borderRadius: 5,
+            keyboardType: TextInputType.emailAddress,
+            focusNode: _focus[2],
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(_focus[3]);
+            },
+            validator: (value) {
+              if (value == '') {
+                return 'This field is required.';
+              }
+              if (!RegExp(
+                      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+                  .hasMatch(value)) {
+                return 'Please enter a valid email.';
+              }
+            },
+            onSaved: (value) {
+              _registerData['email'] = value;
+              _loginData['username'] = value;
+              _manufCreateData['company_email'] = value;
+            },
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Password',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CommonField(
+            placeholder: 'Password',
+            borderColor: Theme.of(context).canvasColor,
+            bgColor: Theme.of(context).canvasColor,
+            fontSize: 16,
+            borderRadius: 5,
+            isPassword: !_isVisible1,
+            suffixIcon: InkWell(
+              child: SvgPicture.asset(
+                _isVisible1
+                    ? 'assets/icons/visible.svg'
+                    : 'assets/icons/obscure.svg',
+                height: 20,
+                color: Theme.of(context).primaryColor,
+              ),
+              onTap: () {
+                setState(() {
+                  _isVisible1 = !_isVisible1;
+                });
+              },
+            ),
+            focusNode: _focus[3],
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(_focus[4]);
+            },
+            validator: (value) {
+              if (value == '') {
+                return 'This field is required.';
+              }
+            },
+            onSaved: (value) {
+              _registerData['password'] = value;
+              _loginData['password'] = value;
+            },
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Confirm Password',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CommonField(
+            placeholder: 'Re-Enter Password',
+            borderColor: Theme.of(context).canvasColor,
+            bgColor: Theme.of(context).canvasColor,
+            fontSize: 16,
+            borderRadius: 5,
+            isPassword: !_isVisible2,
+            suffixIcon: InkWell(
+              child: SvgPicture.asset(
+                _isVisible2
+                    ? 'assets/icons/visible.svg'
+                    : 'assets/icons/obscure.svg',
+                height: 20,
+                color: Theme.of(context).primaryColor,
+              ),
+              onTap: () {
+                setState(() {
+                  _isVisible2 = !_isVisible2;
+                });
+              },
+            ),
+            focusNode: _focus[4],
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(_focus[5]);
+            },
+            validator: (value) {
+              if (value == '') {
+                return 'This field is required.';
+              }
+              if (value != _registerData['password']) {
+                return 'Passwords do not match.';
+              }
+            },
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Phone Number',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          PhoneField(
+            placeholder: '',
+            borderColor: Theme.of(context).canvasColor,
+            bgColor: Theme.of(context).canvasColor,
+            keyboardType: TextInputType.number,
+            focusNode: _focus[5],
+            onSubmitted: (_) {
+              FocusScope.of(context).unfocus();
+            },
+            validator: (value) {
+              if (value == '') {
+                return 'This field is required.';
+              }
+            },
+            onSaved: (value) {
+              print(value);
+              _manufCreateData['mobile'] = value[1];
+              _manufCreateData['isoCountryCode'] = value[0];
+            },
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.07,
+          ),
+          CommonButton(
+            bgColor: Theme.of(context).primaryColor,
+            borderColor: Theme.of(context).primaryColor,
+            title: 'NEXT',
+            fontSize: 16,
+            width: double.infinity,
+            borderRadius: 5,
+            onPressed: _submitPart1,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildPart2() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'Business Department',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CommonField(
+            placeholder: '',
+            borderColor: Theme.of(context).canvasColor,
+            bgColor: Theme.of(context).canvasColor,
+            fontSize: 16,
+            borderRadius: 5,
+            focusNode: _focus[6],
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(_focus[7]);
+            },
+            validator: (value) {
+              if (value == '') {
+                return 'This field is required.';
+              }
+            },
+            onSaved: (value) {
+              _manufCreateData['department'] = value;
+            },
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Company Name',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CommonField(
+            placeholder: '',
+            borderColor: Theme.of(context).canvasColor,
+            bgColor: Theme.of(context).canvasColor,
+            fontSize: 16,
+            borderRadius: 5,
+            focusNode: _focus[7],
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(_focus[8]);
+            },
+            validator: (value) {
+              if (value == '') {
+                return 'This field is required.';
+              }
+            },
+            onSaved: (value) {
+              _manufCreateData['company'] = value;
+            },
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Administrative Area',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CommonField(
+            placeholder: '',
+            borderColor: Theme.of(context).canvasColor,
+            bgColor: Theme.of(context).canvasColor,
+            fontSize: 16,
+            borderRadius: 5,
+            focusNode: _focus[8],
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(_focus[9]);
+            },
+            validator: (value) {
+              if (value == '') {
+                return 'This field is required.';
+              }
+            },
+            onSaved: (value) {
+              _manufCreateData['administrativeArea'] = value;
+            },
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Postal Address',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CommonField(
+            placeholder: '',
+            borderColor: Theme.of(context).canvasColor,
+            bgColor: Theme.of(context).canvasColor,
+            fontSize: 16,
+            borderRadius: 5,
+            focusNode: _focus[9],
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(_focus[10]);
+            },
+            validator: (value) {
+              if (value == '') {
+                return 'This field is required.';
+              }
+            },
+            onSaved: (value) {
+              _manufCreateData['postal_address1'] = value;
+            },
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'City',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CommonField(
+            placeholder: '',
+            borderColor: Theme.of(context).canvasColor,
+            bgColor: Theme.of(context).canvasColor,
+            fontSize: 16,
+            borderRadius: 5,
+            focusNode: _focus[10],
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(_focus[11]);
+            },
+            validator: (value) {
+              if (value == '') {
+                return 'This field is required.';
+              }
+            },
+            onSaved: (value) {
+              _manufCreateData['postal_city'] = value;
+            },
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'State',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CommonField(
+            placeholder: '',
+            borderColor: Theme.of(context).canvasColor,
+            bgColor: Theme.of(context).canvasColor,
+            fontSize: 16,
+            borderRadius: 5,
+            focusNode: _focus[11],
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(_focus[12]);
+            },
+            validator: (value) {
+              if (value == '') {
+                return 'This field is required.';
+              }
+            },
+            onSaved: (value) {
+              _manufCreateData['postal_state'] = value;
+            },
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Country',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CommonField(
+            placeholder: '',
+            borderColor: Theme.of(context).canvasColor,
+            bgColor: Theme.of(context).canvasColor,
+            fontSize: 16,
+            borderRadius: 5,
+            focusNode: _focus[12],
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).requestFocus(_focus[13]);
+            },
+            validator: (value) {
+              if (value == '') {
+                return 'This field is required.';
+              }
+            },
+            onSaved: (value) {
+              _manufCreateData['postal_country'] = value;
+            },
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Postal Code',
+            style: Theme.of(context).primaryTextTheme.headline,
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          CommonField(
+            placeholder: '',
+            borderColor: Theme.of(context).canvasColor,
+            bgColor: Theme.of(context).canvasColor,
+            fontSize: 16,
+            borderRadius: 5,
+            keyboardType: TextInputType.number,
+            focusNode: _focus[13],
+            onFieldSubmitted: (_) {
+              FocusScope.of(context).unfocus();
+            },
+            validator: (value) {
+              if (value == '') {
+                return 'This field is required.';
+              }
+            },
+            onSaved: (value) {
+              _manufCreateData['postal_code'] = value;
+            },
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.07,
+          ),
+          _isLoading
+              ? Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(
+                      Theme.of(context).primaryColor,
+                    ),
+                  ),
+                )
+              : CommonButton(
+                  bgColor: Theme.of(context).primaryColor,
+                  borderColor: Theme.of(context).primaryColor,
+                  title: 'SIGN UP',
+                  fontSize: 16,
+                  width: double.infinity,
+                  borderRadius: 5,
+                  onPressed: _submit,
+                ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -139,514 +646,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
             horizontal: 20,
           ),
           child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 50),
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Sign Up',
-                      style: Theme.of(context).primaryTextTheme.title,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 50),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Sign Up',
+                    style: Theme.of(context).primaryTextTheme.title,
+                  ),
+                ),
+                if (_currentPart == 1) buildPart1(),
+                if (_currentPart == 2) buildPart2(),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'I already have an account. ',
+                      style: Theme.of(context).primaryTextTheme.body2,
                     ),
-                  ),
-                  Text(
-                    'First Name',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CommonField(
-                    placeholder: 'First Name',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    fontSize: 16,
-                    borderRadius: 5,
-                    focusNode: _focus[0],
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_focus[1]);
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                    },
-                    onSaved: (value) {
-                      _registerData['first_name'] = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Last Name',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CommonField(
-                    placeholder: 'Last Name',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    fontSize: 16,
-                    borderRadius: 5,
-                    focusNode: _focus[1],
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_focus[2]);
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                    },
-                    onSaved: (value) {
-                      _registerData['last_name'] = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Email Address',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CommonField(
-                    placeholder: 'Your Email Address',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    fontSize: 16,
-                    borderRadius: 5,
-                    keyboardType: TextInputType.emailAddress,
-                    focusNode: _focus[2],
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_focus[3]);
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                      if (!RegExp(
-                              r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
-                          .hasMatch(value)) {
-                        return 'Please enter a valid email.';
-                      }
-                    },
-                    onSaved: (value) {
-                      _registerData['email'] = value;
-                      _loginData['username'] = value;
-                      _manufCreateData['company_email'] = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Password',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CommonField(
-                    placeholder: 'Password',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    fontSize: 16,
-                    borderRadius: 5,
-                    isPassword: !_isVisible1,
-                    suffixIcon: InkWell(
-                      child: SvgPicture.asset(
-                        _isVisible1
-                            ? 'assets/icons/visible.svg'
-                            : 'assets/icons/obscure.svg',
-                        height: 20,
-                        color: Theme.of(context).primaryColor,
+                    InkWell(
+                      child: Text(
+                        'Login Now',
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .body2
+                            .copyWith(color: Theme.of(context).accentColor),
                       ),
-                      onTap: () {
-                        setState(() {
-                          _isVisible1 = !_isVisible1;
-                        });
-                      },
-                    ),
-                    focusNode: _focus[3],
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_focus[4]);
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                    },
-                    onSaved: (value) {
-                      _registerData['password'] = value;
-                      _loginData['password'] = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Confirm Password',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CommonField(
-                    placeholder: 'Re-Enter Password',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    fontSize: 16,
-                    borderRadius: 5,
-                    isPassword: !_isVisible2,
-                    suffixIcon: InkWell(
-                      child: SvgPicture.asset(
-                        _isVisible2
-                            ? 'assets/icons/visible.svg'
-                            : 'assets/icons/obscure.svg',
-                        height: 20,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      onTap: () {
-                        setState(() {
-                          _isVisible2 = !_isVisible2;
-                        });
-                      },
-                    ),
-                    focusNode: _focus[4],
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_focus[5]);
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                      if (value != _registerData['password']) {
-                        return 'Passwords do not match.';
-                      }
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Phone Number',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  PhoneField(
-                    placeholder: '',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    keyboardType: TextInputType.number,
-                    focusNode: _focus[5],
-                    onSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_focus[6]);
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                    },
-                    onSaved: (value) {
-                      print(value);
-                      _manufCreateData['mobile'] = value[1];
-                      _manufCreateData['isoCountryCode'] = value[0];
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Business Department',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CommonField(
-                    placeholder: '',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    fontSize: 16,
-                    borderRadius: 5,
-                    focusNode: _focus[6],
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_focus[7]);
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                    },
-                    onSaved: (value) {
-                      _manufCreateData['department'] = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Company Name',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CommonField(
-                    placeholder: '',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    fontSize: 16,
-                    borderRadius: 5,
-                    focusNode: _focus[7],
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_focus[8]);
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                    },
-                    onSaved: (value) {
-                      _manufCreateData['company'] = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Administrative Area',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CommonField(
-                    placeholder: '',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    fontSize: 16,
-                    borderRadius: 5,
-                    focusNode: _focus[8],
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_focus[9]);
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                    },
-                    onSaved: (value) {
-                      _manufCreateData['administrativeArea'] = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Postal Address',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CommonField(
-                    placeholder: '',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    fontSize: 16,
-                    borderRadius: 5,
-                    focusNode: _focus[9],
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_focus[10]);
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                    },
-                    onSaved: (value) {
-                      _manufCreateData['postal_address1'] = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'City',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CommonField(
-                    placeholder: '',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    fontSize: 16,
-                    borderRadius: 5,
-                    focusNode: _focus[10],
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_focus[11]);
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                    },
-                    onSaved: (value) {
-                      _manufCreateData['postal_city'] = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'State',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CommonField(
-                    placeholder: '',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    fontSize: 16,
-                    borderRadius: 5,
-                    focusNode: _focus[11],
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_focus[12]);
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                    },
-                    onSaved: (value) {
-                      _manufCreateData['postal_state'] = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Country',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CommonField(
-                    placeholder: '',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    fontSize: 16,
-                    borderRadius: 5,
-                    focusNode: _focus[12],
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).requestFocus(_focus[13]);
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                    },
-                    onSaved: (value) {
-                      _manufCreateData['postal_country'] = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Postal Code',
-                    style: Theme.of(context).primaryTextTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  CommonField(
-                    placeholder: '',
-                    borderColor: Theme.of(context).canvasColor,
-                    bgColor: Theme.of(context).canvasColor,
-                    fontSize: 16,
-                    borderRadius: 5,
-                    keyboardType: TextInputType.number,
-                    focusNode: _focus[13],
-                    onFieldSubmitted: (_) {
-                      FocusScope.of(context).unfocus();
-                    },
-                    validator: (value) {
-                      if (value == '') {
-                        return 'This field is required.';
-                      }
-                    },
-                    onSaved: (value) {
-                      _manufCreateData['postal_code'] = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: mediaQuery.height * 0.07,
-                  ),
-                  _isLoading
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(
-                              Theme.of(context).primaryColor,
-                            ),
-                          ),
-                        )
-                      : CommonButton(
-                          bgColor: Theme.of(context).primaryColor,
-                          borderColor: Theme.of(context).primaryColor,
-                          title: 'SIGN UP',
-                          fontSize: 16,
-                          width: double.infinity,
-                          borderRadius: 5,
-                          onPressed: _submit,
-                        ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'I already have an account. ',
-                        style: Theme.of(context).primaryTextTheme.body2,
-                      ),
-                      InkWell(
-                        child: Text(
-                          'Login Now',
-                          style: Theme.of(context)
-                              .primaryTextTheme
-                              .body2
-                              .copyWith(color: Theme.of(context).accentColor),
-                        ),
-                        onTap: () => Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (ctx) => LoginScreen(),
-                          ),
+                      onTap: () => Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (ctx) => LoginScreen(),
                         ),
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+              ],
             ),
           ),
         ),

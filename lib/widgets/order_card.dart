@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
 import './common_button.dart';
+import '../screens/order_details_screen.dart';
 
 class OrderCard extends StatelessWidget {
+  final String title;
+  final String status;
+  final Map<String, dynamic> details;
+
+  OrderCard(this.title, this.status, this.details);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,93 +34,26 @@ class OrderCard extends StatelessWidget {
                 height: 10,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
-                  '#Order No 01',
-                  style: TextStyle(
-                    color: Theme.of(context).accentColor,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  title,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: Theme.of(context).primaryTextTheme.headline.copyWith(
+                        fontSize: 14,
+                      ),
                 ),
               ),
               SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset('assets/img/ghar.png'),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: Text(
-                          'ID:22323234',
-                          style: TextStyle(color: Colors.grey, fontSize: 12),
-                        ),
+              Center(
+                child: Text(
+                  status,
+                  style: Theme.of(context).primaryTextTheme.headline.copyWith(
+                        fontWeight: FontWeight.w500,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: Text(
-                          'PRODUCT NAME',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: Text(
-                              'Order Type: ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            'Sample',
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: Text(
-                              'Amount: ',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            '2 units',
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: Text(
-                          'Total Price: \$50',
-                          style: TextStyle(
-                            color: Theme.of(context).accentColor,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
+                ),
               ),
               SizedBox(
                 height: 20,
@@ -122,11 +62,17 @@ class OrderCard extends StatelessWidget {
                 child: CommonButton(
                   bgColor: Theme.of(context).primaryColor,
                   borderColor: Theme.of(context).primaryColor,
-                  title: 'APPROVE NOW',
+                  title: 'VIEW',
                   fontSize: 16,
                   width: 200,
                   borderRadius: 5,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) => OrderDetailsScreen(details),
+                      ),
+                    );
+                  },
                 ),
               ),
               SizedBox(

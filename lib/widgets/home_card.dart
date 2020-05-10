@@ -168,6 +168,7 @@ class HomeCard extends StatelessWidget {
                                 onTap: () => Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (ctx) => SubcategoryDetailScreen(
+                                      title,
                                       c['name'],
                                       c['sub_categories'],
                                     ),

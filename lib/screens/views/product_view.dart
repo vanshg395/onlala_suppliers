@@ -31,7 +31,7 @@ class _ProductViewState extends State<ProductView> {
       _isLoading = true;
     });
     try {
-      final url = baseUrl + 'product/allproduct/website/';
+      final url = baseUrl + 'product/allproduct/app/';
       final response = await http.get(
         url,
         headers: {

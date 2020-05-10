@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:onlala_suppliers/screens/video_preview_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/common_field.dart';
 import '../widgets/common_button.dart';
@@ -15,30 +16,36 @@ import '../utils/constants.dart';
 import './pdf_screen.dart';
 import '../providers/auth.dart';
 
-class ProductUploadScreen extends StatefulWidget {
+class ProductEditScreen extends StatefulWidget {
   @override
-  _ProductUploadScreenState createState() => _ProductUploadScreenState();
+  _ProductEditScreenState createState() => _ProductEditScreenState();
 
   final String deptName;
   final String catName;
   final String subcatName;
   final String subCatId;
+  final List<dynamic> data;
 
-  ProductUploadScreen(
-      this.deptName, this.catName, this.subcatName, this.subCatId);
+  ProductEditScreen(
+      this.deptName, this.catName, this.subcatName, this.subCatId, this.data);
 }
 
-class _ProductUploadScreenState extends State<ProductUploadScreen> {
+class _ProductEditScreenState extends State<ProductEditScreen> {
   int _currentPart = 1;
   bool _isLoading = false;
   Map<String, dynamic> _data = {
-    'manufacturer_type': 'Manufacturer',
+    'manufacturer_type': '',
     'sample': 1,
     'bulk_order': 1,
     'time_range': '-',
   };
 
   Map<String, dynamic> _media = {
+    'additional_images': [],
+    'additional_videos': [],
+  };
+
+  Map<String, dynamic> _mediaIds = {
     'additional_images': [],
     'additional_videos': [],
   };
@@ -60,6 +67,149 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
   String _cartonWeightUnit;
   String _cartonDimensionUnit;
   bool _techTransfer = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _data['manufacturer_type'] = widget.data[0]['product']['manufacturer_type'];
+    _controllers[0].text =
+        widget.data[0]['product']['minimum_order_quantity'].toString();
+    _controllers[1].text = widget.data[0]['product']['product_name'].toString();
+    _controllers[2].text =
+        widget.data[0]['product']['product_description'].toString();
+    _controllers[3].text =
+        widget.data[0]['product']['industry_name'].toString();
+    _controllers[4].text =
+        widget.data[0]['product']['other_synonyms'].toString();
+    _controllers[5].text = widget.data[0]['product']['model_no'].toString();
+
+    if (widget.data[0]['pictures']
+            .where((pic) => pic['image_name'] == 'Primary Image')
+            .toList()
+            .length !=
+        0) {
+      _media['primary_image'] = widget.data[0]['pictures']
+          .where((pic) => pic['image_name'] == 'Primary Image')
+          .toList()[0]['product_image'];
+      _mediaIds['primary_image'] = widget.data[0]['pictures']
+          .where((pic) => pic['image_name'] == 'Primary Image')
+          .toList()[0]['id'];
+    }
+    if (widget.data[0]['pictures']
+            .where((pic) => pic['image_name'] != 'Primary Image')
+            .toList()
+            .length >
+        0) {
+      _media['additional_images'] = widget.data[0]['pictures']
+          .where((pic) => pic['image_name'] != 'Primary Image')
+          .toList()
+          .map((img) => img['product_image'])
+          .toList();
+      _mediaIds['additional_images'] = widget.data[0]['pictures']
+          .where((pic) => pic['image_name'] != 'Primary Image')
+          .toList()
+          .map((img) => img['id'])
+          .toList();
+    }
+    if (widget.data[0]['videos']
+            .where((pic) => pic['video_name'] == 'Primary Video')
+            .toList()
+            .length !=
+        0) {
+      _media['primary_video'] = widget.data[0]['videos']
+          .where((pic) => pic['video_name'] == 'Primary Video')
+          .toList()[0]['product_video'];
+      _mediaIds['primary_video'] = widget.data[0]['videos']
+          .where((pic) => pic['video_name'] == 'Primary Video')
+          .toList()[0]['id'];
+    }
+    if (widget.data[0]['videos']
+            .where((pic) => pic['video_name'] != 'Primary Video')
+            .toList()
+            .length >
+        0) {
+      _media['additional_videos'] = widget.data[0]['videos']
+          .where((pic) => pic['video_name'] != 'Primary Video')
+          .toList()
+          .map((img) => img['product_video'])
+          .toList();
+      _mediaIds['additional_videos'] = widget.data[0]['videos']
+          .where((pic) => pic['video_name'] != 'Primary Video')
+          .toList()
+          .map((img) => img['id'])
+          .toList();
+    }
+
+    _data['sample'] = widget.data[0]['sample_details']['sample'] ? 1 : 0;
+    _samplePolicyChoice = '2';
+    _controllers[6].text = widget.data[0]['sample_details']['sample_policy'];
+    _controllers[7].text =
+        widget.data[0]['sample_details']['sample_cost'].toString();
+    _controllers[8].text =
+        widget.data[0]['sample_details']['sample_dimension_length'].toString();
+    _controllers[9].text =
+        widget.data[0]['sample_details']['sample_dimension_breadth'].toString();
+    _controllers[10].text =
+        widget.data[0]['sample_details']['sample_dimension_height'].toString();
+    _sampleDimensionUnit =
+        widget.data[0]['sample_details']['sample_dimension_unit'].toString();
+    _controllers[11].text =
+        widget.data[0]['sample_details']['sample_weight'].toString();
+    _sampleWeightUnit =
+        widget.data[0]['sample_details']['sample_weight_unit'].toString();
+    _controllers[12].text =
+        widget.data[0]['sample_details']['sample_from_time_range'].toString();
+    _controllers[13].text =
+        widget.data[0]['sample_details']['sample_to_time_range'].toString();
+    _data['expiry_date'] = widget.data[0]['product']['expiry_date'].toString();
+
+    _data['bulk_order'] =
+        widget.data[0]['bulkorder_details']['bulk_order'] ? 1 : 0;
+
+    _controllers[14].text =
+        widget.data[0]['bulkorder_details']['bulk_order_price'];
+    _bulkPriceUnit =
+        widget.data[0]['bulkorder_details']['bulk_order_price_unit'];
+    _bulkPriceType =
+        widget.data[0]['bulkorder_details']['bulk_order_price_type'];
+
+    _controllers[15].text = widget.data[0]['bulkorder_details']
+            ['bulk_order_from_time_range']
+        .toString();
+    _controllers[16].text = widget.data[0]['bulkorder_details']
+            ['bulk_order_to_time_range']
+        .toString();
+    _portChoice = '0';
+    _controllers[17].text =
+        widget.data[0]['bulkorder_details']['bulk_order_port'].toString();
+
+    _controllers[18].text =
+        widget.data[0]['product']['quantity_per_carton'].toString();
+    _controllers[19].text =
+        widget.data[0]['carton_details']['carton_weight'].toString();
+    _cartonWeightUnit =
+        widget.data[0]['carton_details']['carton_weight_unit'].toString();
+    _controllers[20].text =
+        widget.data[0]['carton_details']['carton_dimension_length'].toString();
+    _controllers[21].text =
+        widget.data[0]['carton_details']['carton_dimension_breadth'].toString();
+    _controllers[22].text =
+        widget.data[0]['carton_details']['carton_dimension_height'].toString();
+    _cartonDimensionUnit =
+        widget.data[0]['carton_details']['carton_dimension_unit'].toString();
+
+    _paymentChoice = '2';
+    _controllers[23].text =
+        widget.data[0]['product']['payment_method'].toString();
+    _controllers[24].text =
+        widget.data[0]['sample_details']['hs_code'].toString();
+    _techTransfer = widget.data[0]['product']['tech_transfer_investment'];
+
+    if (widget.data[0]['catalog'].length != 0) {
+      _media['catalogue'] = widget.data[0]['catalog'][0]['product_catalog'];
+      _mediaIds['catalogue'] = widget.data[0]['catalog'][0]['id'];
+    }
+  }
 
   @override
   void dispose() {
@@ -138,7 +288,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
   }
 
   Future<void> _submitPart4() async {
-    FocusScope.of(context).unfocus();
+    _data['product_id'] = widget.data[0]['product']['id'];
     _formKey4.currentState.save();
     _data['tech_transfer_investment'] = _techTransfer ? 1 : 0;
     if (!_formKey4.currentState.validate()) {
@@ -160,13 +310,33 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
       );
       return;
     }
+    if (_media['primary_image'].contains('http')) {
+      _media['primary_image'] = null;
+    }
+    if (_media['primary_video'].contains('http')) {
+      _media['primary_video'] = null;
+    }
+    if (_media['catalogue'].contains('http')) {
+      _media['catalogue'] = null;
+    }
+    for (var i = 0; i < _media['additional_images'].length; i++) {
+      if (_media['additional_images'][i].contains('http')) {
+        _media['additional_images'].removeAt(i);
+      }
+    }
+    for (var i = 0; i < _media['additional_videos'].length; i++) {
+      if (_media['additional_videos'][i].contains('http')) {
+        _media['additional_videos'].removeAt(i);
+      }
+    }
+    print(_media);
     setState(() {
       _isLoading = true;
     });
     try {
       print(_data);
       // print(_media);
-      final url = baseUrl + 'product/add/';
+      final url = baseUrl + 'product/update/';
       final response = await http.post(
         url,
         headers: {
@@ -177,30 +347,10 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
       );
       print(response.statusCode);
       print(response.body);
-      if (response.statusCode == 201) {
-        final resBody = json.decode(response.body);
-        final url2 = baseUrl + 'product/link/';
-        final response2 = await http.post(
-          url2,
-          headers: {
-            'Authorization': Provider.of<Auth>(context, listen: false).token,
-            'Content-Type': 'application/json',
-          },
-          body: json.encode({
-            'sub_category': widget.subCatId,
-            'sample': resBody['payload']['sample'],
-            'product': resBody['payload']['product']['id'],
-            'bulk_order': resBody['payload']['bulk_order'],
-            'carton': resBody['payload']['carton'],
-            'creator': Provider.of<Auth>(context, listen: false).userDetails[0]
-                ['id'],
-          }),
-        );
-        print(response2.statusCode);
-        print(response2.body);
-        if (response2.statusCode == 201) {
-          final imageUploadUrl = baseUrl + 'product/image/add/';
+      if (response.statusCode == 202) {
+        final imageUploadUrl = baseUrl + 'product/image/add/';
 
+        if (_media['primary_image'] != null) {
           final multipartRequest1 =
               new http.MultipartRequest('POST', Uri.parse(imageUploadUrl));
           multipartRequest1.headers.addAll(
@@ -214,38 +364,37 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
             _media['primary_image'],
           );
           multipartRequest1.fields['image_name'] = 'Primary Image';
-          multipartRequest1.fields['product'] =
-              resBody['payload']['product']['id'];
+          multipartRequest1.fields['product'] = widget.data[0]['product']['id'];
           multipartRequest1.files.add(multipartFile1);
           final response3 = await multipartRequest1.send();
           print(response3.statusCode);
           print(await response3.stream.bytesToString());
+        }
 
-          for (int i = 0; i < _media['additional_images'].length; i++) {
-            final multipartRequest =
-                new http.MultipartRequest('POST', Uri.parse(imageUploadUrl));
-            multipartRequest.headers.addAll(
-              {
-                'Authorization':
-                    Provider.of<Auth>(context, listen: false).token,
-                'Content-Type': 'application/json',
-              },
-            );
-            final multipartFile = await http.MultipartFile.fromPath(
-              'product_image',
-              _media['additional_images'][i],
-            );
-            multipartRequest.files.add(multipartFile);
-            multipartRequest.fields['product'] =
-                resBody['payload']['product']['id'];
+        for (int i = 0; i < _media['additional_images'].length; i++) {
+          final multipartRequest =
+              new http.MultipartRequest('POST', Uri.parse(imageUploadUrl));
+          multipartRequest.headers.addAll(
+            {
+              'Authorization': Provider.of<Auth>(context, listen: false).token,
+              'Content-Type': 'application/json',
+            },
+          );
+          final multipartFile = await http.MultipartFile.fromPath(
+            'product_image',
+            _media['additional_images'][i],
+          );
+          multipartRequest.files.add(multipartFile);
+          multipartRequest.fields['product'] = widget.data[0]['product']['id'];
 
-            final response3 = await multipartRequest.send();
-            print(response3.statusCode);
-            print(await response3.stream.bytesToString());
-          }
+          final response3 = await multipartRequest.send();
+          print(response3.statusCode);
+          print(await response3.stream.bytesToString());
+        }
 
-          final uploadVideoUrl = baseUrl + 'product/video/add/';
+        final uploadVideoUrl = baseUrl + 'product/video/add/';
 
+        if (_media['primary_video'] != null) {
           final multipartRequest2 =
               new http.MultipartRequest('POST', Uri.parse(uploadVideoUrl));
           multipartRequest2.headers.addAll(
@@ -259,38 +408,37 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
             _media['primary_video'],
           );
           multipartRequest2.fields['video_name'] = 'Primary Video';
-          multipartRequest2.fields['product'] =
-              resBody['payload']['product']['id'];
+          multipartRequest2.fields['product'] = widget.data[0]['product']['id'];
           multipartRequest2.files.add(multipartFile2);
           final response4 = await multipartRequest2.send();
           print(response4.statusCode);
           print(await response4.stream.bytesToString());
+        }
 
-          for (int i = 0; i < _media['additional_videos'].length; i++) {
-            final multipartRequest =
-                new http.MultipartRequest('POST', Uri.parse(uploadVideoUrl));
-            multipartRequest.headers.addAll(
-              {
-                'Authorization':
-                    Provider.of<Auth>(context, listen: false).token,
-                'Content-Type': 'application/json',
-              },
-            );
-            final multipartFile = await http.MultipartFile.fromPath(
-              'product_video',
-              _media['additional_videos'][i],
-            );
-            multipartRequest.files.add(multipartFile);
-            multipartRequest.fields['product'] =
-                resBody['payload']['product']['id'];
+        for (int i = 0; i < _media['additional_videos'].length; i++) {
+          final multipartRequest =
+              new http.MultipartRequest('POST', Uri.parse(uploadVideoUrl));
+          multipartRequest.headers.addAll(
+            {
+              'Authorization': Provider.of<Auth>(context, listen: false).token,
+              'Content-Type': 'application/json',
+            },
+          );
+          final multipartFile = await http.MultipartFile.fromPath(
+            'product_video',
+            _media['additional_videos'][i],
+          );
+          multipartRequest.files.add(multipartFile);
+          multipartRequest.fields['product'] = widget.data[0]['product']['id'];
 
-            final response4 = await multipartRequest.send();
-            print(response4.statusCode);
-            print(await response4.stream.bytesToString());
-          }
+          final response4 = await multipartRequest.send();
+          print(response4.statusCode);
+          print(await response4.stream.bytesToString());
+        }
 
-          final uploadCatalogueUrl = baseUrl + 'product/catalogue/add/';
+        final uploadCatalogueUrl = baseUrl + 'product/catalogue/add/';
 
+        if (_media['catalogue'] != null) {
           final multipartRequest4 =
               new http.MultipartRequest('POST', Uri.parse(uploadCatalogueUrl));
           multipartRequest4.headers.addAll(
@@ -304,26 +452,11 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
             _media['catalogue'],
           );
           multipartRequest4.fields['catalg_name'] = 'Primary Catalogue';
-          multipartRequest4.fields['product'] =
-              resBody['payload']['product']['id'];
+          multipartRequest4.fields['product'] = widget.data[0]['product']['id'];
           multipartRequest4.files.add(multipartFile4);
           final response5 = await multipartRequest4.send();
           print(response5.statusCode);
           print(await response5.stream.bytesToString());
-        } else {
-          await showDialog(
-            context: context,
-            child: AlertDialog(
-              title: Text('Error'),
-              content: Text('Something went wrong. Please try again later.'),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('OK'),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ],
-            ),
-          );
         }
       } else {
         await showDialog(
@@ -346,7 +479,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
     setState(() {
       _isLoading = false;
     });
-    Navigator.of(context).pop();
+    Navigator.of(context).pop('updated');
   }
 
   Widget pU1View() {
@@ -751,13 +884,18 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                       Center(
                         child: Stack(
                           children: <Widget>[
-                            Image.asset(
-                              _media['primary_image'],
-                              width: 100,
-                            ),
+                            _media['primary_image'].contains('http')
+                                ? Image.network(
+                                    _media['primary_image'],
+                                    width: 100,
+                                  )
+                                : Image.asset(
+                                    _media['primary_image'],
+                                    width: 100,
+                                  ),
                             Positioned(
-                              top: 10,
-                              right: 10,
+                              top: 20,
+                              right: 20,
                               child: InkWell(
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -770,11 +908,55 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                                     color: Colors.white,
                                   ),
                                 ),
-                                onTap: () {
-                                  setState(() {
-                                    _media['primary_image'] = null;
-                                  });
-                                },
+                                onTap: _media['primary_image'].contains('http')
+                                    ? () async {
+                                        try {
+                                          final url =
+                                              baseUrl + 'product/image/delete/';
+                                          showDialog(
+                                            barrierDismissible: false,
+                                            context: context,
+                                            child: AlertDialog(
+                                              title: Text('Deleting Image'),
+                                              content: Container(
+                                                height: 100,
+                                                child: Center(
+                                                    child:
+                                                        CircularProgressIndicator()),
+                                              ),
+                                            ),
+                                          );
+                                          final response = await http.post(
+                                            url,
+                                            headers: {
+                                              'Authorization':
+                                                  Provider.of<Auth>(context,
+                                                          listen: false)
+                                                      .token,
+                                              'Content-Type':
+                                                  'application/json',
+                                            },
+                                            body: json.encode({
+                                              'image_id':
+                                                  _mediaIds['primary_image']
+                                            }),
+                                          );
+                                          Navigator.of(context).pop();
+                                          print(response.statusCode);
+                                          if (response.statusCode == 204) {
+                                            setState(() {
+                                              _media['primary_image'] = null;
+                                            });
+                                          }
+                                        } catch (e) {
+                                          print(e);
+                                        }
+                                      }
+                                    : () {
+                                        setState(() {
+                                          _media['primary_image'] = null;
+                                        });
+                                      },
                               ),
                             ),
                           ],
@@ -899,9 +1081,13 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                                 (image) => Center(
                                     child: Stack(
                                   children: <Widget>[
-                                    Image.asset(
-                                      image,
-                                    ),
+                                    image.contains('http')
+                                        ? Image.network(
+                                            image,
+                                          )
+                                        : Image.asset(
+                                            image,
+                                          ),
                                     Positioned(
                                       top: 10,
                                       right: 10,
@@ -917,12 +1103,67 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                                             color: Colors.white,
                                           ),
                                         ),
-                                        onTap: () {
-                                          setState(() {
-                                            _media['additional_images']
-                                                .remove(image);
-                                          });
-                                        },
+                                        onTap: _media['additional_images'][
+                                                    _media['additional_images']
+                                                        .indexOf(image)]
+                                                .contains('http')
+                                            ? () async {
+                                                try {
+                                                  final url = baseUrl +
+                                                      'product/image/delete/';
+                                                  showDialog(
+                                                    barrierDismissible: false,
+                                                    context: context,
+                                                    child: AlertDialog(
+                                                      title: Text(
+                                                          'Deleting Image'),
+                                                      content: Container(
+                                                        height: 100,
+                                                        child: Center(
+                                                            child:
+                                                                CircularProgressIndicator()),
+                                                      ),
+                                                    ),
+                                                  );
+                                                  final response =
+                                                      await http.post(
+                                                    url,
+                                                    headers: {
+                                                      'Authorization':
+                                                          Provider.of<Auth>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .token,
+                                                      'Content-Type':
+                                                          'application/json',
+                                                    },
+                                                    body: json.encode({
+                                                      'image_id': _mediaIds[
+                                                              'additional_images']
+                                                          [
+                                                          _media['additional_images']
+                                                              .indexOf(image)]
+                                                    }),
+                                                  );
+                                                  Navigator.of(context).pop();
+                                                  print(response.statusCode);
+                                                  if (response.statusCode ==
+                                                      204) {
+                                                    setState(() {
+                                                      _media['additional_images']
+                                                          .remove(image);
+                                                    });
+                                                  }
+                                                } catch (e) {
+                                                  print(e);
+                                                }
+                                              }
+                                            : () {
+                                                setState(() {
+                                                  _media['additional_images']
+                                                      .remove(image);
+                                                });
+                                              },
                                       ),
                                     ),
                                   ],
@@ -1039,11 +1280,55 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                                   size: 40,
                                   color: Colors.red,
                                 ),
-                                onTap: () {
-                                  setState(() {
-                                    _media['primary_video'] = null;
-                                  });
-                                },
+                                onTap: _media['primary_video'].contains('http')
+                                    ? () async {
+                                        try {
+                                          final url =
+                                              baseUrl + 'product/video/delete/';
+                                          showDialog(
+                                            barrierDismissible: false,
+                                            context: context,
+                                            child: AlertDialog(
+                                              title: Text('Deleting Video'),
+                                              content: Container(
+                                                height: 100,
+                                                child: Center(
+                                                    child:
+                                                        CircularProgressIndicator()),
+                                              ),
+                                            ),
+                                          );
+                                          final response = await http.post(
+                                            url,
+                                            headers: {
+                                              'Authorization':
+                                                  Provider.of<Auth>(context,
+                                                          listen: false)
+                                                      .token,
+                                              'Content-Type':
+                                                  'application/json',
+                                            },
+                                            body: json.encode({
+                                              'video_id':
+                                                  _mediaIds['primary_video']
+                                            }),
+                                          );
+                                          Navigator.of(context).pop();
+                                          print(response.statusCode);
+                                          if (response.statusCode == 204) {
+                                            setState(() {
+                                              _media['primary_video'] = null;
+                                            });
+                                          }
+                                        } catch (e) {
+                                          print(e);
+                                        }
+                                      }
+                                    : () {
+                                        setState(() {
+                                          _media['primary_video'] = null;
+                                        });
+                                      },
                               ),
                             ],
                           ),
@@ -1167,12 +1452,67 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                                           size: 40,
                                           color: Colors.red,
                                         ),
-                                        onTap: () {
-                                          setState(() {
-                                            _media['additional_videos']
-                                                .remove(video);
-                                          });
-                                        },
+                                        onTap: _media['additional_videos'][
+                                                    _media['additional_videos']
+                                                        .indexOf(video)]
+                                                .contains('http')
+                                            ? () async {
+                                                try {
+                                                  final url = baseUrl +
+                                                      'product/video/delete/';
+                                                  showDialog(
+                                                    barrierDismissible: false,
+                                                    context: context,
+                                                    child: AlertDialog(
+                                                      title: Text(
+                                                          'Deleting Video'),
+                                                      content: Container(
+                                                        height: 100,
+                                                        child: Center(
+                                                            child:
+                                                                CircularProgressIndicator()),
+                                                      ),
+                                                    ),
+                                                  );
+                                                  final response =
+                                                      await http.post(
+                                                    url,
+                                                    headers: {
+                                                      'Authorization':
+                                                          Provider.of<Auth>(
+                                                                  context,
+                                                                  listen: false)
+                                                              .token,
+                                                      'Content-Type':
+                                                          'application/json',
+                                                    },
+                                                    body: json.encode({
+                                                      'video_id': _mediaIds[
+                                                              'additional_videos']
+                                                          [
+                                                          _media['additional_videos']
+                                                              .indexOf(video)]
+                                                    }),
+                                                  );
+                                                  Navigator.of(context).pop();
+                                                  print(response.statusCode);
+                                                  if (response.statusCode ==
+                                                      204) {
+                                                    setState(() {
+                                                      _media['additional_videos']
+                                                          .remove(video);
+                                                    });
+                                                  }
+                                                } catch (e) {
+                                                  print(e);
+                                                }
+                                              }
+                                            : () {
+                                                setState(() {
+                                                  _media['additional_videos']
+                                                      .remove(video);
+                                                });
+                                              },
                                       ),
                                     ],
                                   ),
@@ -2664,7 +3004,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                               width: 0,
                             ),
                           ),
-                          hintText: 'Price Unit',
+                          hintText: 'Price Type',
                           hintStyle: TextStyle(
                             fontSize: 16,
                           ),
@@ -3043,6 +3383,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                       keyboardType:
                           TextInputType.numberWithOptions(decimal: true),
                       validator: (value) {
+                        print(value);
                         if (value == '') {
                           return 'This field is required.';
                         }
@@ -3892,13 +4233,25 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                                     size: 40,
                                   ),
                                   onTap: () async {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            PDFScreen(_media['catalogue']),
-                                      ),
-                                    );
+                                    try {
+                                      if (_media['catalogue']
+                                          .contains('http')) {
+                                        if (await canLaunch(
+                                            _media['catalogue'])) {
+                                          await launch(_media['catalogue']);
+                                        }
+                                      } else {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PDFScreen(_media['catalogue']),
+                                          ),
+                                        );
+                                      }
+                                    } catch (e) {
+                                      print(e);
+                                    }
                                   },
                                 ),
                                 SizedBox(
@@ -3910,11 +4263,55 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                                     color: Colors.red,
                                     size: 40,
                                   ),
-                                  onTap: () {
-                                    setState(() {
-                                      _media['catalogue'] = null;
-                                    });
-                                  },
+                                  onTap: _media['catalogue'].contains('http')
+                                      ? () async {
+                                          try {
+                                            final url = baseUrl +
+                                                'product/catalogue/delete/';
+                                            showDialog(
+                                              barrierDismissible: false,
+                                              context: context,
+                                              child: AlertDialog(
+                                                title: Text('Deleting Catalog'),
+                                                content: Container(
+                                                  height: 100,
+                                                  child: Center(
+                                                      child:
+                                                          CircularProgressIndicator()),
+                                                ),
+                                              ),
+                                            );
+                                            final response = await http.post(
+                                              url,
+                                              headers: {
+                                                'Authorization':
+                                                    Provider.of<Auth>(context,
+                                                            listen: false)
+                                                        .token,
+                                                'Content-Type':
+                                                    'application/json',
+                                              },
+                                              body: json.encode({
+                                                'catalogue_id':
+                                                    _mediaIds['catalogue']
+                                              }),
+                                            );
+                                            Navigator.of(context).pop();
+                                            print(response.statusCode);
+                                            if (response.statusCode == 204) {
+                                              setState(() {
+                                                _media['catalogue'] = null;
+                                              });
+                                            }
+                                          } catch (e) {
+                                            print(e);
+                                          }
+                                        }
+                                      : () {
+                                          setState(() {
+                                            _media['catalogue'] = null;
+                                          });
+                                        },
                                 ),
                               ],
                             ),
@@ -3956,7 +4353,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                         CommonButton(
                           bgColor: Theme.of(context).primaryColor,
                           borderColor: Theme.of(context).primaryColor,
-                          title: 'DONE',
+                          title: 'UPDATE',
                           textColor: Colors.white,
                           fontSize: 16,
                           // width: double.infinity,
@@ -3984,7 +4381,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).accentColor,
         title: Text(
-          'Add Product',
+          'Edit Product',
           style: Theme.of(context).primaryTextTheme.subtitle.copyWith(
                 color: Colors.white,
                 letterSpacing: 2,

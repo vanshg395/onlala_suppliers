@@ -4,11 +4,15 @@ class ProductCard extends StatelessWidget {
   final String name;
   final String id;
   final Function onTap;
+  final String price;
+  final String image;
 
   ProductCard({
     @required this.name,
     @required this.id,
     @required this.onTap,
+    @required this.price,
+    @required this.image,
   });
 
   @override
@@ -34,8 +38,15 @@ class ProductCard extends StatelessWidget {
               height: 30,
             ),
             Center(
-              child: Image.asset(
-                'assets/img/ghar.png',
+              child: Container(
+                height: 100,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: Image.network(
+                  image,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             SizedBox(
@@ -53,13 +64,14 @@ class ProductCard extends StatelessWidget {
               child: FittedBox(
                 child: Text(
                   name,
+                  style: Theme.of(context).primaryTextTheme.headline,
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20.0),
               child: Text(
-                '\$50',
+                '\$ $price',
                 style: TextStyle(
                   color: Theme.of(context).accentColor,
                   fontWeight: FontWeight.w700,
@@ -68,50 +80,6 @@ class ProductCard extends StatelessWidget {
             ),
             SizedBox(
               height: 10,
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(15),
-                    ),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).canvasColor,
-                        border: Border(
-                          right: BorderSide(color: Colors.grey, width: 0.5),
-                          top: BorderSide(color: Colors.grey),
-                        ),
-                      ),
-                      child: Center(
-                        child: Icon(Icons.edit),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(15),
-                    ),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).canvasColor,
-                        border: Border(
-                          left: BorderSide(color: Colors.grey, width: 0.5),
-                          top: BorderSide(color: Colors.grey),
-                        ),
-                      ),
-                      child: Center(
-                        child: Icon(Icons.delete),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
             ),
           ],
         ),
