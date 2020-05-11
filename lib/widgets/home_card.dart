@@ -45,7 +45,7 @@ class HomeCard extends StatelessWidget {
             Expanded(
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.6,
-                alignment: Alignment.center,
+                alignment: Alignment.topCenter,
                 child: ListView(
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
@@ -154,6 +154,7 @@ class HomeCard extends StatelessWidget {
                     ...cat
                         .map(
                           (c) => Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               SubcategoryCard(
                                 // icon: Image.asset(

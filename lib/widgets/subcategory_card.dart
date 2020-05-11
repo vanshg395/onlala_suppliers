@@ -13,7 +13,7 @@ class SubcategoryCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 10),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             // icon,
             SizedBox(

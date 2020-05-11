@@ -45,6 +45,32 @@ class _QueryCardState extends State<QueryCard> {
   bool _isLoading = false;
 
   Future<void> _submit(Map<String, dynamic> body) async {
+    bool isConfirm = true;
+    await showDialog(
+      barrierDismissible: false,
+      context: context,
+      child: AlertDialog(
+        title: Text('Confirm'),
+        content: Text(body['manufacturer_review']
+            ? 'Are you sure, you want to approve this Inquiry?'
+            : 'Are you sure, you want to disapprove this Inquiry?'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Yes'),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                isConfirm = false;
+                Navigator.of(context).pop();
+              }),
+        ],
+      ),
+    );
+    if (!isConfirm) {
+      return;
+    }
     setState(() {
       _isLoading = true;
     });

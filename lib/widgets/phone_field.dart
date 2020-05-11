@@ -24,6 +24,7 @@ class PhoneField extends StatefulWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
   final Function onSubmitted;
+  final String initialCountryCode;
 
   PhoneField({
     @required this.placeholder,
@@ -47,6 +48,7 @@ class PhoneField extends StatefulWidget {
     this.controller,
     this.focusNode,
     this.onSubmitted,
+    this.initialCountryCode,
   });
 
   @override
@@ -55,7 +57,7 @@ class PhoneField extends StatefulWidget {
 
 class _PhoneFieldState extends State<PhoneField> {
   Map<String, dynamic> _selectedCountry =
-      countries.where((item) => item['code'] == 'IN').toList()[0];
+      countries.where((item) => item['code'] == 'US').toList()[0];
 
   List<dynamic> filteredCountries = countries;
 
@@ -133,6 +135,11 @@ class _PhoneFieldState extends State<PhoneField> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.initialCountryCode != null) {
+      _selectedCountry = countries
+          .where((item) => item['code'] == widget.initialCountryCode)
+          .toList()[0];
+    }
     return Row(
       children: <Widget>[
         InkWell(
@@ -156,7 +163,7 @@ class _PhoneFieldState extends State<PhoneField> {
               ],
             ),
           ),
-          onTap: _changeCountry,
+          onTap: widget.initialCountryCode == null ? _changeCountry : null,
         ),
         Expanded(
           child: TextFormField(

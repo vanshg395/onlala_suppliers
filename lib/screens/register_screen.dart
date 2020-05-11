@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:get_ip/get_ip.dart';
+import 'package:http/http.dart' as http;
 
 import '../widgets/common_field.dart';
 import '../widgets/common_button.dart';
@@ -21,6 +26,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isVisible1 = false;
   bool _isVisible2 = false;
   List<FocusNode> _focus = [for (int i = 0; i < 14; i++) FocusNode()];
+  String _countryCode = 'US';
   Map<String, dynamic> _registerData = {
     'email': '',
     'password': '',
@@ -46,6 +52,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
     'administrativeArea': '',
     'isoCountryCode': '',
   };
+
+  @override
+  void initState() {
+    super.initState();
+    getIp();
+  }
+
+  Future<void> getIp() async {
+    try {
+      final response = await http.get(
+          'http://api.ipapi.com/api/check?access_key=95235ad01973864b1878b2ff1c4e9bc6');
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        final resBody = json.decode(response.body);
+        setState(() {
+          _countryCode = resBody['country_code'];
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   Future<void> _submit() async {
     FocusScope.of(context).unfocus();
@@ -340,6 +368,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           PhoneField(
             placeholder: '',
+            initialCountryCode: _countryCode,
             borderColor: Theme.of(context).canvasColor,
             bgColor: Theme.of(context).canvasColor,
             keyboardType: TextInputType.number,

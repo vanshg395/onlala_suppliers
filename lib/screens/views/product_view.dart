@@ -62,7 +62,7 @@ class _ProductViewState extends State<ProductView> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).accentColor,
@@ -89,9 +89,6 @@ class _ProductViewState extends State<ProductView> {
               Tab(
                 text: 'Pending Product',
               ),
-              Tab(
-                text: 'Orders',
-              ),
             ],
           ),
         ),
@@ -106,7 +103,6 @@ class _ProductViewState extends State<ProductView> {
             : TabBarView(children: [
                 ProductTab1View(_myProducts),
                 ProductTab2View(_pendingProducts),
-                ProductTab3View(),
               ]),
       ),
     );

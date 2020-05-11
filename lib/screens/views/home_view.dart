@@ -14,6 +14,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   List<dynamic> _data = [];
+  List<dynamic> _bannerData = [];
   bool _isLoading = false;
 
   @override
@@ -27,6 +28,18 @@ class _HomeViewState extends State<HomeView> {
       _isLoading = true;
     });
     try {
+      final bannerUrl = baseUrl + 'banner/create/';
+      final bannerRes = await http.get(bannerUrl);
+      print(bannerRes.statusCode);
+      print(bannerRes.body);
+      if (bannerRes.statusCode == 200) {
+        final bResBody = json.decode(bannerRes.body);
+        setState(() {
+          _bannerData = bResBody['payload'];
+        });
+        print(_bannerData);
+      }
+
       final url = baseUrl + 'subcategories/manuf/app/';
       final response = await http.get(url);
       print(response.statusCode);
@@ -55,20 +68,41 @@ class _HomeViewState extends State<HomeView> {
           Container(
             height: MediaQuery.of(context).size.height * 0.3,
             width: double.infinity,
-            color: Colors.teal,
-            child: Image.asset(
-              'assets/img/drone.png',
-              fit: BoxFit.cover,
+            color: Theme.of(context).accentColor,
+            // child: Image.asset(
+            //   'assets/img/drone.png',
+            //   fit: BoxFit.cover,
+            // ),
+            child: CarouselSlider(
+              options: CarouselOptions(
+                height: MediaQuery.of(context).size.height * 0.3,
+                viewportFraction: 1,
+                enableInfiniteScroll: true,
+                autoPlay: true,
+              ),
+              // items: <Widget>[
+              //   HomeCard(title: 'DN'),
+              //   HomeCard(title: 'DN'),
+              //   HomeCard(title: 'DN'),
+              // ],
+              items: _bannerData
+                  .map(
+                    (banner) => Image.network(
+                      banner['image'],
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                  .toList(),
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 40,
           ),
           Text(
             'All Category',
             style: TextStyle(
               fontSize: 18,
-              fontWeight: FontWeight.w300,
+              fontWeight: FontWeight.w500,
             ),
           ),
           Expanded(
