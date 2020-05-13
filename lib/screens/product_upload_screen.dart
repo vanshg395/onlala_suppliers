@@ -29,7 +29,7 @@ class ProductUploadScreen extends StatefulWidget {
 }
 
 class _ProductUploadScreenState extends State<ProductUploadScreen> {
-  int _currentPart = 1;
+  int _currentPart = 3;
   bool _isLoading = false;
   Map<String, dynamic> _data = {
     'manufacturer_type': 'Manufacturer',
@@ -91,12 +91,12 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
     if (!_formKey2.currentState.validate()) {
       return;
     }
-    if (_media['primary_image'] == null || _media['primary_video'] == null) {
+    if (_media['primary_image'] == null) {
       showDialog(
         context: context,
         child: AlertDialog(
           title: Text('Error'),
-          content: Text('Primary Image or Video is not uploaded.'),
+          content: Text('Primary Image is not uploaded.'),
           actions: <Widget>[
             FlatButton(
               child: Text('OK'),
@@ -432,7 +432,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                 height: 10,
               ),
               CommonField(
-                placeholder: '',
+                placeholder: '0',
                 borderColor: Colors.white,
                 bgColor: Colors.white,
                 fontSize: 16,
@@ -464,8 +464,9 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                 height: 10,
               ),
               CommonField(
-                placeholder: '',
+                placeholder: 'Eg. Smart Video Doorbell',
                 borderColor: Colors.white,
+                maxLength: 30,
                 bgColor: Colors.white,
                 fontSize: 16,
                 borderRadius: 5,
@@ -497,8 +498,9 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                 height: 10,
               ),
               CommonField(
-                placeholder: '',
+                placeholder: 'This is a smart Video Doorbell that rings.',
                 maxLines: 5,
+                maxLength: 500,
                 topPadding: 50,
                 borderColor: Colors.white,
                 bgColor: Colors.white,
@@ -530,7 +532,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                 height: 10,
               ),
               CommonField(
-                placeholder: '',
+                placeholder: 'Smart Bell, Sensor Bell',
                 borderColor: Colors.white,
                 bgColor: Colors.white,
                 fontSize: 16,
@@ -560,7 +562,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                 height: 10,
               ),
               CommonField(
-                placeholder: '',
+                placeholder: 'Smart Bell, Sensor Bell',
                 borderColor: Colors.white,
                 bgColor: Colors.white,
                 fontSize: 16,
@@ -590,7 +592,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                 height: 10,
               ),
               CommonField(
-                placeholder: '',
+                placeholder: 'ABCXXX',
                 borderColor: Colors.white,
                 bgColor: Colors.white,
                 fontSize: 16,
@@ -1564,7 +1566,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                   height: 10,
                 ),
                 CommonField(
-                  placeholder: '',
+                  placeholder: '500',
                   borderColor: Colors.white,
                   bgColor: Colors.white,
                   fontSize: 16,
@@ -1877,7 +1879,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                         height: 20,
                       ),
                       CommonField(
-                        placeholder: '',
+                        placeholder: 'Weight',
                         borderColor: Colors.grey,
                         controller: _controllers[11],
                         focusNode: _focus[11],
@@ -2104,7 +2106,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                         height: 20,
                       ),
                       CommonField(
-                        placeholder: '',
+                        placeholder: 'Minimum Days',
                         borderColor: Colors.grey,
                         controller: _controllers[12],
                         focusNode: _focus[12],
@@ -2134,7 +2136,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                         height: 15,
                       ),
                       CommonField(
-                        placeholder: '',
+                        placeholder: 'Maximum Days',
                         borderColor: Colors.grey,
                         controller: _controllers[13],
                         focusNode: _focus[13],
@@ -2187,7 +2189,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                   SizedBox(
                     width: 20,
                   ),
-                  Text(_data['expiry_date'] ?? ''),
+                  Text(_data['expiry_date'] ?? 'YYYY-MM-DD'),
                 ],
               ),
               SizedBox(
@@ -2671,7 +2673,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                               width: 0,
                             ),
                           ),
-                          hintText: 'Price Unit',
+                          hintText: 'Price Type',
                           hintStyle: TextStyle(
                             fontSize: 16,
                           ),
@@ -2708,7 +2710,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                         height: 20,
                       ),
                       CommonField(
-                        placeholder: 'Minimum',
+                        placeholder: 'Minimum Days',
                         controller: _controllers[15],
                         focusNode: _focus[15],
                         onFieldSubmitted: (_) {
@@ -2738,7 +2740,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                         height: 15,
                       ),
                       CommonField(
-                        placeholder: 'Maximum',
+                        placeholder: 'Maximum Days',
                         borderColor: Colors.grey,
                         controller: _controllers[16],
                         focusNode: _focus[16],
@@ -3755,7 +3757,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                       height: 20,
                     ),
                     CommonField(
-                      placeholder: '',
+                      placeholder: 'ABCXXX',
                       borderColor: Colors.grey,
                       controller: _controllers[24],
                       focusNode: _focus[24],

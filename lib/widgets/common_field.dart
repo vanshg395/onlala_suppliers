@@ -18,6 +18,7 @@ class CommonField extends StatelessWidget {
   final Function onChanged;
   final TextInputType keyboardType;
   final int maxLines;
+  final int maxLength;
   final double topPadding;
   final TextEditingController controller;
   final FocusNode focusNode;
@@ -41,6 +42,7 @@ class CommonField extends StatelessWidget {
     this.onChanged,
     this.keyboardType = TextInputType.text,
     this.maxLines = 1,
+    this.maxLength,
     this.topPadding = 0,
     this.controller,
     this.focusNode,
@@ -54,10 +56,12 @@ class CommonField extends StatelessWidget {
       child: TextFormField(
         readOnly: readOnly,
         obscureText: isPassword,
+        maxLength: maxLength,
         textAlign: textAlign,
         onTap: onPressed,
         controller: controller,
         decoration: InputDecoration(
+          // counterText: controller.text.length.toString(),
           fillColor: bgColor,
           filled: true,
           border: OutlineInputBorder(
@@ -99,8 +103,9 @@ class CommonField extends StatelessWidget {
           alignLabelWithHint: true,
           hintText: placeholder,
           hintStyle: TextStyle(
-            color: Theme.of(context).cardColor,
+            color: Colors.grey,
             fontFamily: fontFamily,
+            fontWeight: FontWeight.w300,
           ),
           suffixIcon: Padding(
             padding: const EdgeInsetsDirectional.only(end: 15, start: 10),
