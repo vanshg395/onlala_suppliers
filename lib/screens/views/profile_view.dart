@@ -78,9 +78,10 @@ class _ProfileViewState extends State<ProfileView> {
                   height: 10,
                 ),
                 ProfileTile(
-                  icon: Image.asset(
-                    'assets/img/profile.png',
-                    scale: 0.6,
+                  icon: Icon(
+                    Icons.person,
+                    size: 36,
+                    color: Theme.of(context).primaryColor,
                   ),
                   label: Text(
                     'Profile',
@@ -116,9 +117,10 @@ class _ProfileViewState extends State<ProfileView> {
                 //   endIndent: 20,
                 // ),
                 ProfileTile(
-                  icon: Image.asset(
-                    'assets/img/settings.png',
-                    scale: 0.6,
+                  icon: Icon(
+                    Icons.settings,
+                    size: 36,
+                    color: Colors.amber,
                   ),
                   label: Text(
                     'Settings',
@@ -135,9 +137,10 @@ class _ProfileViewState extends State<ProfileView> {
                   endIndent: 20,
                 ),
                 ProfileTile(
-                  icon: Image.asset(
-                    'assets/img/help.png',
-                    scale: 0.6,
+                  icon: Icon(
+                    Icons.help,
+                    size: 36,
+                    color: Colors.green,
                   ),
                   label: Text(
                     'Help',
@@ -154,9 +157,10 @@ class _ProfileViewState extends State<ProfileView> {
                   endIndent: 20,
                 ),
                 ProfileTile(
-                    icon: Image.asset(
-                      'assets/img/logout.png',
-                      scale: 0.6,
+                    icon: Icon(
+                      Icons.exit_to_app,
+                      size: 36,
+                      color: Theme.of(context).errorColor,
                     ),
                     label: Text(
                       'Logout',

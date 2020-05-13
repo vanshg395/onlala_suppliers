@@ -28,10 +28,11 @@ class Auth with ChangeNotifier {
     return token != null;
   }
 
-  Future<void> login(Map<String, dynamic> loginData, bool stayLoggedIn) async {
+  Future<void> login(
+      Map<String, dynamic> loginData, bool stayLoggedIn, bool isSignUp) async {
     try {
       print('>>>>>>>>>>>>>>login');
-      final url = baseUrl + 'user/api/token/';
+      final url = baseUrl + 'user/api/token/manu/';
       final response = await http.post(
         url,
         headers: {
@@ -43,6 +44,9 @@ class Auth with ChangeNotifier {
       if (response.statusCode == 200) {
         final responseBody = json.decode(response.body);
         _token = 'JWT ' + responseBody['access'];
+        if (isSignUp) {
+          return;
+        }
         final url2 = baseUrl + 'business/manufacturer/create/';
         final response2 = await http.get(
           url2,
@@ -51,6 +55,7 @@ class Auth with ChangeNotifier {
           },
         );
         print(response2.statusCode);
+        print(response2.body);
         if (response2.statusCode == 200) {
           final resBody = json.decode(response2.body);
           _details = resBody['payload'];
@@ -68,8 +73,40 @@ class Auth with ChangeNotifier {
         } else if (response2.statusCode == 403) {
           throw HttpException('Not a manufacturer');
         }
+      } else if (response.statusCode == 202) {
+        final responseBody = json.decode(response.body);
+        _token = 'JWT ' + responseBody['access'];
+        final url2 = baseUrl + 'business/manufacturer/create/';
+        final response2 = await http.get(
+          url2,
+          headers: {
+            'Authorization': _token,
+          },
+        );
+        print(response2.statusCode);
+        print(response2.body);
+        if (response2.statusCode == 200) {
+          final resBody = json.decode(response2.body);
+          _details = resBody['payload'];
+          _docs = resBody['documents'];
+          if (stayLoggedIn) {
+            final prefs = await SharedPreferences.getInstance();
+            final _data = json.encode({
+              'token': _token,
+              'details': _details,
+              'docs': _docs,
+            });
+            await prefs.setString('userData', _data);
+          }
+          notifyListeners();
+          throw HttpException('Complete Profile');
+        } else if (response2.statusCode == 403) {
+          throw HttpException('Not a manufacturer');
+        }
       } else if (response.statusCode == 401) {
         throw HttpException('Invalid Cred');
+      } else if (response.statusCode == 412) {
+        throw HttpException('User Blocked');
       } else {
         throw HttpException('Error1');
       }

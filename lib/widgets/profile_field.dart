@@ -5,12 +5,15 @@ class ProfileField extends StatefulWidget {
   final String initialData;
   final Function validator;
   final Function onSaved;
+  final bool enabled;
 
-  ProfileField(
-      {@required this.label,
-      @required this.initialData,
-      this.validator,
-      this.onSaved});
+  ProfileField({
+    @required this.label,
+    @required this.initialData,
+    this.validator,
+    this.onSaved,
+    this.enabled,
+  });
 
   @override
   _ProfileFieldState createState() => _ProfileFieldState();
@@ -35,6 +38,7 @@ class _ProfileFieldState extends State<ProfileField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      enabled: widget.enabled,
       decoration: InputDecoration(
         labelText: widget.label,
         labelStyle: TextStyle(fontSize: 20),

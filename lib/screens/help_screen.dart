@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onlala_suppliers/screens/views/message_view2.dart';
 
 import './views/faq_view.dart';
 import './views/video_view.dart';
@@ -49,7 +50,7 @@ class _HelpScreenState extends State<HelpScreen> {
         body: TabBarView(children: [
           FAQView(),
           VideoView(),
-          MessageView(),
+          MessageView2(),
         ]),
       ),
     );

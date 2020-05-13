@@ -14,6 +14,8 @@ import './department_select_screen.dart';
 class TabsScreen extends StatefulWidget {
   @override
   _TabsScreenState createState() => _TabsScreenState();
+  final int initialIndex;
+  TabsScreen({this.initialIndex});
 }
 
 class _TabsScreenState extends State<TabsScreen> {
@@ -30,6 +32,9 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   void initState() {
     super.initState();
+    if (widget.initialIndex != null) {
+      _selectedPageIndex = widget.initialIndex;
+    }
     getData();
   }
 
@@ -89,6 +94,7 @@ class _TabsScreenState extends State<TabsScreen> {
             _selectedPageIndex = i;
           });
         },
+        initialIndex: widget.initialIndex,
       ),
     );
   }

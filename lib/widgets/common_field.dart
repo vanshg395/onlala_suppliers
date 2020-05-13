@@ -121,7 +121,7 @@ class CommonField extends StatelessWidget {
         ),
         maxLines: maxLines,
         onSaved: onSaved,
-        onChanged: onChanged,
+        // onChanged: onChanged,
         validator: validator,
         keyboardType: keyboardType,
       ),

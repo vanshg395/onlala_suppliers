@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:file_picker/file_picker.dart';
@@ -129,16 +132,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _isLoading2 = true;
       });
       try {
-        final filePath = await FilePicker.getFilePath(
+        final filePathTemp = await FilePicker.getFilePath(
           type: FileType.image,
           // allowedExtensions: ['jpg', 'png', 'jpeg'],
         );
-        if (filePath == null) {
+        if (filePathTemp == null) {
           setState(() {
             _isLoading2 = false;
           });
           return;
         }
+        File croppedFile = await ImageCropper.cropImage(
+          sourcePath: filePathTemp,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+          ],
+          androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Theme.of(context).primaryColor,
+            activeControlsWidgetColor: Theme.of(context).primaryColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false,
+          ),
+          iosUiSettings: IOSUiSettings(
+            minimumAspectRatio: 1.0,
+            showCancelConfirmationDialog: true,
+          ),
+        );
+        final filePath = croppedFile.path;
         final url = baseUrl + 'user/profile/change/manufacturer/';
         final multipartRequest =
             new http.MultipartRequest('POST', Uri.parse(url));
@@ -340,6 +362,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         fontSize: 16,
                                         borderRadius: 5,
                                         width: 200,
+                                        height: 40,
                                         onPressed: _uploadImage,
                                       ),
                               ),
@@ -424,6 +447,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 ProfileField(
                                   label: 'Email',
+                                  enabled: false,
                                   initialData:
                                       Provider.of<Auth>(context, listen: false)
                                                   .userDetails[0]['user']
@@ -561,6 +585,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     }
                                   },
                                   onSaved: (value) {
+                                    print(value);
                                     _data['postal_state'] = value;
                                   },
                                 ),
@@ -1318,7 +1343,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Color(0xFFE1F0F7),
-                          border: Border.all(color: Colors.white, width: 5),
+                          border: Border.all(
+                              color: Theme.of(context).canvasColor, width: 3),
                           image: Provider.of<Auth>(context, listen: false)
                                           .userDetails[0]['image_url'][0]
                                       ['profile_image'] ==

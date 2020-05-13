@@ -5,13 +5,26 @@ class NavBar extends StatefulWidget {
   _NavBarState createState() => _NavBarState();
 
   final Function onTap;
+  final int initialIndex;
 
-  NavBar({@required this.onTap});
+  NavBar({@required this.onTap, this.initialIndex});
 }
 
 class _NavBarState extends State<NavBar> {
+  int _selectedIndex = 0;
   void onTap(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
     widget.onTap(index);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialIndex != null) {
+      _selectedIndex = widget.initialIndex;
+    }
   }
 
   @override
@@ -36,7 +49,13 @@ class _NavBarState extends State<NavBar> {
               Expanded(
                 child: InkWell(
                   child: NavBartItem(
-                    icon: Image.asset('assets/icons/home.png'),
+                    icon: Icon(
+                      Icons.home,
+                      size: 30,
+                      color: _selectedIndex == 0
+                          ? Theme.of(context).primaryColor
+                          : Colors.grey,
+                    ),
                     label: Text(
                       'Home',
                       style: TextStyle(fontSize: 12),
@@ -49,7 +68,13 @@ class _NavBarState extends State<NavBar> {
               Expanded(
                 child: InkWell(
                   child: NavBartItem(
-                    icon: Image.asset('assets/icons/myproduct.png'),
+                    icon: Icon(
+                      Icons.widgets,
+                      size: 30,
+                      color: _selectedIndex == 1
+                          ? Theme.of(context).primaryColor
+                          : Colors.grey,
+                    ),
                     label: Text(
                       'My Products',
                       style: TextStyle(fontSize: 12),
@@ -65,7 +90,13 @@ class _NavBarState extends State<NavBar> {
               Expanded(
                 child: InkWell(
                   child: NavBartItem(
-                    icon: Image.asset('assets/icons/message.png'),
+                    icon: Icon(
+                      Icons.library_books,
+                      size: 30,
+                      color: _selectedIndex == 2
+                          ? Theme.of(context).primaryColor
+                          : Colors.grey,
+                    ),
                     label: Text(
                       'Queries',
                       style: TextStyle(fontSize: 12),
@@ -78,7 +109,13 @@ class _NavBarState extends State<NavBar> {
               Expanded(
                 child: InkWell(
                   child: NavBartItem(
-                    icon: Image.asset('assets/icons/profile.png'),
+                    icon: Icon(
+                      Icons.person,
+                      size: 30,
+                      color: _selectedIndex == 3
+                          ? Theme.of(context).primaryColor
+                          : Colors.grey,
+                    ),
                     label: Text(
                       'Profile',
                       style: TextStyle(fontSize: 12),
@@ -109,9 +146,6 @@ class NavBartItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         icon,
-        SizedBox(
-          height: 5,
-        ),
         label,
       ],
     );

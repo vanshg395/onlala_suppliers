@@ -175,7 +175,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: Text(
-                          'Product Name: ${widget.name}',
+                          'Product Name',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
@@ -183,21 +183,59 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                       ),
                       SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text(
+                          '${widget.name}',
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
                         height: 20,
                       ),
-                      Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: Text(
-                              'Model No: ',
-                            ),
+                      // Row(
+                      //   children: <Widget>[
+                      //     Padding(
+                      //       padding: const EdgeInsets.only(left: 20.0),
+                      //       child: Text(
+                      //         'Model No: ',
+                      //       ),
+                      //     ),
+                      //     Text(
+                      //       _producatData[0]['product']['model_no'],
+                      //       style: TextStyle(fontWeight: FontWeight.w700),
+                      //     ),
+                      //   ],
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: Text(
+                          'Model Number',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
                           ),
-                          Text(
-                            _producatData[0]['product']['model_no'],
-                            style: TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text(
+                          _producatData[0]['product']['model_no'],
+                          style: TextStyle(
+                            fontSize: 20,
                           ),
-                        ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                       SizedBox(
                         height: 20,
@@ -242,14 +280,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['product']['manufacturer_type'],
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['product']
+                                    ['manufacturer_type'],
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -266,15 +310,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['product']
-                                  ['product_description'],
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['product']
+                                    ['product_description'],
+                                textAlign: TextAlign.justify,
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -291,16 +341,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['product']
-                                      ['minimum_order_quantity']
-                                  .toString(),
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['product']
+                                        ['minimum_order_quantity']
+                                    .toString(),
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -317,14 +372,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['product']['industry_name'],
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['product']['industry_name'],
+                                textAlign: TextAlign.justify,
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -341,14 +402,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['product']['other_synonyms'],
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['product']['other_synonyms'],
+                                textAlign: TextAlign.justify,
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -365,15 +432,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['product']
-                                  ['quantity_per_carton'],
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['product']
+                                    ['quantity_per_carton'],
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -390,14 +462,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['product']['payment_method'],
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['product']['payment_method'],
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -414,17 +491,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['product']
-                                      ['tech_transfer_investment']
-                                  ? 'Yes'
-                                  : 'No',
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['product']
+                                        ['tech_transfer_investment']
+                                    ? 'Yes'
+                                    : 'No',
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -441,14 +523,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['sample_details']['hs_code'],
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['sample_details']['hs_code'],
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -465,21 +552,26 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['sample_details']
-                                          ['sample_from_time_range']
-                                      .toString() +
-                                  ' to ' +
-                                  _producatData[0]['sample_details']
-                                          ['sample_to_time_range']
-                                      .toString() +
-                                  ' days',
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['sample_details']
+                                            ['sample_from_time_range']
+                                        .toString() +
+                                    ' to ' +
+                                    _producatData[0]['sample_details']
+                                            ['sample_to_time_range']
+                                        .toString() +
+                                    ' days',
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -496,14 +588,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['product']['expiry_date'],
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['product']['expiry_date'],
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -565,16 +662,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                _producatData[0]['sample_details']
-                                        ['sample_cost']
-                                    .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                              Container(
+                                color: Theme.of(context).canvasColor,
+                                padding: EdgeInsets.all(10),
+                                width: double.infinity,
+                                child: Text(
+                                  _producatData[0]['sample_details']
+                                          ['sample_cost']
+                                      .toString(),
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline
+                                      .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
                               ),
                               SizedBox(
                                 height: 20,
@@ -591,16 +693,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                _producatData[0]['sample_details']
-                                        ['sample_dimension_length']
-                                    .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                              Container(
+                                color: Theme.of(context).canvasColor,
+                                padding: EdgeInsets.all(10),
+                                width: double.infinity,
+                                child: Text(
+                                  _producatData[0]['sample_details']
+                                          ['sample_dimension_length']
+                                      .toString(),
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline
+                                      .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
                               ),
                               SizedBox(
                                 height: 20,
@@ -617,16 +724,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                _producatData[0]['sample_details']
-                                        ['sample_dimension_breadth']
-                                    .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                              Container(
+                                color: Theme.of(context).canvasColor,
+                                padding: EdgeInsets.all(10),
+                                width: double.infinity,
+                                child: Text(
+                                  _producatData[0]['sample_details']
+                                          ['sample_dimension_breadth']
+                                      .toString(),
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline
+                                      .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
                               ),
                               SizedBox(
                                 height: 20,
@@ -643,16 +755,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                _producatData[0]['sample_details']
-                                        ['sample_dimension_height']
-                                    .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                              Container(
+                                color: Theme.of(context).canvasColor,
+                                padding: EdgeInsets.all(10),
+                                width: double.infinity,
+                                child: Text(
+                                  _producatData[0]['sample_details']
+                                          ['sample_dimension_height']
+                                      .toString(),
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline
+                                      .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
                               ),
                               SizedBox(
                                 height: 20,
@@ -669,15 +786,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                _producatData[0]['sample_details']
-                                    ['sample_dimension_unit'],
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                              Container(
+                                color: Theme.of(context).canvasColor,
+                                padding: EdgeInsets.all(10),
+                                width: double.infinity,
+                                child: Text(
+                                  _producatData[0]['sample_details']
+                                      ['sample_dimension_unit'],
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline
+                                      .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
                               ),
                               SizedBox(
                                 height: 20,
@@ -694,16 +816,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                _producatData[0]['sample_details']
-                                        ['sample_weight']
-                                    .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                              Container(
+                                color: Theme.of(context).canvasColor,
+                                padding: EdgeInsets.all(10),
+                                width: double.infinity,
+                                child: Text(
+                                  _producatData[0]['sample_details']
+                                          ['sample_weight']
+                                      .toString(),
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline
+                                      .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
                               ),
                               SizedBox(
                                 height: 20,
@@ -720,16 +847,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                _producatData[0]['sample_details']
-                                        ['sample_weight_unit']
-                                    .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                              Container(
+                                color: Theme.of(context).canvasColor,
+                                padding: EdgeInsets.all(10),
+                                width: double.infinity,
+                                child: Text(
+                                  _producatData[0]['sample_details']
+                                          ['sample_weight_unit']
+                                      .toString(),
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline
+                                      .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
                               ),
                             ]
                           ],
@@ -790,16 +922,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                _producatData[0]['bulkorder_details']
-                                        ['bulk_order_price_type']
-                                    .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                              Container(
+                                color: Theme.of(context).canvasColor,
+                                padding: EdgeInsets.all(10),
+                                width: double.infinity,
+                                child: Text(
+                                  _producatData[0]['bulkorder_details']
+                                          ['bulk_order_price_type']
+                                      .toString(),
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline
+                                      .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
                               ),
                               SizedBox(
                                 height: 20,
@@ -816,16 +953,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                _producatData[0]['bulkorder_details']
-                                        ['bulk_order_port']
-                                    .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                              Container(
+                                color: Theme.of(context).canvasColor,
+                                padding: EdgeInsets.all(10),
+                                width: double.infinity,
+                                child: Text(
+                                  _producatData[0]['bulkorder_details']
+                                          ['bulk_order_port']
+                                      .toString(),
+                                  textAlign: TextAlign.justify,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline
+                                      .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
                               ),
                               SizedBox(
                                 height: 20,
@@ -842,17 +985,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                _producatData[0]['bulkorder_details']
-                                        ['bulk_order_price']
-                                    .toString()
-                                    .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                              Container(
+                                color: Theme.of(context).canvasColor,
+                                padding: EdgeInsets.all(10),
+                                width: double.infinity,
+                                child: Text(
+                                  _producatData[0]['bulkorder_details']
+                                          ['bulk_order_price']
+                                      .toString()
+                                      .toString(),
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline
+                                      .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
                               ),
                               SizedBox(
                                 height: 20,
@@ -869,16 +1017,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                _producatData[0]['bulkorder_details']
-                                        ['bulk_order_price_unit']
-                                    .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                              Container(
+                                color: Theme.of(context).canvasColor,
+                                padding: EdgeInsets.all(10),
+                                width: double.infinity,
+                                child: Text(
+                                  _producatData[0]['bulkorder_details']
+                                          ['bulk_order_price_unit']
+                                      .toString(),
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline
+                                      .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
                               ),
                               SizedBox(
                                 height: 20,
@@ -895,21 +1048,26 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                _producatData[0]['bulkorder_details']
-                                            ['bulk_order_from_time_range']
-                                        .toString() +
-                                    ' to ' +
-                                    _producatData[0]['bulkorder_details']
-                                            ['bulk_order_to_time_range']
-                                        .toString() +
-                                    ' days',
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                              Container(
+                                color: Theme.of(context).canvasColor,
+                                padding: EdgeInsets.all(10),
+                                width: double.infinity,
+                                child: Text(
+                                  _producatData[0]['bulkorder_details']
+                                              ['bulk_order_from_time_range']
+                                          .toString() +
+                                      ' to ' +
+                                      _producatData[0]['bulkorder_details']
+                                              ['bulk_order_to_time_range']
+                                          .toString() +
+                                      ' days',
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline
+                                      .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                ),
                               ),
                             ]
                           ],
@@ -958,16 +1116,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['carton_details']
-                                      ['carton_dimension_length']
-                                  .toString(),
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['carton_details']
+                                        ['carton_dimension_length']
+                                    .toString(),
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -984,16 +1147,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['carton_details']
-                                      ['carton_dimension_breadth']
-                                  .toString(),
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['carton_details']
+                                        ['carton_dimension_breadth']
+                                    .toString(),
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -1010,17 +1178,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['carton_details']
-                                      ['carton_dimension_height']
-                                  .toString()
-                                  .toString(),
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['carton_details']
+                                        ['carton_dimension_height']
+                                    .toString()
+                                    .toString(),
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -1037,16 +1210,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['carton_details']
-                                      ['carton_dimension_unit']
-                                  .toString(),
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['carton_details']
+                                        ['carton_dimension_unit']
+                                    .toString(),
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -1063,16 +1241,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['carton_details']
-                                      ['carton_weight']
-                                  .toString(),
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['carton_details']
+                                        ['carton_weight']
+                                    .toString(),
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -1089,16 +1272,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(
-                              _producatData[0]['carton_details']
-                                      ['carton_weight_unit']
-                                  .toString(),
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline
-                                  .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Container(
+                              color: Theme.of(context).canvasColor,
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              child: Text(
+                                _producatData[0]['carton_details']
+                                        ['carton_weight_unit']
+                                    .toString(),
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline
+                                    .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                           ],
                         ),

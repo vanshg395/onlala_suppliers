@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:onlala_suppliers/utils/constants.dart';
+import 'package:onlala_suppliers/widgets/dropdown.dart';
 import 'package:provider/provider.dart';
 import 'package:get_ip/get_ip.dart';
 import 'package:http/http.dart' as http;
@@ -27,6 +29,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isVisible2 = false;
   List<FocusNode> _focus = [for (int i = 0; i < 14; i++) FocusNode()];
   String _countryCode = 'US';
+  String _deptChoice;
+  List<dynamic> _depts = [];
   Map<String, dynamic> _registerData = {
     'email': '',
     'password': '',
@@ -57,6 +61,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void initState() {
     super.initState();
     getIp();
+    getDepartments();
+  }
+
+  Future<void> getDepartments() async {
+    try {
+      final url = baseUrl + 'department/show/';
+      final response = await http.get(url);
+      print(response.statusCode);
+      print(response.body);
+      if (response.statusCode == 200) {
+        final resBody = json.decode(response.body);
+        setState(() {
+          _depts = resBody['departments'];
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> getIp() async {
@@ -90,7 +112,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
     try {
       await Provider.of<Auth>(context, listen: false).register(_registerData);
-      await Provider.of<Auth>(context, listen: false).login(_loginData, false);
+      await Provider.of<Auth>(context, listen: false)
+          .login(_loginData, false, true);
       await Provider.of<Auth>(context, listen: false)
           .createManufacturer(_manufCreateData);
       setState(() {
@@ -417,24 +440,108 @@ class _RegisterScreenState extends State<RegisterScreen> {
           SizedBox(
             height: 5,
           ),
-          CommonField(
-            placeholder: '',
-            borderColor: Theme.of(context).canvasColor,
-            bgColor: Theme.of(context).canvasColor,
-            fontSize: 16,
-            borderRadius: 5,
-            focusNode: _focus[6],
-            onFieldSubmitted: (_) {
-              FocusScope.of(context).requestFocus(_focus[7]);
+          MultilineDropdownButtonFormField(
+            isExpanded: true,
+            items: _depts.length == 0
+                ? []
+                : _depts
+                    .map(
+                      (dept) => DropdownMenuItem(
+                        child: Text(
+                          dept['department']['name'],
+                          style: TextStyle(
+                            color: Theme.of(context).cardColor,
+                            fontFamily: Theme.of(context)
+                                .primaryTextTheme
+                                .display1
+                                .fontFamily,
+                            fontSize: 16,
+                          ),
+                        ),
+                        value: dept['department']['name'],
+                      ),
+                    )
+                    .toList(),
+            value: _deptChoice,
+            iconSize: 30,
+            icon: Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Icon(Icons.keyboard_arrow_down),
+            ),
+            iconEnabledColor: Theme.of(context).cardColor,
+            iconDisabledColor: Theme.of(context).cardColor,
+            onChanged: (val) {
+              setState(() {
+                _deptChoice = val;
+              });
             },
             validator: (value) {
-              if (value == '') {
+              if (_manufCreateData['department'] == null) {
                 return 'This field is required.';
               }
             },
+
             onSaved: (value) {
               _manufCreateData['department'] = value;
             },
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 0,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 0,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 0,
+                ),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 0,
+                ),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 0,
+                ),
+              ),
+              hintText: 'Choose Department',
+              hintStyle: TextStyle(
+                fontSize: 16,
+              ),
+              labelStyle: TextStyle(
+                fontSize: 16,
+              ),
+              contentPadding: EdgeInsets.only(
+                left: 30,
+                right: 10,
+              ),
+              errorStyle: TextStyle(color: Colors.red[200]),
+            ),
+
+            // validator: (value) {
+            //   if (value == null) {
+            //     return 'This field is required.';
+            //   }
+            // },
+            // onSaved: (value) {
+            //   _data['identity_choice'] = value;
+            // },
           ),
           SizedBox(
             height: 20,

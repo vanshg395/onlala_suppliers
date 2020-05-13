@@ -70,10 +70,10 @@ class _MessageViewState extends State<MessageView> {
             unselectedLabelColor: Colors.white,
             tabs: <Widget>[
               Tab(
-                text: 'Sample Orders',
+                text: 'Bulk Inquiries',
               ),
               Tab(
-                text: 'Bulk Inquiries',
+                text: 'Sample Orders',
               ),
             ],
           ),

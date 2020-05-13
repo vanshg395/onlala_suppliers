@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     try {
       await Provider.of<Auth>(context, listen: false)
-          .login(_loginData, _rememberLoginInfo);
+          .login(_loginData, _rememberLoginInfo, false);
       setState(() {
         _isLoading = false;
       });
@@ -47,7 +47,22 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } catch (e) {
       print(e);
-      if (e.toString() == 'Invalid Cred') {
+      if (e.toString() == 'Complete Profile') {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (ctx) => TabsScreen(
+              initialIndex: 3,
+            ),
+          ),
+        );
+        showDialog(
+          context: context,
+          child: AlertDialog(
+            title: Text('Alert'),
+            content: Text('You are requested to upload the pending documents.'),
+          ),
+        );
+      } else if (e.toString() == 'Invalid Cred') {
         await showDialog(
           context: context,
           child: AlertDialog(
@@ -67,6 +82,21 @@ class _LoginScreenState extends State<LoginScreen> {
           child: AlertDialog(
             title: Text('Error'),
             content: Text('This registered user is not a manufacturer.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        );
+      } else if (e.toString() == 'User Blocked') {
+        await showDialog(
+          context: context,
+          child: AlertDialog(
+            title: Text('Error'),
+            content: Text(
+                'Access for this user has been block due to some reason. Please contact our team to use your account.'),
             actions: <Widget>[
               FlatButton(
                 child: Text('OK'),

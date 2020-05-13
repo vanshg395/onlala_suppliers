@@ -61,41 +61,45 @@ class _QueryViewState extends State<QueryView> {
               ),
             ),
           )
-        : SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 30,
+        : _queries.length == 0
+            ? Center(
+                child: Text('No Orders'),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 30,
+                    ),
+                    // Container(
+                    //   margin: EdgeInsets.symmetric(horizontal: 20),
+                    //   child: QueryCard(),
+                    // ),
+                    ..._queries
+                        .map(
+                          (q) => Container(
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            child: QueryCard(
+                              q['type_of_user'],
+                              q['technical_specifications'],
+                              q['terms_of_delivery'],
+                              q['payment_terms'],
+                              q['additional_message'],
+                              q['quantity'].toString(),
+                              q['manufacturer_review'],
+                              q['admin_review'],
+                              q['recycle'],
+                              q['id'],
+                              getData,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    SizedBox(
+                      height: 30,
+                    ),
+                  ],
                 ),
-                // Container(
-                //   margin: EdgeInsets.symmetric(horizontal: 20),
-                //   child: QueryCard(),
-                // ),
-                ..._queries
-                    .map(
-                      (q) => Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        child: QueryCard(
-                          q['type_of_user'],
-                          q['technical_specifications'],
-                          q['terms_of_delivery'],
-                          q['payment_terms'],
-                          q['additional_message'],
-                          q['quantity'].toString(),
-                          q['manufacturer_review'],
-                          q['admin_review'],
-                          q['recycle'],
-                          q['id'],
-                          getData,
-                        ),
-                      ),
-                    )
-                    .toList(),
-                SizedBox(
-                  height: 30,
-                ),
-              ],
-            ),
-          );
+              );
   }
 }

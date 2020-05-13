@@ -58,8 +58,8 @@ class MyApp extends StatelessWidget {
           print('rebuilt');
           return MaterialApp(
             theme: ThemeData(
-              primaryColor: Color(0xFF28566D),
-              accentColor: Color(0xFF3D7895),
+              primaryColor: Color(0xFF255AE7),
+              accentColor: Color(0xFF255AE7),
               primaryColorDark: Color(0xFF030708),
               cardColor: Color(0xFF3E4346),
               canvasColor: Color(0xFFF3F6F7),

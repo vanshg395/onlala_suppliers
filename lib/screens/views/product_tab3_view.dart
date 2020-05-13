@@ -64,7 +64,7 @@ class _ProductTab3ViewState extends State<ProductTab3View> {
         : Container(
             child: _orders.length == 0
                 ? Center(
-                    child: Text('No Orders'),
+                    child: Text('No Inquiries'),
                   )
                 : ListView(
                     padding: EdgeInsets.all(20),

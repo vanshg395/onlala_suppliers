@@ -710,9 +710,11 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                             CropAspectRatioPreset.ratio16x9
                           ],
                           androidUiSettings: AndroidUiSettings(
-                            toolbarTitle: 'Crop Image',
+                            toolbarTitle: 'Cropper',
                             toolbarColor: Theme.of(context).primaryColor,
-                            toolbarWidgetColor: Theme.of(context).accentColor,
+                            activeControlsWidgetColor:
+                                Theme.of(context).primaryColor,
+                            toolbarWidgetColor: Colors.white,
                             initAspectRatio: CropAspectRatioPreset.original,
                             lockAspectRatio: false,
                           ),
@@ -844,11 +846,12 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                                     CropAspectRatioPreset.ratio16x9
                                   ],
                                   androidUiSettings: AndroidUiSettings(
-                                    toolbarTitle: 'Crop Image',
+                                    toolbarTitle: 'Cropper',
                                     toolbarColor:
                                         Theme.of(context).primaryColor,
-                                    toolbarWidgetColor:
-                                        Theme.of(context).accentColor,
+                                    activeControlsWidgetColor:
+                                        Theme.of(context).primaryColor,
+                                    toolbarWidgetColor: Colors.white,
                                     initAspectRatio:
                                         CropAspectRatioPreset.original,
                                     lockAspectRatio: false,
