@@ -291,7 +291,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -322,7 +322,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -353,7 +353,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -383,7 +383,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -413,7 +413,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -443,7 +443,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -472,7 +472,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -504,7 +504,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -533,7 +533,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -569,7 +569,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -598,7 +598,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -647,6 +647,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .headline
                                     .copyWith(
                                       fontSize: 16,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               )
                             else ...[
@@ -674,7 +675,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       .primaryTextTheme
                                       .headline
                                       .copyWith(
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w300,
                                       ),
                                 ),
                               ),
@@ -705,7 +706,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       .primaryTextTheme
                                       .headline
                                       .copyWith(
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w300,
                                       ),
                                 ),
                               ),
@@ -736,7 +737,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       .primaryTextTheme
                                       .headline
                                       .copyWith(
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w300,
                                       ),
                                 ),
                               ),
@@ -767,7 +768,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       .primaryTextTheme
                                       .headline
                                       .copyWith(
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w300,
                                       ),
                                 ),
                               ),
@@ -797,7 +798,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       .primaryTextTheme
                                       .headline
                                       .copyWith(
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w300,
                                       ),
                                 ),
                               ),
@@ -828,7 +829,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       .primaryTextTheme
                                       .headline
                                       .copyWith(
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w300,
                                       ),
                                 ),
                               ),
@@ -859,7 +860,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       .primaryTextTheme
                                       .headline
                                       .copyWith(
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w300,
                                       ),
                                 ),
                               ),
@@ -907,6 +908,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .headline
                                     .copyWith(
                                       fontSize: 16,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               )
                             else ...[
@@ -934,7 +936,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       .primaryTextTheme
                                       .headline
                                       .copyWith(
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w300,
                                       ),
                                 ),
                               ),
@@ -966,7 +968,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       .primaryTextTheme
                                       .headline
                                       .copyWith(
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w300,
                                       ),
                                 ),
                               ),
@@ -998,7 +1000,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       .primaryTextTheme
                                       .headline
                                       .copyWith(
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w300,
                                       ),
                                 ),
                               ),
@@ -1029,7 +1031,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       .primaryTextTheme
                                       .headline
                                       .copyWith(
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w300,
                                       ),
                                 ),
                               ),
@@ -1065,7 +1067,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       .primaryTextTheme
                                       .headline
                                       .copyWith(
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w300,
                                       ),
                                 ),
                               ),
@@ -1128,7 +1130,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -1159,7 +1161,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -1191,7 +1193,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -1222,7 +1224,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -1253,7 +1255,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),
@@ -1284,7 +1286,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     .primaryTextTheme
                                     .headline
                                     .copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w300,
                                     ),
                               ),
                             ),

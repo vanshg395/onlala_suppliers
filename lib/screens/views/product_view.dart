@@ -39,6 +39,7 @@ class _ProductViewState extends State<ProductView> {
         },
       );
       print(response.statusCode);
+      print(response.body);
       if (response.statusCode == 200) {
         final List<dynamic> allProducts = json.decode(response.body)['payload'];
         setState(() {

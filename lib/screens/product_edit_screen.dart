@@ -904,8 +904,8 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                                     _media['primary_image'],
                                     width: 100,
                                   )
-                                : Image.asset(
-                                    _media['primary_image'],
+                                : Image.file(
+                                    File(_media['primary_image']),
                                     width: 100,
                                   ),
                             Positioned(
@@ -1101,8 +1101,8 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                                         ? Image.network(
                                             image,
                                           )
-                                        : Image.asset(
-                                            image,
+                                        : Image.file(
+                                            File(image),
                                           ),
                                     Positioned(
                                       top: 10,

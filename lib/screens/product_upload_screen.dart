@@ -29,7 +29,7 @@ class ProductUploadScreen extends StatefulWidget {
 }
 
 class _ProductUploadScreenState extends State<ProductUploadScreen> {
-  int _currentPart = 3;
+  int _currentPart = 1;
   bool _isLoading = false;
   Map<String, dynamic> _data = {
     'manufacturer_type': 'Manufacturer',
@@ -759,8 +759,14 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                       Center(
                         child: Stack(
                           children: <Widget>[
-                            Image.asset(
-                              _media['primary_image'],
+                            // Image.asset(
+                            //   _media['primary_image'],
+                            //   width: 100,
+                            // ),
+                            Image.file(
+                              File(
+                                _media['primary_image'],
+                              ),
                               width: 100,
                             ),
                             Positioned(
@@ -908,8 +914,8 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                                 (image) => Center(
                                     child: Stack(
                                   children: <Widget>[
-                                    Image.asset(
-                                      image,
+                                    Image.file(
+                                      File(image),
                                     ),
                                     Positioned(
                                       top: 10,
@@ -4021,7 +4027,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
             children: <Widget>[
               Container(
                 constraints: BoxConstraints(minHeight: 60),
-                padding: EdgeInsets.symmetric(vertical: 5),
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 color: Colors.white,
                 alignment: Alignment.center,
                 width: double.infinity,
@@ -4030,6 +4036,8 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                     Expanded(
                       child: Text(
                         '${widget.deptName}',
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .primaryTextTheme
@@ -4044,6 +4052,8 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                     Expanded(
                       child: Text(
                         '${widget.catName}',
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .primaryTextTheme
@@ -4058,6 +4068,8 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                     Expanded(
                       child: Text(
                         '${widget.subcatName}',
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .primaryTextTheme
