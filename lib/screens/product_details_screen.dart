@@ -103,6 +103,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     icon: Icon(
                       Icons.chevron_left,
                       size: 30,
+                      color: Theme.of(context).primaryColor,
                     ),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
@@ -110,6 +111,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   elevation: 0,
                   expandedHeight: MediaQuery.of(context).size.height * 0.3,
                   pinned: true,
+                  backgroundColor: Colors.white,
                   flexibleSpace: FlexibleSpaceBar(
                     // title: Text(
                     //   'Product Stabilizer',
@@ -131,14 +133,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         Container(
                           height: MediaQuery.of(context).size.height * 0.3,
                           width: double.infinity,
-                          // color: Colors.teal,
-                          // child:
+                          color: Colors.white,
                           child: SafeArea(
                             child: CarouselSlider(
                               options: CarouselOptions(
                                 enableInfiniteScroll: false,
                                 autoPlay: true,
                                 pauseAutoPlayOnTouch: true,
+                                viewportFraction: 1,
                                 height:
                                     MediaQuery.of(context).size.height * 0.3,
                               ),
@@ -164,13 +166,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     [
                       SizedBox(
                         height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: Text(
-                          'ID: ${widget.id}',
-                          style: TextStyle(color: Colors.grey, fontSize: 18),
-                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0),
@@ -1464,6 +1459,31 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     borderRadius: 5,
                                     width: 150,
                                     onPressed: () async {
+                                      bool isNotConfirm = false;
+                                      await showDialog(
+                                        context: context,
+                                        child: AlertDialog(
+                                          title: Text('Confirm'),
+                                          content: Text(
+                                              'Are you sure, you want to delete this product?'),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                              child: Text('YES'),
+                                              onPressed: () =>
+                                                  Navigator.of(context).pop(),
+                                            ),
+                                            FlatButton(
+                                                child: Text('NO'),
+                                                onPressed: () {
+                                                  isNotConfirm = true;
+                                                  Navigator.of(context).pop();
+                                                }),
+                                          ],
+                                        ),
+                                      );
+                                      if (isNotConfirm) {
+                                        return;
+                                      }
                                       setState(() {
                                         _isLoading2 = true;
                                       });

@@ -30,7 +30,7 @@ class SubcategoryDetailCard extends StatelessWidget {
                 margin: EdgeInsets.only(top: 3, left: 3, right: 3),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).canvasColor,
                   image: DecorationImage(
                     image: NetworkImage(image),
                     fit: BoxFit.cover,

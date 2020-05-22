@@ -61,6 +61,13 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
   String _cartonWeightUnit;
   String _cartonDimensionUnit;
   bool _techTransfer = false;
+  String _countryCode;
+
+  @override
+  void initState() {
+    super.initState();
+    getIp();
+  }
 
   @override
   void dispose() {
@@ -68,6 +75,23 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
       _controllers[i].dispose();
     }
     super.dispose();
+  }
+
+  Future<void> getIp() async {
+    try {
+      final response = await http.get(
+          'http://api.ipapi.com/api/check?access_key=95235ad01973864b1878b2ff1c4e9bc6');
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        final resBody = json.decode(response.body);
+        setState(() {
+          _countryCode = resBody['country_code'];
+        });
+        print(_countryCode);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   List<TextEditingController> _controllers = [
@@ -500,7 +524,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
               CommonField(
                 placeholder: 'This is a smart Video Doorbell that rings.',
                 maxLines: 5,
-                maxLength: 500,
+                maxLength: 1500,
                 topPadding: 50,
                 borderColor: Colors.white,
                 bgColor: Colors.white,
@@ -1354,80 +1378,83 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                   MultilineDropdownButtonFormField(
                     isExpanded: true,
                     items: [
-                      DropdownMenuItem(
-                        child: Text(
-                          'Free samples are available',
-                          softWrap: false,
-                          style: TextStyle(
-                            color: Theme.of(context).cardColor,
-                            fontFamily: Theme.of(context)
-                                .primaryTextTheme
-                                .display1
-                                .fontFamily,
-                            fontSize: 16,
+                      if (_countryCode != 'IN') ...[
+                        DropdownMenuItem(
+                          child: Text(
+                            'Free samples are available',
+                            softWrap: false,
+                            style: TextStyle(
+                              color: Theme.of(context).cardColor,
+                              fontFamily: Theme.of(context)
+                                  .primaryTextTheme
+                                  .display1
+                                  .fontFamily,
+                              fontSize: 16,
+                            ),
                           ),
+                          value: 'Free samples are available',
                         ),
-                        value: 'Free samples are available',
-                      ),
-                      DropdownMenuItem(
-                        child: Text(
-                          'Samples are free within a certain price range',
-                          style: TextStyle(
-                            color: Theme.of(context).cardColor,
-                            fontFamily: Theme.of(context)
-                                .primaryTextTheme
-                                .display1
-                                .fontFamily,
-                            fontSize: 16,
+                        DropdownMenuItem(
+                          child: Text(
+                            'Samples are free within a certain price range',
+                            style: TextStyle(
+                              color: Theme.of(context).cardColor,
+                              fontFamily: Theme.of(context)
+                                  .primaryTextTheme
+                                  .display1
+                                  .fontFamily,
+                              fontSize: 16,
+                            ),
                           ),
+                          value:
+                              'Samples are free within a certain price range',
                         ),
-                        value: 'Samples are free within a certain price range',
-                      ),
-                      DropdownMenuItem(
-                        child: Text(
-                          'We offer free samples, with shipping and charges paid by buyer',
-                          style: TextStyle(
-                            color: Theme.of(context).cardColor,
-                            fontFamily: Theme.of(context)
-                                .primaryTextTheme
-                                .display1
-                                .fontFamily,
-                            fontSize: 16,
-                          ),
-                        ),
-                        value:
+                        DropdownMenuItem(
+                          child: Text(
                             'We offer free samples, with shipping and charges paid by buyer',
-                      ),
-                      DropdownMenuItem(
-                        child: Text(
-                          'We offer free samples, and will pay for sample costs, shipping and taxes',
-                          style: TextStyle(
-                            color: Theme.of(context).cardColor,
-                            fontFamily: Theme.of(context)
-                                .primaryTextTheme
-                                .display1
-                                .fontFamily,
-                            fontSize: 16,
+                            style: TextStyle(
+                              color: Theme.of(context).cardColor,
+                              fontFamily: Theme.of(context)
+                                  .primaryTextTheme
+                                  .display1
+                                  .fontFamily,
+                              fontSize: 16,
+                            ),
                           ),
+                          value:
+                              'We offer free samples, with shipping and charges paid by buyer',
                         ),
-                        value:
+                        DropdownMenuItem(
+                          child: Text(
                             'We offer free samples, and will pay for sample costs, shipping and taxes',
-                      ),
-                      DropdownMenuItem(
-                        child: Text(
-                          'We offer samples, with sample costs, shipping and taxes paid by buyer',
-                          style: TextStyle(
-                            color: Theme.of(context).cardColor,
-                            fontFamily: Theme.of(context)
-                                .primaryTextTheme
-                                .display1
-                                .fontFamily,
-                            fontSize: 16,
+                            style: TextStyle(
+                              color: Theme.of(context).cardColor,
+                              fontFamily: Theme.of(context)
+                                  .primaryTextTheme
+                                  .display1
+                                  .fontFamily,
+                              fontSize: 16,
+                            ),
                           ),
+                          value:
+                              'We offer free samples, and will pay for sample costs, shipping and taxes',
                         ),
-                        value:
+                        DropdownMenuItem(
+                          child: Text(
                             'We offer samples, with sample costs, shipping and taxes paid by buyer',
-                      ),
+                            style: TextStyle(
+                              color: Theme.of(context).cardColor,
+                              fontFamily: Theme.of(context)
+                                  .primaryTextTheme
+                                  .display1
+                                  .fontFamily,
+                              fontSize: 16,
+                            ),
+                          ),
+                          value:
+                              'We offer samples, with sample costs, shipping and taxes paid by buyer',
+                        ),
+                      ],
                       DropdownMenuItem(
                         child: Text(
                           'We don\'t offer free samples, but will reimburse the buyer once an order is confirmed',
@@ -2166,6 +2193,13 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                   ),
                 ),
               ],
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Expiry Date (Sample Products)',
+                style: Theme.of(context).primaryTextTheme.headline,
+              ),
               SizedBox(
                 height: 20,
               ),

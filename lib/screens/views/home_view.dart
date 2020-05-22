@@ -68,7 +68,7 @@ class _HomeViewState extends State<HomeView> {
           Container(
             height: MediaQuery.of(context).size.height * 0.3,
             width: double.infinity,
-            color: Theme.of(context).accentColor,
+            color: Colors.white,
             // child: Image.asset(
             //   'assets/img/drone.png',
             //   fit: BoxFit.cover,

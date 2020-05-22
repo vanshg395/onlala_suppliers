@@ -39,11 +39,11 @@ class _ProfileViewState extends State<ProfileView> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.25,
                   width: double.infinity,
-                  color: Colors.teal,
-                  child: Image.asset(
-                    'assets/img/homedevice.png',
-                    fit: BoxFit.cover,
-                  ),
+                  color: Theme.of(context).canvasColor,
+                  // child: Image.asset(
+                  //   'assets/img/homedevice.png',
+                  //   fit: BoxFit.cover,
+                  // ),
                 ),
                 SizedBox(
                   height: 90,
@@ -166,7 +166,30 @@ class _ProfileViewState extends State<ProfileView> {
                       'Logout',
                       style: TextStyle(fontSize: 18),
                     ),
-                    onTap: () {
+                    onTap: () async {
+                      bool isNotConfirm = false;
+                      await showDialog(
+                        context: context,
+                        child: AlertDialog(
+                          title: Text('Confirm'),
+                          content: Text('Are you sure, you want to logout?'),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('YES'),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                            FlatButton(
+                                child: Text('NO'),
+                                onPressed: () {
+                                  isNotConfirm = true;
+                                  Navigator.of(context).pop();
+                                }),
+                          ],
+                        ),
+                      );
+                      if (isNotConfirm) {
+                        return;
+                      }
                       RestartWidget.restartApp(context);
                       Provider.of<Auth>(context, listen: false).logout();
                     }),

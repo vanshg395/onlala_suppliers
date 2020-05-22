@@ -1,12 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:onlala_suppliers/utils/constants.dart';
 import 'package:onlala_suppliers/widgets/dropdown.dart';
 import 'package:provider/provider.dart';
-import 'package:get_ip/get_ip.dart';
 import 'package:http/http.dart' as http;
 
 import '../widgets/common_field.dart';
@@ -156,6 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         errorTitle = 'Error';
         errorMessage = 'This phone number is already in use. Please try again.';
       } else if (e.toString() == 'Server Overload') {
+        Provider.of<Auth>(context, listen: false).deleteUser();
         errorTitle = 'Error';
         errorMessage = 'Server is under heavy load. Please try again later.';
       } else {
@@ -570,35 +569,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
             onSaved: (value) {
               _manufCreateData['company'] = value;
-            },
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Administrative Area',
-            style: Theme.of(context).primaryTextTheme.headline,
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          CommonField(
-            placeholder: '',
-            borderColor: Theme.of(context).canvasColor,
-            bgColor: Theme.of(context).canvasColor,
-            fontSize: 16,
-            borderRadius: 5,
-            focusNode: _focus[8],
-            onFieldSubmitted: (_) {
-              FocusScope.of(context).requestFocus(_focus[9]);
-            },
-            validator: (value) {
-              if (value == '') {
-                return 'This field is required.';
-              }
-            },
-            onSaved: (value) {
-              _manufCreateData['administrativeArea'] = value;
             },
           ),
           SizedBox(

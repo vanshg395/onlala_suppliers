@@ -302,7 +302,6 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
     if (!_formKey4.currentState.validate()) {
       return;
     }
-    print(_media['catalogues'].length);
     if (_media['catalogues'].length == 0) {
       showDialog(
         context: context,
@@ -319,6 +318,8 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
       );
       return;
     }
+    print('<<<<<<<<<<<<<<<<<<<');
+
     setState(() {
       _isLoading = true;
     });
@@ -329,11 +330,20 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
       _media['primary_video'] = null;
     }
     for (var i = 0; i < _media['catalogues'].length; i++) {
-      print(_media['catalogues']);
       if (_media['catalogues'][i].contains('http')) {
         _media['catalogues'].removeAt(i);
       }
     }
+    // _media['additional_images']
+    //     .removeWhere((element) => element.contains('http'));
+
+    for (var image in _media['additional_images']) {
+      if (image.contains('http')) {
+        print('okkkkkkk');
+        _media['additional_images'].remove(image);
+      }
+    }
+
     for (var i = 0; i < _media['additional_images'].length; i++) {
       if (_media['additional_images'][i].contains('http')) {
         _media['additional_images'].removeAt(i);
@@ -344,6 +354,8 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
         _media['additional_videos'].removeAt(i);
       }
     }
+    print('>>>>>>>>>>>>>>>>>>>>>>');
+    print(_media);
 
     try {
       print(_data);
@@ -640,7 +652,7 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
               CommonField(
                 placeholder: 'This is a smart Video Doorbell that rings.',
                 maxLines: 5,
-                maxLength: 500,
+                maxLength: 1500,
                 topPadding: 50,
                 borderColor: Colors.white,
                 bgColor: Colors.white,

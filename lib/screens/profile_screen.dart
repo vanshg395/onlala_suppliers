@@ -246,6 +246,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print('<<<<<<<<<object>>>>>>>>>>>>>>.');
       print(response.statusCode);
       if (response.statusCode == 202) {
+        await showDialog(
+          context: context,
+          child: AlertDialog(
+            title: Text('Success'),
+            content: Text('Profile has been updated.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        );
         getData();
       }
     } catch (e) {
@@ -306,11 +319,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Container(
                             height: MediaQuery.of(context).size.height * 0.25,
                             width: double.infinity,
-                            color: Colors.teal,
-                            child: Image.asset(
-                              'assets/img/homedevice.png',
-                              fit: BoxFit.cover,
-                            ),
+                            color: Colors.white,
+                            // child: Image.asset(
+                            //   'assets/img/homedevice.png',
+                            //   fit: BoxFit.cover,
+                            // ),
                           ),
                           Stack(
                             children: <Widget>[

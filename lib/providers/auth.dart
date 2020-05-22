@@ -154,7 +154,7 @@ class Auth with ChangeNotifier {
         body: json.encode(registerData),
       );
       print(response.statusCode);
-      if (response.statusCode == 201) {
+      if (response.statusCode >= 200 && response.statusCode <= 299) {
       } else if (response.statusCode == 400) {
         throw HttpException('User exists');
       } else {
