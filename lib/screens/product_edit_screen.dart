@@ -845,7 +845,7 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Primary Product Image',
+                      'Primary Product Image (5MB)',
                       style: Theme.of(context).primaryTextTheme.headline,
                     ),
                     SizedBox(
@@ -1028,7 +1028,7 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Additional Images',
+                      'Additional Images (5MB)',
                       style: Theme.of(context).primaryTextTheme.headline,
                     ),
                     SizedBox(
@@ -1239,7 +1239,7 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Primary Product Video',
+                      'Primary Product Video (10MB)',
                       style: Theme.of(context).primaryTextTheme.headline,
                     ),
                     SizedBox(
@@ -1401,7 +1401,7 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Additional Videos',
+                      'Additional Videos (5MB)',
                       style: Theme.of(context).primaryTextTheme.headline,
                     ),
                     SizedBox(
@@ -1429,7 +1429,7 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                                 filePath,
                               );
                               final length = multipartFile.length;
-                              if (length > 10485760) {
+                              if (length > 5242880) {
                                 await showDialog(
                                   context: context,
                                   child: AlertDialog(
