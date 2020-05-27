@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SubcategoryCard extends StatelessWidget {
   final Widget icon;
-  final Widget label;
+  final String label;
   final Function onTap;
 
   SubcategoryCard({this.icon, @required this.label, @required this.onTap});
@@ -11,15 +11,20 @@ class SubcategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        margin: EdgeInsets.symmetric(vertical: 5),
+        color: Theme.of(context).canvasColor,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            // icon,
-            SizedBox(
-              width: 10,
+            Flexible(
+              child: Text(
+                label,
+                style: Theme.of(context).primaryTextTheme.body2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-            label,
+            Icon(Icons.chevron_right),
           ],
         ),
       ),

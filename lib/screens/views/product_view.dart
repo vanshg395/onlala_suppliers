@@ -87,7 +87,7 @@ class _ProductViewState extends State<ProductView> {
               Tab(
                 child: Text(
                   'Product',
-                  style: Theme.of(context).primaryTextTheme.body1.copyWith(
+                  style: Theme.of(context).primaryTextTheme.body2.copyWith(
                         color: Colors.white,
                       ),
                 ),
@@ -95,7 +95,7 @@ class _ProductViewState extends State<ProductView> {
               Tab(
                 child: Text(
                   'Pending Product',
-                  style: Theme.of(context).primaryTextTheme.body1.copyWith(
+                  style: Theme.of(context).primaryTextTheme.body2.copyWith(
                         color: Colors.white,
                       ),
                 ),

@@ -936,9 +936,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: <Widget>[
                                 Text(
                                   'IEC Certificate/Import Export Licence',
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline,
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -988,7 +987,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             : 'Approval Pending',
                                         style: Theme.of(context)
                                             .primaryTextTheme
-                                            .subtitle
+                                            .body2
                                             .copyWith(
                                               color: Provider.of<Auth>(context,
                                                           listen: false)
@@ -1033,9 +1032,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 Text(
                                   'Company Registration Certificate/Equivalent Certificate',
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline,
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -1085,7 +1083,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             : 'Approval Pending',
                                         style: Theme.of(context)
                                             .primaryTextTheme
-                                            .subtitle
+                                            .body2
                                             .copyWith(
                                               color: Provider.of<Auth>(context,
                                                           listen: false)
@@ -1130,9 +1128,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 Text(
                                   'GST Certificate/Tax Certificate',
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline,
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -1182,7 +1179,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             : 'Approval Pending',
                                         style: Theme.of(context)
                                             .primaryTextTheme
-                                            .subtitle
+                                            .body2
                                             .copyWith(
                                               color: Provider.of<Auth>(context,
                                                           listen: false)
@@ -1227,9 +1224,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 Text(
                                   'Shop & Establishment Licence/Equivalent Other Certificate',
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline,
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -1279,7 +1275,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             : 'Approval Pending',
                                         style: Theme.of(context)
                                             .primaryTextTheme
-                                            .subtitle
+                                            .body2
                                             .copyWith(
                                               color: Provider.of<Auth>(context,
                                                           listen: false)

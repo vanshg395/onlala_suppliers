@@ -72,7 +72,7 @@ class _MessageViewState extends State<MessageView> {
               Tab(
                 child: Text(
                   'Bulk Inquiries',
-                  style: Theme.of(context).primaryTextTheme.body1.copyWith(
+                  style: Theme.of(context).primaryTextTheme.body2.copyWith(
                         color: Colors.white,
                       ),
                 ),
@@ -80,7 +80,7 @@ class _MessageViewState extends State<MessageView> {
               Tab(
                 child: Text(
                   'Sample Orders',
-                  style: Theme.of(context).primaryTextTheme.body1.copyWith(
+                  style: Theme.of(context).primaryTextTheme.body2.copyWith(
                         color: Colors.white,
                       ),
                 ),

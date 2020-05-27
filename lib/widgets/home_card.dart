@@ -161,11 +161,7 @@ class HomeCard extends StatelessWidget {
                                 //   'assets/img/specs.png',
                                 //   scale: 0.8,
                                 // ),
-                                label: Text(
-                                  c['name'],
-                                  style:
-                                      Theme.of(context).primaryTextTheme.body2,
-                                ),
+                                label: c['name'],
                                 onTap: () => Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (ctx) => SubcategoryDetailScreen(
