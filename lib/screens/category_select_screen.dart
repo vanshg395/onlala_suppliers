@@ -26,9 +26,8 @@ class CategorySelectScreen extends StatelessWidget {
       body: Container(
         child: GridView.count(
           shrinkWrap: true,
-          crossAxisCount: 1,
-          childAspectRatio: 8 / 7,
-          // childAspectRatio: 4 / 5,
+          crossAxisCount: 3,
+          childAspectRatio: 4 / 5,
           crossAxisSpacing: 15,
           mainAxisSpacing: 15,
           padding: EdgeInsets.all(15),

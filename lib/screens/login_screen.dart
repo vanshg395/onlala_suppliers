@@ -6,6 +6,7 @@ import '../widgets/common_field.dart';
 import '../widgets/common_button.dart';
 import './register_screen.dart';
 import './tabsScreen.dart';
+import './tncview_screen.dart';
 import './reset_password_screen.dart';
 import '../providers/auth.dart';
 
@@ -58,8 +59,9 @@ class _LoginScreenState extends State<LoginScreen> {
         showDialog(
           context: context,
           child: AlertDialog(
-            title: Text('Alert'),
-            content: Text('You are requested to upload the pending documents.'),
+            title: Text('Attention'),
+            content:
+                Text('You are requested to upload the required documents.'),
           ),
         );
       } else if (e.toString() == 'Invalid Cred') {
@@ -238,7 +240,45 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: mediaQuery.height * 0.07,
+                  height: 30,
+                ),
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'By continuing, you agree to Onlala\'s',
+                        style: Theme.of(context).primaryTextTheme.body1,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          InkWell(
+                            child: Text(
+                              'Terms and Conditions',
+                              style: Theme.of(context)
+                                  .primaryTextTheme
+                                  .body1
+                                  .copyWith(
+                                      color: Theme.of(context).primaryColor),
+                            ),
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (ctx) => TnCViewScreen(),
+                              ),
+                            ),
+                          ),
+                          Text(
+                            ' of Use',
+                            style: Theme.of(context).primaryTextTheme.body1,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: mediaQuery.height * 0.06,
                 ),
                 _isLoading
                     ? Center(

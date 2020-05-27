@@ -12,6 +12,7 @@ import '../widgets/common_button.dart';
 import '../widgets/phone_field.dart';
 import './login_screen.dart';
 import '../providers/auth.dart';
+import '../utils/countries.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -28,6 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   List<FocusNode> _focus = [for (int i = 0; i < 14; i++) FocusNode()];
   String _countryCode = 'US';
   String _deptChoice;
+  String _countryChoice;
   List<dynamic> _depts = [];
   List<TextEditingController> _controllers = [
     for (int i = 0; i < 12; i++) TextEditingController()
@@ -684,26 +686,127 @@ class _RegisterScreenState extends State<RegisterScreen> {
           SizedBox(
             height: 5,
           ),
-          CommonField(
-            placeholder: 'Country',
-            borderColor: Theme.of(context).canvasColor,
-            bgColor: Theme.of(context).canvasColor,
-            fontSize: 16,
-            borderRadius: 5,
-            focusNode: _focus[12],
-            controller: _controllers[10],
-            onFieldSubmitted: (_) {
-              FocusScope.of(context).requestFocus(_focus[13]);
+          MultilineDropdownButtonFormField(
+            isExpanded: true,
+            items: countries
+                .map(
+                  (country) => DropdownMenuItem(
+                    child: Text(
+                      country['name'],
+                      style: TextStyle(
+                        color: Theme.of(context).cardColor,
+                        fontFamily: Theme.of(context)
+                            .primaryTextTheme
+                            .display1
+                            .fontFamily,
+                        fontSize: 16,
+                      ),
+                    ),
+                    value: country['name'],
+                  ),
+                )
+                .toList(),
+            value: _countryChoice,
+            iconSize: 30,
+            icon: Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Icon(Icons.keyboard_arrow_down),
+            ),
+            iconEnabledColor: Theme.of(context).cardColor,
+            iconDisabledColor: Theme.of(context).cardColor,
+            onChanged: (val) {
+              setState(() {
+                _countryChoice = val;
+              });
             },
             validator: (value) {
-              if (value == '') {
+              if (_manufCreateData['postal_country'] == null) {
                 return 'This field is required.';
               }
             },
+
             onSaved: (value) {
               _manufCreateData['postal_country'] = value;
             },
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 0,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 0,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 0,
+                ),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 0,
+                ),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 0,
+                ),
+              ),
+              hintText: 'Choose Country',
+              hintStyle: TextStyle(
+                fontSize: 16,
+              ),
+              labelStyle: TextStyle(
+                fontSize: 16,
+              ),
+              contentPadding: EdgeInsets.only(
+                left: 30,
+                right: 10,
+              ),
+              errorStyle: TextStyle(color: Colors.red[200]),
+            ),
+
+            // validator: (value) {
+            //   if (value == null) {
+            //     return 'This field is required.';
+            //   }
+            // },
+            // onSaved: (value) {
+            //   _data['identity_choice'] = value;
+            // },
           ),
+          // CommonField(
+          //   placeholder: 'Country',
+          //   borderColor: Theme.of(context).canvasColor,
+          //   bgColor: Theme.of(context).canvasColor,
+          //   fontSize: 16,
+          //   borderRadius: 5,
+          //   focusNode: _focus[12],
+          //   controller: _controllers[10],
+          //   onFieldSubmitted: (_) {
+          //     FocusScope.of(context).requestFocus(_focus[13]);
+          //   },
+          //   validator: (value) {
+          //     if (value == '') {
+          //       return 'This field is required.';
+          //     }
+          //   },
+          //   onSaved: (value) {
+          //     _manufCreateData['postal_country'] = value;
+          //   },
+          // ),
           SizedBox(
             height: 20,
           ),

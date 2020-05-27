@@ -4073,13 +4073,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .headline
-                            .copyWith(
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.w500,
-                            ),
+                        style: Theme.of(context).primaryTextTheme.body1,
                       ),
                     ),
                     Icon(Icons.keyboard_arrow_right),
@@ -4089,13 +4083,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .headline
-                            .copyWith(
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.w500,
-                            ),
+                        style: Theme.of(context).primaryTextTheme.body1,
                       ),
                     ),
                     Icon(Icons.keyboard_arrow_right),
@@ -4105,13 +4093,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .headline
-                            .copyWith(
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.w500,
-                            ),
+                        style: Theme.of(context).primaryTextTheme.body1,
                       ),
                     ),
                   ],

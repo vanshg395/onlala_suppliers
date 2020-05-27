@@ -27,20 +27,19 @@ class AddressScreen extends StatelessWidget {
                 height: 10,
               ),
               AddressCard(
-                title: 'India Office',
-                address:
-                    'Corevyan Private Limited\n#108, First Floor, JMD Pacifio Square\nSector15 part-l, Opposite Galaxy Hotel,\mGurugram-122018 (HR),.\nIndia,+91-124-4981457, +9-9999948492\nCIN U74999HR2017PTC071753',
+                title: 'Contact Email',
+                address: 'feedback@onla.la',
               ),
-              AddressCard(
-                title: 'Nigeria Office',
-                address:
-                    'Corevyan Private Limited\n#108, First Floor, JMD Pacifio Square\nSector15 part-l, Opposite Galaxy Hotel,\mGurugram-122018 (HR),.\nIndia,+91-124-4981457, +9-9999948492\nCIN U74999HR2017PTC071753',
-              ),
-              AddressCard(
-                title: 'South Africa Office',
-                address:
-                    'Corevyan Private Limited\n#108, First Floor, JMD Pacifio Square\nSector15 part-l, Opposite Galaxy Hotel,\mGurugram-122018 (HR),.\nIndia,+91-124-4981457, +9-9999948492\nCIN U74999HR2017PTC071753',
-              ),
+              // AddressCard(
+              //   title: 'Nigeria Office',
+              //   address:
+              //       'Corevyan Private Limited\n#108, First Floor, JMD Pacifio Square\nSector15 part-l, Opposite Galaxy Hotel,\mGurugram-122018 (HR),.\nIndia,+91-124-4981457, +9-9999948492\nCIN U74999HR2017PTC071753',
+              // ),
+              // AddressCard(
+              //   title: 'South Africa Office',
+              //   address:
+              //       'Corevyan Private Limited\n#108, First Floor, JMD Pacifio Square\nSector15 part-l, Opposite Galaxy Hotel,\mGurugram-122018 (HR),.\nIndia,+91-124-4981457, +9-9999948492\nCIN U74999HR2017PTC071753',
+              // ),
               SizedBox(
                 height: 30,
               ),

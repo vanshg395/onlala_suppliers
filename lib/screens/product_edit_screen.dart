@@ -4464,7 +4464,7 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
             children: <Widget>[
               Container(
                 constraints: BoxConstraints(minHeight: 60),
-                padding: EdgeInsets.symmetric(vertical: 5),
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 color: Colors.white,
                 alignment: Alignment.center,
                 width: double.infinity,
@@ -4474,13 +4474,7 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                       child: Text(
                         '${widget.deptName}',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .headline
-                            .copyWith(
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.w500,
-                            ),
+                        style: Theme.of(context).primaryTextTheme.body1,
                       ),
                     ),
                     Icon(Icons.keyboard_arrow_right),
@@ -4488,28 +4482,14 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                       child: Text(
                         '${widget.catName}',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .headline
-                            .copyWith(
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.w500,
-                            ),
+                        style: Theme.of(context).primaryTextTheme.body1,
                       ),
                     ),
                     Icon(Icons.keyboard_arrow_right),
                     Expanded(
-                      child: Text(
-                        '${widget.subcatName}',
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .headline
-                            .copyWith(
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                      ),
+                      child: Text('${widget.subcatName}',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).primaryTextTheme.body1),
                     ),
                   ],
                 ),

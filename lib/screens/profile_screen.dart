@@ -51,6 +51,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       _isLoadings[i] = true;
     });
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      child: AlertDialog(
+        title: Text('Uploading Certificate'),
+        content: Container(
+          height: 100,
+          child: Center(child: CircularProgressIndicator()),
+        ),
+      ),
+    );
     try {
       final filePath = await FilePicker.getFilePath(
         type: FileType.custom,
@@ -60,6 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         setState(() {
           _isLoadings[i] = false;
         });
+        Navigator.of(context).pop();
         return;
       }
       final url = baseUrl + 'business/manufacturer/document/upload/';
@@ -98,6 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         setState(() {
           _isLoadings[i] = false;
         });
+        Navigator.of(context).pop();
         return;
       }
       multipartRequest.files.add(multipartFile);
@@ -123,6 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
     setState(() {
       _isLoadings[i] = true;
+      Navigator.of(context).pop();
     });
   }
 
@@ -921,7 +935,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  'IEC Certificate/Import Export Licence (Country)',
+                                  'IEC Certificate/Import Export Licence',
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .headline,
@@ -1018,7 +1032,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   height: 30,
                                 ),
                                 Text(
-                                  'Company Registration Certificate/Equivalent Certificate (Country)',
+                                  'Company Registration Certificate/Equivalent Certificate',
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .headline,
@@ -1115,7 +1129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   height: 30,
                                 ),
                                 Text(
-                                  'GST Certificate/Tax Certificate (Country)',
+                                  'GST Certificate/Tax Certificate',
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .headline,

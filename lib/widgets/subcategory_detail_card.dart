@@ -36,7 +36,7 @@ class SubcategoryDetailCard extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                height: constraints.maxHeight * 0.7,
+                height: constraints.maxHeight * 0.6,
               ),
               Expanded(
                 child: Center(
@@ -49,7 +49,7 @@ class SubcategoryDetailCard extends StatelessWidget {
                     style: Theme.of(context)
                         .primaryTextTheme
                         .body1
-                        .copyWith(fontSize: 18),
+                        .copyWith(fontSize: 12),
                   ),
                 ),
               )
