@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import './screens/terms_and_conditions_screen.dart';
 import './screens/register_screen.dart';
@@ -64,24 +65,48 @@ class MyApp extends StatelessWidget {
               cardColor: Color(0xFF3E4346),
               canvasColor: Color(0xFFF3F6F7),
               primaryTextTheme: TextTheme(
-                title: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 26,
-                  color: Colors.black,
+                title: GoogleFonts.montserrat(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 26,
+                    color: Colors.black,
+                  ),
                 ),
-                subtitle: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
-                  color: Colors.black,
+                subtitle: GoogleFonts.montserrat(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: Colors.black,
+                  ),
                 ),
-                headline: TextStyle(
+                headline: GoogleFonts.montserrat(
+                  textStyle: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
-                    color: Colors.black),
-                body2: TextStyle(
-                  fontSize: 16,
-                  height: 1.5,
-                  color: Colors.black,
+                    color: Colors.black,
+                  ),
+                ),
+                // headline1: GoogleFonts.montserrat(
+                //   textStyle: TextStyle(
+                //     fontSize: 18,
+                //     fontWeight: FontWeight.w300,
+                //     color: Colors.black,
+                //   ),
+                // ),
+                body1: GoogleFonts.montserrat(
+                  textStyle: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w300,
+                    color: Colors.black,
+                  ),
+                ),
+
+                body2: GoogleFonts.montserrat(
+                  textStyle: TextStyle(
+                    fontSize: 16,
+                    height: 1.5,
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ),

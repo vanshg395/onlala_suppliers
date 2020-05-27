@@ -63,7 +63,10 @@ class _QueryViewState extends State<QueryView> {
           )
         : _queries.length == 0
             ? Center(
-                child: Text('No Orders'),
+                child: Text(
+                  'No Orders',
+                  style: Theme.of(context).primaryTextTheme.body1,
+                ),
               )
             : SingleChildScrollView(
                 child: Column(

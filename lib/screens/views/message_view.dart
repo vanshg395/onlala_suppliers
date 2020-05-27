@@ -70,10 +70,20 @@ class _MessageViewState extends State<MessageView> {
             unselectedLabelColor: Colors.white,
             tabs: <Widget>[
               Tab(
-                text: 'Bulk Inquiries',
+                child: Text(
+                  'Bulk Inquiries',
+                  style: Theme.of(context).primaryTextTheme.body1.copyWith(
+                        color: Colors.white,
+                      ),
+                ),
               ),
               Tab(
-                text: 'Sample Orders',
+                child: Text(
+                  'Sample Orders',
+                  style: Theme.of(context).primaryTextTheme.body1.copyWith(
+                        color: Colors.white,
+                      ),
+                ),
               ),
             ],
           ),

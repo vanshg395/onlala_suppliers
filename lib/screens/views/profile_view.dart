@@ -85,7 +85,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   label: Text(
                     'Profile',
-                    style: TextStyle(fontSize: 18),
+                    style: Theme.of(context).primaryTextTheme.body1,
                   ),
                   onTap: () => Navigator.of(context)
                       .push(
@@ -124,7 +124,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   label: Text(
                     'Settings',
-                    style: TextStyle(fontSize: 18),
+                    style: Theme.of(context).primaryTextTheme.body1,
                   ),
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
@@ -144,7 +144,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   label: Text(
                     'Help',
-                    style: TextStyle(fontSize: 18),
+                    style: Theme.of(context).primaryTextTheme.body1,
                   ),
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
@@ -164,7 +164,7 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     label: Text(
                       'Logout',
-                      style: TextStyle(fontSize: 18),
+                      style: Theme.of(context).primaryTextTheme.body1,
                     ),
                     onTap: () async {
                       bool isNotConfirm = false;

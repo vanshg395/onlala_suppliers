@@ -36,14 +36,20 @@ class SubcategoryDetailCard extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                height: constraints.maxHeight * 0.6,
+                height: constraints.maxHeight * 0.7,
               ),
               Expanded(
                 child: Center(
                   child: Text(
                     name,
                     textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
                     softWrap: true,
+                    maxLines: 3,
+                    style: Theme.of(context)
+                        .primaryTextTheme
+                        .body1
+                        .copyWith(fontSize: 18),
                   ),
                 ),
               )

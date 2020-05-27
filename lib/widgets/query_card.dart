@@ -151,7 +151,7 @@ class _QueryCardState extends State<QueryCard> {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
                   widget.userType,
-                  style: Theme.of(context).primaryTextTheme.headline,
+                  style: Theme.of(context).primaryTextTheme.body1,
                 ),
               ),
               SizedBox(

@@ -287,6 +287,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).accentColor,
+        elevation: 0,
         title: Text(
           'Edit Profile',
           style: Theme.of(context).primaryTextTheme.subtitle.copyWith(
@@ -317,9 +318,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.25,
+                            height: MediaQuery.of(context).size.height * 0.1,
                             width: double.infinity,
-                            color: Colors.white,
+                            color: Theme.of(context).primaryColor,
                             // child: Image.asset(
                             //   'assets/img/homedevice.png',
                             //   fit: BoxFit.cover,
@@ -388,12 +389,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.only(left: 20.0),
                             child: Text(
                               'Personal Information',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1,
-                              ),
+                              // style: TextStyle(
+                              //   color: Colors.grey,
+                              //   fontSize: 20,
+                              //   fontWeight: FontWeight.w700,
+                              //   letterSpacing: 1,
+                              // ),
+                              style:
+                                  Theme.of(context).primaryTextTheme.subtitle,
                             ),
                           ),
                           SizedBox(
@@ -518,12 +521,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.only(left: 20.0),
                             child: Text(
                               'Postal Address',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1,
-                              ),
+                              style:
+                                  Theme.of(context).primaryTextTheme.subtitle,
                             ),
                           ),
                           SizedBox(
@@ -684,12 +683,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.only(left: 20.0),
                             child: Text(
                               'Warehouse Address',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1,
-                              ),
+                              style:
+                                  Theme.of(context).primaryTextTheme.subtitle,
                             ),
                           ),
                           SizedBox(
@@ -896,12 +891,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.only(left: 20.0),
                             child: Text(
                               'Documents',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1,
-                              ),
+                              style:
+                                  Theme.of(context).primaryTextTheme.subtitle,
                             ),
                           ),
                           SizedBox(
@@ -930,7 +921,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  'IEC Certificate',
+                                  'IEC Certificate/Import Export Licence (Country)',
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .headline,
@@ -1027,7 +1018,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   height: 30,
                                 ),
                                 Text(
-                                  'Company Registration Certificate',
+                                  'Company Registration Certificate/Equivalent Certificate (Country)',
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .headline,
@@ -1124,7 +1115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   height: 30,
                                 ),
                                 Text(
-                                  'GST Certificate',
+                                  'GST Certificate/Tax Certificate (Country)',
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .headline,
@@ -1221,7 +1212,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   height: 30,
                                 ),
                                 Text(
-                                  'Shop & Establishment Licence',
+                                  'Shop & Establishment Licence/Equivalent Other Certificate',
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .headline,
@@ -1349,7 +1340,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Positioned(
                       left: MediaQuery.of(context).size.width / 2 - 75,
-                      top: MediaQuery.of(context).size.height * 0.25 - 75,
+                      top: MediaQuery.of(context).size.height * 0.1 - 75,
                       child: Container(
                         height: 150,
                         width: 150,

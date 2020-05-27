@@ -14,7 +14,10 @@ class ProductTab2View extends StatelessWidget {
     return Container(
       child: pendingProducts.length == 0
           ? Center(
-              child: Text('No Pending Products'),
+              child: Text(
+                'No Pending Products',
+                style: Theme.of(context).primaryTextTheme.body1,
+              ),
             )
           : GridView.count(
               shrinkWrap: true,

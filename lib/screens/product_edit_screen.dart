@@ -329,31 +329,31 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
     if (_media['primary_video'].contains('http')) {
       _media['primary_video'] = null;
     }
-    for (var i = 0; i < _media['catalogues'].length; i++) {
-      if (_media['catalogues'][i].contains('http')) {
-        _media['catalogues'].removeAt(i);
-      }
-    }
-    // _media['additional_images']
-    //     .removeWhere((element) => element.contains('http'));
+    // for (var i = 0; i < _media['catalogues'].length; i++) {
+    //   if (_media['catalogues'][i].contains('http')) {
+    //     _media['catalogues'].removeAt(i);
+    //   }
+    // }
+    // // _media['additional_images']
+    // //     .removeWhere((element) => element.contains('http'));
 
-    for (var image in _media['additional_images']) {
-      if (image.contains('http')) {
-        print('okkkkkkk');
-        _media['additional_images'].remove(image);
-      }
-    }
+    // for (var image in _media['additional_images']) {
+    //   if (image.contains('http')) {
+    //     print('okkkkkkk');
+    //     _media['additional_images'].remove(image);
+    //   }
+    // }
 
-    for (var i = 0; i < _media['additional_images'].length; i++) {
-      if (_media['additional_images'][i].contains('http')) {
-        _media['additional_images'].removeAt(i);
-      }
-    }
-    for (var i = 0; i < _media['additional_videos'].length; i++) {
-      if (_media['additional_videos'][i].contains('http')) {
-        _media['additional_videos'].removeAt(i);
-      }
-    }
+    // for (var i = 0; i < _media['additional_images'].length; i++) {
+    //   if (_media['additional_images'][i].contains('http')) {
+    //     _media['additional_images'].removeAt(i);
+    //   }
+    // }
+    // for (var i = 0; i < _media['additional_videos'].length; i++) {
+    //   if (_media['additional_videos'][i].contains('http')) {
+    //     _media['additional_videos'].removeAt(i);
+    //   }
+    // }
     print('>>>>>>>>>>>>>>>>>>>>>>');
     print(_media);
 
@@ -395,6 +395,10 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
         }
 
         for (int i = 0; i < _media['additional_images'].length; i++) {
+          if (_media['additional_images'][i].contains('http')) {
+            print('dont upload?????????????????');
+            continue;
+          }
           final multipartRequest =
               new http.MultipartRequest('POST', Uri.parse(imageUploadUrl));
           multipartRequest.headers.addAll(
@@ -439,6 +443,10 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
         }
 
         for (int i = 0; i < _media['additional_videos'].length; i++) {
+          if (_media['additional_videos'][i].contains('http')) {
+            print('dont upload?????????????????');
+            continue;
+          }
           final multipartRequest =
               new http.MultipartRequest('POST', Uri.parse(uploadVideoUrl));
           multipartRequest.headers.addAll(
@@ -461,6 +469,10 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
 
         final uploadCatalogueUrl = baseUrl + 'product/catalogue/add/';
         for (int i = 0; i < _media['catalogues'].length; i++) {
+          if (_media['catalogues'][i].contains('http')) {
+            print('dont upload?????????????????');
+            continue;
+          }
           final multipartRequest4 =
               new http.MultipartRequest('POST', Uri.parse(uploadCatalogueUrl));
           multipartRequest4.headers.addAll(
@@ -1253,13 +1265,13 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                           filePath,
                         );
                         final length = multipartFile.length;
-                        if (length > 5242880) {
+                        if (length > 10485760) {
                           await showDialog(
                             context: context,
                             child: AlertDialog(
                               title: Text('File is Too Large'),
                               content: Text(
-                                  'Maximum File Size is 5MB. Please choose a smaller file.'),
+                                  'Maximum File Size is 10MB. Please choose a smaller file.'),
                               actions: <Widget>[
                                 FlatButton(
                                   child: Text('OK'),
@@ -1417,13 +1429,13 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                                 filePath,
                               );
                               final length = multipartFile.length;
-                              if (length > 5242880) {
+                              if (length > 10485760) {
                                 await showDialog(
                                   context: context,
                                   child: AlertDialog(
                                     title: Text('File is Too Large'),
                                     content: Text(
-                                        'Maximum File Size is 5MB. Please choose a smaller file.'),
+                                        'Maximum File Size is 10MB. Please choose a smaller file.'),
                                     actions: <Widget>[
                                       FlatButton(
                                         child: Text('OK'),
@@ -2519,6 +2531,13 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                   ),
                 ),
               ],
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Expiry Date (Sample Products)',
+                style: Theme.of(context).primaryTextTheme.headline,
+              ),
               SizedBox(
                 height: 20,
               ),
@@ -4193,7 +4212,7 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Product Catalogue',
+                      'Product Catalogue/Other Product Related Certificate, if any',
                       style: Theme.of(context).primaryTextTheme.headline,
                     ),
                     SizedBox(

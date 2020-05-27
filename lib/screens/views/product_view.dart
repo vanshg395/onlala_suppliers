@@ -85,10 +85,20 @@ class _ProductViewState extends State<ProductView> {
             unselectedLabelColor: Colors.white,
             tabs: <Widget>[
               Tab(
-                text: 'Product',
+                child: Text(
+                  'Product',
+                  style: Theme.of(context).primaryTextTheme.body1.copyWith(
+                        color: Colors.white,
+                      ),
+                ),
               ),
               Tab(
-                text: 'Pending Product',
+                child: Text(
+                  'Pending Product',
+                  style: Theme.of(context).primaryTextTheme.body1.copyWith(
+                        color: Colors.white,
+                      ),
+                ),
               ),
             ],
           ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:dots_indicator/dots_indicator.dart';
 
 import '../../widgets/home_card.dart';
 import '../../utils/constants.dart';
@@ -16,6 +17,7 @@ class _HomeViewState extends State<HomeView> {
   List<dynamic> _data = [];
   List<dynamic> _bannerData = [];
   bool _isLoading = false;
+  double _currentCarouselPosition = 0;
 
   @override
   void initState() {
@@ -73,37 +75,58 @@ class _HomeViewState extends State<HomeView> {
             //   'assets/img/drone.png',
             //   fit: BoxFit.cover,
             // ),
-            child: CarouselSlider(
-              options: CarouselOptions(
-                height: MediaQuery.of(context).size.height * 0.3,
-                viewportFraction: 1,
-                enableInfiniteScroll: true,
-                autoPlay: true,
-              ),
-              // items: <Widget>[
-              //   HomeCard(title: 'DN'),
-              //   HomeCard(title: 'DN'),
-              //   HomeCard(title: 'DN'),
-              // ],
-              items: _bannerData
-                  .map(
-                    (banner) => Image.network(
-                      banner['image'],
-                      fit: BoxFit.cover,
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                CarouselSlider(
+                  options: CarouselOptions(
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      viewportFraction: 1,
+                      enableInfiniteScroll: true,
+                      autoPlay: true,
+                      onPageChanged: (i, _) {
+                        setState(() {
+                          _currentCarouselPosition = i.toDouble();
+                        });
+                      }),
+                  // items: <Widget>[
+                  //   HomeCard(title: 'DN'),
+                  //   HomeCard(title: 'DN'),
+                  //   HomeCard(title: 'DN'),
+                  // ],
+                  items: _bannerData
+                      .map(
+                        (banner) => Image.network(
+                          banner['image'],
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                      .toList(),
+                ),
+                Positioned(
+                  bottom: 20,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.center,
+                    child: DotsIndicator(
+                      dotsCount:
+                          _bannerData.length == 0 ? 1 : _bannerData.length,
+                      position: _currentCarouselPosition,
+                      decorator: DotsDecorator(
+                        activeColor: Theme.of(context).primaryColor,
+                      ),
                     ),
-                  )
-                  .toList(),
+                  ),
+                )
+              ],
             ),
           ),
           SizedBox(
             height: 40,
           ),
           Text(
-            'All Category',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
+            'All Categories',
+            style: Theme.of(context).primaryTextTheme.body1,
           ),
           Expanded(
             child: _isLoading

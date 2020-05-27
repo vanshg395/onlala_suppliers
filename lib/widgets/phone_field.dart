@@ -216,8 +216,9 @@ class _PhoneFieldState extends State<PhoneField> {
               alignLabelWithHint: true,
               hintText: widget.placeholder,
               hintStyle: TextStyle(
-                color: Theme.of(context).cardColor,
+                color: Colors.grey,
                 fontFamily: widget.fontFamily,
+                fontWeight: FontWeight.w300,
               ),
               suffixIcon: Padding(
                 padding: const EdgeInsetsDirectional.only(end: 15, start: 10),

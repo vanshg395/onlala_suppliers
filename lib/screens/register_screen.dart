@@ -29,6 +29,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _countryCode = 'US';
   String _deptChoice;
   List<dynamic> _depts = [];
+  List<TextEditingController> _controllers = [
+    for (int i = 0; i < 12; i++) TextEditingController()
+  ];
   Map<String, dynamic> _registerData = {
     'email': '',
     'password': '',
@@ -51,7 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     'company': '',
     'company_email': '',
     'department': '',
-    'administrativeArea': '',
+    'administrativeArea': 'something',
     'isoCountryCode': '',
   };
 
@@ -211,6 +214,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             fontSize: 16,
             borderRadius: 5,
             focusNode: _focus[0],
+            controller: _controllers[0],
             onFieldSubmitted: (_) {
               FocusScope.of(context).requestFocus(_focus[1]);
             },
@@ -240,6 +244,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             fontSize: 16,
             borderRadius: 5,
             focusNode: _focus[1],
+            controller: _controllers[1],
             onFieldSubmitted: (_) {
               FocusScope.of(context).requestFocus(_focus[2]);
             },
@@ -270,6 +275,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             borderRadius: 5,
             keyboardType: TextInputType.emailAddress,
             focusNode: _focus[2],
+            controller: _controllers[2],
             onFieldSubmitted: (_) {
               FocusScope.of(context).requestFocus(_focus[3]);
             },
@@ -306,6 +312,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             fontSize: 16,
             borderRadius: 5,
             isPassword: !_isVisible1,
+            controller: _controllers[3],
             suffixIcon: InkWell(
               child: SvgPicture.asset(
                 _isVisible1
@@ -366,6 +373,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               },
             ),
             focusNode: _focus[4],
+            controller: _controllers[4],
             onFieldSubmitted: (_) {
               FocusScope.of(context).requestFocus(_focus[5]);
             },
@@ -389,12 +397,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             height: 5,
           ),
           PhoneField(
-            placeholder: '',
+            placeholder: 'Phone Number',
             initialCountryCode: _countryCode,
             borderColor: Theme.of(context).canvasColor,
             bgColor: Theme.of(context).canvasColor,
             keyboardType: TextInputType.number,
             focusNode: _focus[5],
+            controller: _controllers[5],
             onSubmitted: (_) {
               FocusScope.of(context).unfocus();
             },
@@ -553,12 +562,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             height: 5,
           ),
           CommonField(
-            placeholder: '',
+            placeholder: 'Company Name',
             borderColor: Theme.of(context).canvasColor,
             bgColor: Theme.of(context).canvasColor,
             fontSize: 16,
             borderRadius: 5,
             focusNode: _focus[7],
+            controller: _controllers[6],
             onFieldSubmitted: (_) {
               FocusScope.of(context).requestFocus(_focus[8]);
             },
@@ -582,18 +592,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
             height: 5,
           ),
           CommonField(
-            placeholder: '',
+            placeholder: 'Postal Address',
             borderColor: Theme.of(context).canvasColor,
             bgColor: Theme.of(context).canvasColor,
             fontSize: 16,
             borderRadius: 5,
             focusNode: _focus[9],
+            controller: _controllers[7],
             onFieldSubmitted: (_) {
               FocusScope.of(context).requestFocus(_focus[10]);
             },
             validator: (value) {
               if (value == '') {
                 return 'This field is required.';
+              }
+              if (value.length < 10) {
+                return 'Minimum Length is 10.';
               }
             },
             onSaved: (value) {
@@ -611,12 +625,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             height: 5,
           ),
           CommonField(
-            placeholder: '',
+            placeholder: 'City',
             borderColor: Theme.of(context).canvasColor,
             bgColor: Theme.of(context).canvasColor,
             fontSize: 16,
             borderRadius: 5,
             focusNode: _focus[10],
+            controller: _controllers[8],
             onFieldSubmitted: (_) {
               FocusScope.of(context).requestFocus(_focus[11]);
             },
@@ -640,12 +655,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             height: 5,
           ),
           CommonField(
-            placeholder: '',
+            placeholder: 'State',
             borderColor: Theme.of(context).canvasColor,
             bgColor: Theme.of(context).canvasColor,
             fontSize: 16,
             borderRadius: 5,
             focusNode: _focus[11],
+            controller: _controllers[9],
             onFieldSubmitted: (_) {
               FocusScope.of(context).requestFocus(_focus[12]);
             },
@@ -669,12 +685,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             height: 5,
           ),
           CommonField(
-            placeholder: '',
+            placeholder: 'Country',
             borderColor: Theme.of(context).canvasColor,
             bgColor: Theme.of(context).canvasColor,
             fontSize: 16,
             borderRadius: 5,
             focusNode: _focus[12],
+            controller: _controllers[10],
             onFieldSubmitted: (_) {
               FocusScope.of(context).requestFocus(_focus[13]);
             },
@@ -698,13 +715,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
             height: 5,
           ),
           CommonField(
-            placeholder: '',
+            placeholder: 'Postal Code',
             borderColor: Theme.of(context).canvasColor,
             bgColor: Theme.of(context).canvasColor,
             fontSize: 16,
             borderRadius: 5,
             keyboardType: TextInputType.number,
             focusNode: _focus[13],
+            controller: _controllers[11],
             onFieldSubmitted: (_) {
               FocusScope.of(context).unfocus();
             },
@@ -737,6 +755,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   borderRadius: 5,
                   onPressed: _submit,
                 ),
+          SizedBox(
+            height: 20,
+          ),
+          CommonButton(
+            bgColor: Theme.of(context).canvasColor,
+            borderColor: Theme.of(context).canvasColor,
+            textColor: Theme.of(context).primaryColor,
+            title: 'PREVIOUS',
+            fontSize: 16,
+            width: double.infinity,
+            borderRadius: 5,
+            onPressed: () {
+              setState(() {
+                _currentPart--;
+              });
+            },
+          ),
         ],
       ),
     );

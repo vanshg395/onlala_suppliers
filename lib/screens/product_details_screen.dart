@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 
 import './tabsScreen.dart';
 import './product_edit_screen.dart';
@@ -29,6 +30,9 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  double _appBarHeight;
+  bool _isFirst = false;
+  double _currentCarouselIndex = 0;
   List<dynamic> _producatData = [];
   bool _isLoading = false;
   bool _isLoading2 = false;
@@ -37,6 +41,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void initState() {
     super.initState();
     getData();
+    Future.delayed(Duration.zero, () {
+      _appBarHeight = MediaQuery.of(context).size.height * 0.3;
+    });
   }
 
   Future<void> getData() async {
@@ -71,23 +78,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      // ),
-      // body: Column(
-      //   children: <Widget>[
-      //     Container(
-      //       height: MediaQuery.of(context).size.height * 0.25,
-      //       width: double.infinity,
-      //       color: Colors.teal,
-      //       child: Image.asset(
-      //         'assets/img/homedevice.png',
-      //         fit: BoxFit.cover,
-      //       ),
-      //     ),
-      //   ],
-      // ),
       body: _isLoading
           ? Center(
               child: CircularProgressIndicator(
@@ -103,7 +93,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     icon: Icon(
                       Icons.chevron_left,
                       size: 30,
-                      color: Theme.of(context).primaryColor,
+                      color: _appBarHeight <
+                              MediaQuery.of(context).size.height * 0.9
+                          ? Colors.white
+                          : Theme.of(context).primaryColor,
                     ),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
@@ -111,7 +104,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   elevation: 0,
                   expandedHeight: MediaQuery.of(context).size.height * 0.3,
                   pinned: true,
-                  backgroundColor: Colors.white,
+                  backgroundColor: Theme.of(context).primaryColor,
                   flexibleSpace: FlexibleSpaceBar(
                     // title: Text(
                     //   'Product Stabilizer',
@@ -135,24 +128,50 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           width: double.infinity,
                           color: Colors.white,
                           child: SafeArea(
-                            child: CarouselSlider(
-                              options: CarouselOptions(
-                                enableInfiniteScroll: false,
-                                autoPlay: true,
-                                pauseAutoPlayOnTouch: true,
-                                viewportFraction: 1,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.3,
-                              ),
-                              items: <Widget>[
-                                ..._producatData[0]['pictures']
-                                    .map(
-                                      (pic) => Image.network(
-                                        pic['product_image'],
-                                        fit: BoxFit.contain,
+                            child: Stack(
+                              children: <Widget>[
+                                CarouselSlider(
+                                  options: CarouselOptions(
+                                      enableInfiniteScroll: false,
+                                      autoPlay: true,
+                                      pauseAutoPlayOnTouch: true,
+                                      viewportFraction: 1,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.3,
+                                      onPageChanged: (i, _) {
+                                        setState(() {
+                                          _currentCarouselIndex = i.toDouble();
+                                        });
+                                      }),
+                                  items: <Widget>[
+                                    ..._producatData[0]['pictures']
+                                        .map(
+                                          (pic) => Image.network(
+                                            pic['product_image'],
+                                            fit: BoxFit.contain,
+                                          ),
+                                        )
+                                        .toList()
+                                  ],
+                                ),
+                                Positioned(
+                                  bottom: 20,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    alignment: Alignment.center,
+                                    child: DotsIndicator(
+                                      dotsCount: _producatData.length == 0
+                                          ? 1
+                                          : _producatData[0]['pictures'].length,
+                                      position: _currentCarouselIndex,
+                                      decorator: DotsDecorator(
+                                        activeColor:
+                                            Theme.of(context).primaryColor,
                                       ),
-                                    )
-                                    .toList()
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                           ),
@@ -258,7 +277,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             Text(
                               'Product Information',
                               style:
-                                  Theme.of(context).primaryTextTheme.headline,
+                                  Theme.of(context).primaryTextTheme.subtitle,
                             ),
                             SizedBox(
                               height: 30,
@@ -282,12 +301,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               child: Text(
                                 _producatData[0]['product']
                                     ['manufacturer_type'],
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -313,12 +327,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 _producatData[0]['product']
                                     ['product_description'],
                                 textAlign: TextAlign.justify,
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -344,12 +353,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 _producatData[0]['product']
                                         ['minimum_order_quantity']
                                     .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -374,12 +378,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               child: Text(
                                 _producatData[0]['product']['industry_name'],
                                 textAlign: TextAlign.justify,
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -404,12 +403,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               child: Text(
                                 _producatData[0]['product']['other_synonyms'],
                                 textAlign: TextAlign.justify,
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -434,12 +428,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               child: Text(
                                 _producatData[0]['product']
                                     ['quantity_per_carton'],
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -463,12 +452,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               width: double.infinity,
                               child: Text(
                                 _producatData[0]['product']['payment_method'],
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -495,12 +479,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         ['tech_transfer_investment']
                                     ? 'Yes'
                                     : 'No',
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -524,12 +503,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               width: double.infinity,
                               child: Text(
                                 _producatData[0]['sample_details']['hs_code'],
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -560,12 +534,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             ['sample_to_time_range']
                                         .toString() +
                                     ' days',
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -589,12 +558,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               width: double.infinity,
                               child: Text(
                                 _producatData[0]['product']['expiry_date'],
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -629,7 +593,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             Text(
                               'Sample Order',
                               style:
-                                  Theme.of(context).primaryTextTheme.headline,
+                                  Theme.of(context).primaryTextTheme.subtitle,
                             ),
                             SizedBox(
                               height: 30,
@@ -637,17 +601,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             if (!_producatData[0]['sample_details']['sample'])
                               Text(
                                 'No Sample Order available',
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               )
                             else ...[
                               Text(
-                                'Sample Cost (USD)',
+                                'Sample Cost (EUR)',
                                 style: Theme.of(context)
                                     .primaryTextTheme
                                     .headline
@@ -666,12 +624,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   _producatData[0]['sample_details']
                                           ['sample_cost']
                                       .toString(),
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline
-                                      .copyWith(
-                                        fontWeight: FontWeight.w300,
-                                      ),
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                               ),
                               SizedBox(
@@ -697,12 +651,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   _producatData[0]['sample_details']
                                           ['sample_dimension_length']
                                       .toString(),
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline
-                                      .copyWith(
-                                        fontWeight: FontWeight.w300,
-                                      ),
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                               ),
                               SizedBox(
@@ -728,12 +678,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   _producatData[0]['sample_details']
                                           ['sample_dimension_breadth']
                                       .toString(),
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline
-                                      .copyWith(
-                                        fontWeight: FontWeight.w300,
-                                      ),
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                               ),
                               SizedBox(
@@ -759,12 +705,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   _producatData[0]['sample_details']
                                           ['sample_dimension_height']
                                       .toString(),
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline
-                                      .copyWith(
-                                        fontWeight: FontWeight.w300,
-                                      ),
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                               ),
                               SizedBox(
@@ -789,12 +731,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 child: Text(
                                   _producatData[0]['sample_details']
                                       ['sample_dimension_unit'],
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline
-                                      .copyWith(
-                                        fontWeight: FontWeight.w300,
-                                      ),
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                               ),
                               SizedBox(
@@ -820,12 +758,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   _producatData[0]['sample_details']
                                           ['sample_weight']
                                       .toString(),
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline
-                                      .copyWith(
-                                        fontWeight: FontWeight.w300,
-                                      ),
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                               ),
                               SizedBox(
@@ -851,12 +785,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   _producatData[0]['sample_details']
                                           ['sample_weight_unit']
                                       .toString(),
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline
-                                      .copyWith(
-                                        fontWeight: FontWeight.w300,
-                                      ),
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                               ),
                             ]
@@ -889,7 +819,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             Text(
                               'Bulk Order',
                               style:
-                                  Theme.of(context).primaryTextTheme.headline,
+                                  Theme.of(context).primaryTextTheme.subtitle,
                             ),
                             SizedBox(
                               height: 30,
@@ -898,13 +828,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ['bulk_order'])
                               Text(
                                 'No Bulk Order available',
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               )
                             else ...[
                               Text(
@@ -927,12 +851,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   _producatData[0]['bulkorder_details']
                                           ['bulk_order_price_type']
                                       .toString(),
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline
-                                      .copyWith(
-                                        fontWeight: FontWeight.w300,
-                                      ),
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                               ),
                               SizedBox(
@@ -959,12 +879,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           ['bulk_order_port']
                                       .toString(),
                                   textAlign: TextAlign.justify,
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline
-                                      .copyWith(
-                                        fontWeight: FontWeight.w300,
-                                      ),
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                               ),
                               SizedBox(
@@ -991,12 +907,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           ['bulk_order_price']
                                       .toString()
                                       .toString(),
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline
-                                      .copyWith(
-                                        fontWeight: FontWeight.w300,
-                                      ),
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                               ),
                               SizedBox(
@@ -1022,12 +934,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   _producatData[0]['bulkorder_details']
                                           ['bulk_order_price_unit']
                                       .toString(),
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline
-                                      .copyWith(
-                                        fontWeight: FontWeight.w300,
-                                      ),
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                               ),
                               SizedBox(
@@ -1058,12 +966,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               ['bulk_order_to_time_range']
                                           .toString() +
                                       ' days',
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline
-                                      .copyWith(
-                                        fontWeight: FontWeight.w300,
-                                      ),
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1,
                                 ),
                               ),
                             ]
@@ -1096,7 +1000,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             Text(
                               'Carton Details',
                               style:
-                                  Theme.of(context).primaryTextTheme.headline,
+                                  Theme.of(context).primaryTextTheme.subtitle,
                             ),
                             SizedBox(
                               height: 30,
@@ -1121,12 +1025,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 _producatData[0]['carton_details']
                                         ['carton_dimension_length']
                                     .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -1152,12 +1051,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 _producatData[0]['carton_details']
                                         ['carton_dimension_breadth']
                                     .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -1184,12 +1078,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         ['carton_dimension_height']
                                     .toString()
                                     .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -1215,12 +1104,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 _producatData[0]['carton_details']
                                         ['carton_dimension_unit']
                                     .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -1246,12 +1130,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 _producatData[0]['carton_details']
                                         ['carton_weight']
                                     .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                             SizedBox(
@@ -1277,12 +1156,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 _producatData[0]['carton_details']
                                         ['carton_weight_unit']
                                     .toString(),
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                style: Theme.of(context).primaryTextTheme.body1,
                               ),
                             ),
                           ],
@@ -1314,7 +1188,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             Text(
                               'Videos',
                               style:
-                                  Theme.of(context).primaryTextTheme.headline,
+                                  Theme.of(context).primaryTextTheme.subtitle,
                             ),
                             SizedBox(
                               height: 30,
@@ -1349,15 +1223,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ],
                               )
                             else
-                              Text(
-                                'No Videos Available',
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontSize: 16,
-                                    ),
-                              )
+                              Text('No Videos Available',
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1)
                           ],
                         ),
                       ),
@@ -1387,7 +1255,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             Text(
                               'Catalogue',
                               style:
-                                  Theme.of(context).primaryTextTheme.headline,
+                                  Theme.of(context).primaryTextTheme.subtitle,
                             ),
                             SizedBox(
                               height: 30,
@@ -1420,15 +1288,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ],
                               )
                             else
-                              Text(
-                                'No Catalogue Available',
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline
-                                    .copyWith(
-                                      fontSize: 16,
-                                    ),
-                              )
+                              Text('No Catalogue Available',
+                                  style:
+                                      Theme.of(context).primaryTextTheme.body1)
                           ],
                         ),
                       ),

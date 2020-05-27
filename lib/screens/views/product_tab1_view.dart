@@ -14,7 +14,10 @@ class ProductTab1View extends StatelessWidget {
     return Container(
       child: myProducts.length == 0
           ? Center(
-              child: Text('No Products'),
+              child: Text(
+                'No Products',
+                style: Theme.of(context).primaryTextTheme.body1,
+              ),
             )
           : GridView.count(
               shrinkWrap: true,
