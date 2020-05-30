@@ -1692,7 +1692,7 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                           }
                         },
                         onSaved: (value) {
-                          _data['sample_dimension_width'] = value;
+                          _data['sample_dimension_breadth'] = value;
                         },
                       ),
                       SizedBox(
@@ -4073,7 +4073,10 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).primaryTextTheme.body1,
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .body1
+                            .copyWith(fontSize: 16),
                       ),
                     ),
                     Icon(Icons.keyboard_arrow_right),
@@ -4083,7 +4086,10 @@ class _ProductUploadScreenState extends State<ProductUploadScreen> {
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).primaryTextTheme.body1,
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .body1
+                            .copyWith(fontSize: 16),
                       ),
                     ),
                     Icon(Icons.keyboard_arrow_right),

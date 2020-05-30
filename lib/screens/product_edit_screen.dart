@@ -323,12 +323,13 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
     setState(() {
       _isLoading = true;
     });
-    if (_media['primary_image'].contains('http')) {
-      _media['primary_image'] = null;
-    }
-    if (_media['primary_video'].contains('http')) {
-      _media['primary_video'] = null;
-    }
+    // if (_media['primary_image'].contains('http')) {
+    //   _media['primary_image'] = null;
+    // }
+    // print(_media['primary_video']);
+    // if (_media['primary_video'].contains('http')) {
+    //   _media['primary_video'] = null;
+    // }
     // for (var i = 0; i < _media['catalogues'].length; i++) {
     //   if (_media['catalogues'][i].contains('http')) {
     //     _media['catalogues'].removeAt(i);
@@ -373,7 +374,8 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
       if (response.statusCode == 202) {
         final imageUploadUrl = baseUrl + 'product/image/add/';
 
-        if (_media['primary_image'] != null) {
+        if (_media['primary_image'] != null &&
+            !_media['primary_image'].toString().contains('http')) {
           final multipartRequest1 =
               new http.MultipartRequest('POST', Uri.parse(imageUploadUrl));
           multipartRequest1.headers.addAll(
@@ -421,7 +423,8 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
 
         final uploadVideoUrl = baseUrl + 'product/video/add/';
 
-        if (_media['primary_video'] != null) {
+        if (_media['primary_video'] != null &&
+            !_media['primary_video'].toString().contains('http')) {
           final multipartRequest2 =
               new http.MultipartRequest('POST', Uri.parse(uploadVideoUrl));
           multipartRequest2.headers.addAll(
@@ -2030,7 +2033,7 @@ class _ProductEditScreenState extends State<ProductEditScreen> {
                           }
                         },
                         onSaved: (value) {
-                          _data['sample_dimension_width'] = value;
+                          _data['sample_dimension_breadth'] = value;
                         },
                       ),
                       SizedBox(
