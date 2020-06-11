@@ -58,6 +58,7 @@ class MyApp extends StatelessWidget {
         builder: (ctx, auth, _) {
           print('rebuilt');
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             theme: ThemeData(
               primaryColor: Color(0xFF255AE7),
               accentColor: Color(0xFF255AE7),
