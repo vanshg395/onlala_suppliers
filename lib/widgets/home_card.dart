@@ -28,7 +28,7 @@ class HomeCard extends StatelessWidget {
           children: <Widget>[
             Text(
               title,
-              style: Theme.of(context).primaryTextTheme.subtitle,
+              style: Theme.of(context).primaryTextTheme.bodyText1,
               textAlign: TextAlign.center,
             ),
             SizedBox(

@@ -31,7 +31,10 @@ class SubcategoryCard extends StatelessWidget {
             Flexible(
               child: Text(
                 label,
-                style: Theme.of(context).primaryTextTheme.body2,
+                style: Theme.of(context)
+                    .primaryTextTheme
+                    .body2
+                    .copyWith(fontSize: 14),
                 overflow: TextOverflow.ellipsis,
               ),
             ),

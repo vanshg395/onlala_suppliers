@@ -57,7 +57,7 @@ class ProductCard extends StatelessWidget {
                 name,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).primaryTextTheme.headline,
+                style: Theme.of(context).primaryTextTheme.body2,
               ),
             ),
             Padding(

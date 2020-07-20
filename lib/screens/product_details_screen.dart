@@ -201,7 +201,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           style: Theme.of(context)
                               .primaryTextTheme
                               .subtitle
-                              .copyWith(fontSize: 20),
+                              .copyWith(
+                                fontSize: 16,
+                              ),
                         ),
                       ),
                       SizedBox(
@@ -213,7 +215,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           '${widget.name}',
                           textAlign: TextAlign.justify,
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 14,
                             fontFamily: Theme.of(context)
                                 .primaryTextTheme
                                 .body1
@@ -245,7 +247,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           style: Theme.of(context)
                               .primaryTextTheme
                               .subtitle
-                              .copyWith(fontSize: 20),
+                              .copyWith(fontSize: 16),
                         ),
                       ),
                       SizedBox(
@@ -256,7 +258,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         child: Text(
                           _producatData[0]['product']['model_no'],
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 14,
                             fontFamily: Theme.of(context)
                                 .primaryTextTheme
                                 .body1

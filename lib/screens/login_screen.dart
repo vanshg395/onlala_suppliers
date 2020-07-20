@@ -248,7 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       Text(
                         'By continuing, you agree to Onlala\'s',
-                        style: Theme.of(context).primaryTextTheme.body1,
+                        style: Theme.of(context).primaryTextTheme.body2,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -258,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               'Terms and Conditions',
                               style: Theme.of(context)
                                   .primaryTextTheme
-                                  .body1
+                                  .body2
                                   .copyWith(
                                       color: Theme.of(context).primaryColor),
                             ),
@@ -270,7 +270,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           Text(
                             ' of Use',
-                            style: Theme.of(context).primaryTextTheme.body1,
+                            style: Theme.of(context).primaryTextTheme.body2,
                           ),
                         ],
                       )

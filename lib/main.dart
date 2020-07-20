@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
                 ),
                 headline: GoogleFonts.montserrat(
                   textStyle: TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
                   ),
@@ -105,7 +105,6 @@ class MyApp extends StatelessWidget {
                 body2: GoogleFonts.montserrat(
                   textStyle: TextStyle(
                     fontSize: 16,
-                    height: 1.5,
                     color: Colors.black,
                   ),
                 ),

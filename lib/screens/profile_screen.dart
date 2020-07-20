@@ -410,7 +410,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               //   letterSpacing: 1,
                               // ),
                               style:
-                                  Theme.of(context).primaryTextTheme.subtitle,
+                                  Theme.of(context).primaryTextTheme.bodyText2,
                             ),
                           ),
                           SizedBox(
@@ -535,8 +535,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.only(left: 20.0),
                             child: Text(
                               'Postal Address',
-                              style:
-                                  Theme.of(context).primaryTextTheme.subtitle,
+                              style: Theme.of(context).primaryTextTheme.body2,
                             ),
                           ),
                           SizedBox(
@@ -697,8 +696,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.only(left: 20.0),
                             child: Text(
                               'Warehouse Address',
-                              style:
-                                  Theme.of(context).primaryTextTheme.subtitle,
+                              style: Theme.of(context).primaryTextTheme.body2,
                             ),
                           ),
                           SizedBox(
@@ -905,8 +903,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.only(left: 20.0),
                             child: Text(
                               'Documents',
-                              style:
-                                  Theme.of(context).primaryTextTheme.subtitle,
+                              style: Theme.of(context).primaryTextTheme.body2,
                             ),
                           ),
                           SizedBox(
@@ -936,8 +933,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: <Widget>[
                                 Text(
                                   'IEC Certificate/Import Export Licence',
-                                  style:
-                                      Theme.of(context).primaryTextTheme.body1,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .body1
+                                      .copyWith(fontSize: 14),
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -1032,8 +1031,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 Text(
                                   'Company Registration Certificate/Equivalent Certificate',
-                                  style:
-                                      Theme.of(context).primaryTextTheme.body1,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .body1
+                                      .copyWith(fontSize: 14),
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -1128,8 +1129,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 Text(
                                   'GST Certificate/Tax Certificate',
-                                  style:
-                                      Theme.of(context).primaryTextTheme.body1,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .body1
+                                      .copyWith(fontSize: 14),
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -1224,8 +1227,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 Text(
                                   'Shop & Establishment Licence/Equivalent Other Certificate',
-                                  style:
-                                      Theme.of(context).primaryTextTheme.body1,
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .body1
+                                      .copyWith(fontSize: 14),
                                 ),
                                 SizedBox(
                                   height: 10,

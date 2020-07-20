@@ -41,9 +41,9 @@ class _ProfileFieldState extends State<ProfileField> {
       enabled: widget.enabled,
       decoration: InputDecoration(
         labelText: widget.label,
-        labelStyle: TextStyle(fontSize: 20),
+        labelStyle: TextStyle(fontSize: 14),
       ),
-      style: TextStyle(fontSize: 20),
+      style: TextStyle(fontSize: 16),
       validator: widget.validator,
       onSaved: widget.onSaved,
     );

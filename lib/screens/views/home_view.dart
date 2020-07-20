@@ -126,7 +126,7 @@ class _HomeViewState extends State<HomeView> {
           ),
           Text(
             'All Categories',
-            style: Theme.of(context).primaryTextTheme.body1,
+            style: Theme.of(context).primaryTextTheme.body2,
           ),
           Expanded(
             child: _isLoading
