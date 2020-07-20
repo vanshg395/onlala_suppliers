@@ -21,19 +21,19 @@ dependencies:
   image_cropper: ^1.2.1
   chewie: ^0.9.10
   video_player: ^0.10.10
-  provider: 
+  provider:
   http:
   google_fonts: ^1.1.0
   dots_indicator: ^1.1.0
+  onesignal_flutter: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 flutter:
-
   uses-material-design: true
 
   assets:
-   - assets/icons/
-   - assets/img/
+    - assets/icons/
+    - assets/img/

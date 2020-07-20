@@ -65,7 +65,7 @@ class _ProductTab3ViewState extends State<ProductTab3View> {
             child: _orders.length == 0
                 ? Center(
                     child: Text(
-                      'No Inquiries',
+                      'No Orders',
                       style: Theme.of(context).primaryTextTheme.body1,
                     ),
                   )

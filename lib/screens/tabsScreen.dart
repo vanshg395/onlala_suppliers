@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../utils/constants.dart';
 import '../widgets/nav_bar.dart';
@@ -36,6 +37,22 @@ class _TabsScreenState extends State<TabsScreen> {
       _selectedPageIndex = widget.initialIndex;
     }
     getData();
+    initiateOneSignal();
+  }
+
+  Future<void> initiateOneSignal() async {
+    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+
+    OneSignal.shared.init("27240b01-7d4d-4524-8c77-2c1520c9ebc8", iOSSettings: {
+      OSiOSSettings.autoPrompt: false,
+      OSiOSSettings.inAppLaunchUrl: false
+    });
+    OneSignal.shared
+        .setInFocusDisplayType(OSNotificationDisplayType.notification);
+
+// The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+    await OneSignal.shared
+        .promptUserForPushNotificationPermission(fallbackToSettings: true);
   }
 
   Future<void> getData() async {

@@ -64,7 +64,7 @@ class _QueryViewState extends State<QueryView> {
         : _queries.length == 0
             ? Center(
                 child: Text(
-                  'No Orders',
+                  'No Inquiries',
                   style: Theme.of(context).primaryTextTheme.body1,
                 ),
               )
