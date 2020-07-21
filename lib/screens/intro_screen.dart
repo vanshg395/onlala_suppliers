@@ -25,8 +25,8 @@ class IntroScreen extends StatefulWidget {
 class _IntroScreenState extends State<IntroScreen> {
   final List<PageViewModel> pages = [
     PageViewModel(
-      title: "Cross Country Platform",
-      body: "Increase sales prompt business and engage with customers",
+      title: "",
+      body: "B2B MARKETING STRATEGIES TO ATTRACT MORE CUSTOMERS",
       image: Center(
         child: Image.asset(
           "assets/img/one.png",
@@ -40,8 +40,8 @@ class _IntroScreenState extends State<IntroScreen> {
       ),
     ),
     PageViewModel(
-      title: "Limited Supplier",
-      body: "Increase sales prompt business and engage with customers",
+      title: "",
+      body: "FOREIGN EXPORT-ORIENTED COMPANIES",
       image: Center(
         child: Image.asset(
           "assets/img/two.png",
@@ -55,8 +55,8 @@ class _IntroScreenState extends State<IntroScreen> {
       ),
     ),
     PageViewModel(
-      title: "Nationwide Warehouse Facility",
-      body: "Increase sales prompt business and engage with customers",
+      title: "",
+      body: "ATTRACTING NEW LEADS AS AN EXPERIENCED BUSINESSMAN WITH ONLALA",
       image: Center(
         child: Image.asset(
           "assets/img/three.png",
@@ -70,8 +70,8 @@ class _IntroScreenState extends State<IntroScreen> {
       ),
     ),
     PageViewModel(
-      title: "Promote Business Offline",
-      body: "Increase sales prompt business and engage with customers",
+      title: "",
+      body: "CONVEY INFORMATION TO YOUR AUDIENCE BY ONLALA, NO ADVERTISING",
       image: Center(
         child: Image.asset(
           "assets/img/four.png",
