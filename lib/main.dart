@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,93 +56,133 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
       value: Auth(),
-      child: Consumer<Auth>(
-        builder: (ctx, auth, _) {
-          print('rebuilt');
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primaryColor: Color(0xFF255AE7),
-              accentColor: Color(0xFF255AE7),
-              primaryColorDark: Color(0xFF030708),
-              cardColor: Color(0xFF3E4346),
-              canvasColor: Color(0xFFF3F6F7),
-              primaryTextTheme: TextTheme(
-                title: GoogleFonts.montserrat(
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 26,
-                    color: Colors.black,
-                  ),
-                ),
-                subtitle: GoogleFonts.montserrat(
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
-                headline: GoogleFonts.montserrat(
-                  textStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
-                ),
-                // headline1: GoogleFonts.montserrat(
-                //   textStyle: TextStyle(
-                //     fontSize: 18,
-                //     fontWeight: FontWeight.w300,
-                //     color: Colors.black,
-                //   ),
-                // ),
-                body1: GoogleFonts.montserrat(
-                  textStyle: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.black,
-                  ),
-                ),
-
-                body2: GoogleFonts.montserrat(
-                  textStyle: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                  ),
-                ),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Color(0xFF255AE7),
+          accentColor: Color(0xFF255AE7),
+          primaryColorDark: Color(0xFF030708),
+          cardColor: Color(0xFF3E4346),
+          canvasColor: Color(0xFFF3F6F7),
+          primaryTextTheme: TextTheme(
+            title: GoogleFonts.montserrat(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 26,
+                color: Colors.black,
               ),
             ),
-            home: auth.isAuth
-                ? TabsScreen()
-                : FutureBuilder(
-                    future: auth.tryAutoLogin(),
-                    builder: (ctx, data) {
-                      if (data.connectionState == ConnectionState.waiting) {
-                        return Scaffold();
-                      } else {
-                        return FutureBuilder(
-                          future: IntroScreen.isFirstUse(),
-                          builder: (ctx, data) {
-                            if (data.connectionState ==
-                                ConnectionState.waiting) {
-                              print('rebuilt2');
-                              return Scaffold();
-                            } else {
-                              print('rebuilt3');
-                              if (data.data) {
-                                return IntroScreen();
-                              } else {
-                                return LoginScreen();
-                              }
-                            }
-                          },
-                        );
-                      }
-                    },
-                  ),
-          );
-        },
+            subtitle: GoogleFonts.montserrat(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 20,
+                color: Colors.black,
+              ),
+            ),
+            headline: GoogleFonts.montserrat(
+              textStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
+              ),
+            ),
+            // headline1: GoogleFonts.montserrat(
+            //   textStyle: TextStyle(
+            //     fontSize: 18,
+            //     fontWeight: FontWeight.w300,
+            //     color: Colors.black,
+            //   ),
+            // ),
+            body1: GoogleFonts.montserrat(
+              textStyle: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w300,
+                color: Colors.black,
+              ),
+            ),
+
+            body2: GoogleFonts.montserrat(
+              textStyle: TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ),
+        home: SplashScreen(),
       ),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(
+      Duration(seconds: 2),
+      () {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (ctx) => MainScreen(),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Container(
+          child: Image.asset('assets/img/logo.png'),
+        ),
+      ),
+    );
+  }
+}
+
+class MainScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<Auth>(
+      builder: (ctx, auth, _) {
+        print('rebuilt');
+        return auth.isAuth
+            ? TabsScreen()
+            : FutureBuilder(
+                future: auth.tryAutoLogin(),
+                builder: (ctx, data) {
+                  if (data.connectionState == ConnectionState.waiting) {
+                    return Scaffold();
+                  } else {
+                    return FutureBuilder(
+                      future: IntroScreen.isFirstUse(),
+                      builder: (ctx, data) {
+                        if (data.connectionState == ConnectionState.waiting) {
+                          print('rebuilt2');
+                          return Scaffold();
+                        } else {
+                          print('rebuilt3');
+                          if (data.data) {
+                            return IntroScreen();
+                          } else {
+                            return LoginScreen();
+                          }
+                        }
+                      },
+                    );
+                  }
+                },
+              );
+      },
     );
   }
 }
